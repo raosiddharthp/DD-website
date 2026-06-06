@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataDomine — Enterprise AI Architecture · Cohort 1A</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ─────────────────────────────────────────────── */
+    :root {
+      --ink:    #0D1117;
+      --white:  #F8F6F1;
+      --slate:  #64748B;
+      --amber:  #D97706;
+
+      --serif:  'IBM Plex Serif', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+
+      /* A4 at 96 dpi ≈ 794 × 1123 px */
+      --page-w: 794px;
+      --page-h: 1123px;
+
+      --band-top:    225px;   /* 20% of 1123 */
+      --band-body:   809px;   /* 72% of 1123 */
+      --band-footer:  89px;   /* 8%  of 1123 */
+    }
+
+    /* ── Page shell ─────────────────────────────────────────── */
+    html, body {
+      background: #C8C8C8;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 0 48px;
+      font-family: var(--sans);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width:  var(--page-w);
+      height: var(--page-h);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.28);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TOP BAND  (20%)
+    ══════════════════════════════════════════════════════════ */
+    .band-top {
+      flex: 0 0 var(--band-top);
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    /* Wordmark */
+    .wordmark {
+      font-family: var(--serif);
+      font-size: 26px;
+      line-height: 1;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+    }
+    .wordmark .data  { font-weight: 300; }
+    .wordmark .domine { font-weight: 700; }
+    .wordmark .d-amber { color: var(--amber); }
+
+    /* Domine mark (vertical + dot) — decorative only beside wordmark */
+    .wordmark-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .domine-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .domine-mark .dot {
+      width:  10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .domine-mark .vert {
+      width:  4px;
+      height: 40px;
+      background: var(--white);
+      margin-top: -5px; /* overlap so dot centre sits at top of rect */
+    }
+
+    /* Right block */
+    .top-right {
+      text-align: right;
+    }
+    .prog-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .cohort-label {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--slate);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BODY  (72%)
+    ══════════════════════════════════════════════════════════ */
+    .band-body {
+      flex: 0 0 var(--band-body);
+      background: var(--white);
+      display: flex;
+    }
+
+    /* Left column */
+    .col-left {
+      width: 45%;
+      flex-shrink: 0;
+      padding: 36px 32px 36px 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    /* Amber rule on right edge */
+    .col-left::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--amber);
+    }
+
+    /* Right column */
+    .col-right {
+      width: 55%;
+      padding: 36px 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Section */
+    .section-heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 9px;
+      letter-spacing: 0.005em;
+    }
+    .body-copy {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .body-copy p + p { margin-top: 6px; }
+
+    /* Bullet list */
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .bullet-list li {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-left: 14px;
+      position: relative;
+    }
+    .bullet-list li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--slate);
+    }
+
+    /* Weekend rows */
+    .weekend-row {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--ink);
+      line-height: 1.55;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #E2DDD7;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+    }
+    .weekend-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .weekend-label { font-weight: 400; }
+    .weekend-count {
+      color: var(--slate);
+      font-size: 10px;
+      align-self: center;
+      white-space: nowrap;
+      padding-left: 8px;
+    }
+
+    /* Format pills */
+    .format-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 10px;
+      color: var(--slate);
+      border: 1px solid #C8C3BB;
+      border-radius: 2px;
+      padding: 3px 8px;
+      line-height: 1.4;
+    }
+
+    /* Pricing */
+    .price-founder {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--amber);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .price-label {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 9px;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 10px;
+    }
+    .price-full {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 10px;
+      color: var(--slate);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER  (8%)
+    ══════════════════════════════════════════════════════════ */
+    .band-footer {
+      flex: 0 0 var(--band-footer);
+      background: var(--slate);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+    .footer-item {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .footer-item.centre { text-align: center; }
+
+    /* ══════════════════════════════════════════════════════════
+       PRINT STYLESHEET
+    ══════════════════════════════════════════════════════════ */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html, body {
+        background: none;
+        margin: 0;
+        padding: 0;
+        display: block;
+        width: 210mm;
+        height: 297mm;
+      }
+
+      .page {
+        width:  210mm;
+        height: 297mm;
+        box-shadow: none;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      /* Re-express bands in mm */
+      .band-top    { flex: 0 0 59.4mm;  }  /* 20% of 297mm */
+      .band-body   { flex: 0 0 213.8mm; }  /* 72% of 297mm */
+      .band-footer { flex: 0 0 23.8mm;  }  /* 8%  of 297mm */
+
+      /* Typography scale nudge for print */
+      .prog-name   { font-size: 22pt; }
+      .section-heading { font-size: 9pt; }
+      .body-copy, .bullet-list li, .weekend-row,
+      .price-full, .weekend-count { font-size: 8pt; }
+      .price-founder { font-size: 14pt; }
+      .footer-item   { font-size: 9pt;  }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── TOP BAND ─────────────────────────────────────────── -->
+  <div class="band-top">
+
+    <div class="wordmark-lockup">
+      <div class="domine-mark" aria-hidden="true">
+        <div class="dot"></div>
+        <div class="vert"></div>
+      </div>
+      <div class="wordmark">
+        <span class="data">Data</span><span class="domine"><span class="d-amber">D</span>omine</span>
+      </div>
+    </div>
+
+    <div class="top-right">
+      <div class="prog-name">Enterprise AI Architecture</div>
+      <div class="cohort-label">Cohort 1A</div>
+    </div>
+
+  </div>
+
+  <!-- ── BODY ─────────────────────────────────────────────── -->
+  <div class="band-body">
+
+    <!-- Left column -->
+    <div class="col-left">
+
+      <div class="section">
+        <div class="section-heading">The Problem</div>
+        <div class="body-copy">
+          <p>Most technical programmes teach practitioners what a system can do. Almost none teach them how to make the architectural decisions that determine whether it survives production, passes a compliance audit, or holds up under a board review.</p>
+          <p>Practitioners leave technical training knowing how to build. They do not leave knowing how to make the decision to build — or how to defend that decision under economic, regulatory, and organisational scrutiny.</p>
+          <p>The result is technically correct work that fails at the ARB, stalls in the sprint, or collapses at the first compliance review. The gap is not technical. It is architectural judgement — and it is not taught.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-heading">Who This Is For</div>
+        <ul class="bullet-list">
+          <li>Solution Architects working with enterprise AI systems</li>
+          <li>Enterprise Architects establishing or evolving AI design standards</li>
+          <li>Senior Developers moving into architecture roles in regulated environments</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-heading">What You Leave With</div>
+        <div class="body-copy">
+          <p>A complete architecture artefact: ADR log, compliance mapping, economic justification, failure modes register, and handoff checklist — built across 18 chapters from a single spine project and defended before a simulated review panel at the capstone.</p>
+          <p>A portfolio piece presentable to an ARB, a compliance team, or a hiring manager. Not a certificate. An artefact.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column -->
+    <div class="col-right">
+
+      <div class="section">
+        <div class="section-heading">The Programme</div>
+        <div>
+          <div class="weekend-row">
+            <span class="weekend-label">Weekend 1 — Foundation and Judgment</span>
+            <span class="weekend-count">6 chapters</span>
+          </div>
+          <div class="weekend-row">
+            <span class="weekend-label">Weekend 2 — Design and Decision</span>
+            <span class="weekend-count">7 chapters</span>
+          </div>
+          <div class="weekend-row">
+            <span class="weekend-label">Weekend 3 — Defence and Handoff</span>
+            <span class="weekend-count">5 chapters</span>
+          </div>
+        </div>
+        <div class="body-copy" style="margin-top:10px; color: var(--slate); font-size:10px;">
+          18 chapters in total. Every chapter produces a tangible output that contributes to the evolving spine project artefact. The capstone is the defence of the complete artefact to a simulated review panel.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-heading">Format</div>
+        <div class="format-pills">
+          <span class="pill">Three weekends</span>
+          <span class="pill">7 hours per day</span>
+          <span class="pill">6 sessions</span>
+          <span class="pill">42 hours contact time</span>
+          <span class="pill">Maximum 12 participants</span>
+        </div>
+        <div class="body-copy" style="margin-top:10px;">
+          Small cohort by design. The maximum of 12 participants is structural — not a capacity constraint. Every breakout, every defence, every handoff exercise requires the right conditions to be real. Beyond 12, those conditions collapse.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-heading">Pricing</div>
+        <div class="price-label">Founder price</div>
+        <div class="price-founder">£1,800 per participant</div>
+        <div class="price-full">
+          Full price: £2,500 self-funded &nbsp;·&nbsp; £3,500 employer-sponsored<br />
+          Enquire at hello@datadomine.com to confirm current cohort availability.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <div class="band-footer">
+    <span class="footer-item">datadomine.com</span>
+    <span class="footer-item centre">hello@datadomine.com</span>
+    <span class="footer-item">Production-Ready. By Design.</span>
+  </div>
+
+</div>
+
+</body>
+</html>

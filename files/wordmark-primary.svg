@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 315 88" role="img" aria-label="DataDomine wordmark">
+  <title>DataDomine</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- "Data" — IBM Plex Serif Light 300, Deep Ink, letter-spacing 0.02em -->
+  <text
+    x="20"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="300"
+    font-size="48"
+    letter-spacing="0.96"
+    fill="#0D1117"
+    xml:space="preserve">Data</text>
+
+  <!-- "D" in Domine — IBM Plex Serif Bold 700, Amber -->
+  <text
+    x="125.79"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#D97706"
+    xml:space="preserve">D</text>
+
+  <!-- "omine" — IBM Plex Serif Bold 700, Deep Ink -->
+  <text
+    x="160.45"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#0D1117"
+    xml:space="preserve">omine</text>
+</svg>

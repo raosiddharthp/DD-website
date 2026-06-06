@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1128">
+<title>DataDomine — LinkedIn Company Cover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1128px;
+    height: 191px;
+    overflow: hidden;
+    background: #0D1117;
+  }
+
+  .banner {
+    width: 1128px;
+    height: 191px;
+    background: #0D1117;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+  }
+
+  /* Domine Mark */
+  .domine-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Centre block: wordmark + tagline */
+  .centre {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 44px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 44px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine .amber {
+    color: #D97706;
+  }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #64748B;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+
+  <!-- Domine Mark to the left of wordmark -->
+  <div class="domine-mark">
+    <!-- Scale: vertical height 80px → scale = 80/40 = 2 -->
+    <!-- vertical width = 4×2 = 8px, dot diameter = 10×2 = 20px -->
+    <!-- SVG width = 20px (dot diameter), height = dot_radius + vertical_height = 10 + 80 = 90px -->
+    <svg width="20" height="90" viewBox="0 0 20 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="10" fill="#D97706"/>
+      <rect x="6" y="10" width="8" height="80" fill="#F8F6F1"/>
+    </svg>
+  </div>
+
+  <!-- Wordmark + tagline -->
+  <div class="centre">
+    <div class="wordmark">
+      <span class="wordmark-data">Data</span>
+      <span class="wordmark-domine"><span class="amber">D</span>omine</span>
+    </div>
+    <div class="tagline">Production-Ready. By Design.</div>
+  </div>
+
+</div>
+</body>
+</html>

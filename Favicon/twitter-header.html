@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1500">
+<title>DataDomine — Twitter / X Header</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1500px;
+    height: 500px;
+    overflow: hidden;
+    background: #0D1117;
+  }
+
+  .banner {
+    width: 1500px;
+    height: 500px;
+    background: #0D1117;
+    position: relative;
+  }
+
+  /* Amber horizontal rule at 1/3 from top = 166.67px ≈ 167px */
+  .amber-rule {
+    position: absolute;
+    top: 167px;
+    left: 0;
+    width: 1500px;
+    height: 2px;
+    background: #D97706;
+  }
+
+  /* Content area: two halves split by the rule */
+  /* Upper area: above rule (0–167px) — wordmark sits vertically centred here */
+  .upper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1500px;
+    height: 167px;
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    justify-content: space-between;
+  }
+
+  .left-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 54px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 54px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine .amber {
+    color: #D97706;
+  }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #64748B;
+    letter-spacing: 0.05em;
+  }
+
+  /* Lower area: below rule (169–500px = 331px tall) */
+  /* Right-side programmes sit here, vertically centred */
+  .lower {
+    position: absolute;
+    top: 169px;
+    left: 0;
+    width: 1500px;
+    height: 331px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 80px;
+  }
+
+  .right-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+  }
+
+  .prog-line {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #F8F6F1;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+
+  <!-- Amber horizontal rule at 1/3 from top -->
+  <div class="amber-rule"></div>
+
+  <!-- Upper: wordmark + tagline, left-aligned -->
+  <div class="upper">
+    <div class="left-block">
+      <div class="wordmark">
+        <span class="wordmark-data">Data</span>
+        <span class="wordmark-domine"><span class="amber">D</span>omine</span>
+      </div>
+      <div class="tagline">Production-Ready. By Design.</div>
+    </div>
+  </div>
+
+  <!-- Lower: programme lines, right-aligned -->
+  <div class="lower">
+    <div class="right-block">
+      <div class="prog-line">Enterprise AI Architecture</div>
+      <div class="prog-line">ML Engineering for Regulated Industries</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

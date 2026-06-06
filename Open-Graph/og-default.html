@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — og-default</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; }
+
+  :root {
+    --deep-ink: #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+  }
+
+  .canvas {
+    width: 1200px;
+    height: 630px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top {
+    background: var(--deep-ink);
+    height: 378px; /* 60% */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 80px;
+  }
+
+  .bottom {
+    background: var(--white);
+    height: 252px; /* 40% */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 0 80px;
+    position: relative;
+  }
+
+  /* Wordmark */
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 52px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 52px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine .d-amber {
+    color: var(--amber);
+  }
+
+  .tagline {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--slate);
+    letter-spacing: 0.5px;
+  }
+
+  /* Domine Mark */
+  .domine-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .mark-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-bottom: -10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mark-vertical {
+    width: 8px;
+    height: 80px;
+    background: var(--white);
+  }
+
+  /* Bottom programmes */
+  .programme-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .programme-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--deep-ink);
+    letter-spacing: 0.1px;
+  }
+
+  .programme-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--slate);
+    opacity: 0.3;
+  }
+
+  .domain {
+    position: absolute;
+    bottom: 28px;
+    right: 48px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--slate);
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="top">
+    <div class="domine-mark">
+      <div class="mark-dot"></div>
+      <div class="mark-vertical"></div>
+    </div>
+    <div class="wordmark">
+      <span class="wordmark-data">Data</span>
+      <span class="wordmark-domine"><span class="d-amber">D</span>omine</span>
+    </div>
+    <div class="tagline">Production-Ready. By Design.</div>
+  </div>
+  <div class="bottom">
+    <div class="programme-list">
+      <div class="programme-item">Enterprise AI Architecture</div>
+      <div class="programme-divider"></div>
+      <div class="programme-item">ML Engineering for Regulated Industries</div>
+      <div class="programme-divider"></div>
+      <div class="programme-item">Architecture Design Workshop</div>
+    </div>
+    <div class="domain">datadomine.com</div>
+  </div>
+</div>
+</body>
+</html>

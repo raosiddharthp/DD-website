@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" fill="none">
+  <!-- DataDomine — Domine Mark -->
+  <!-- Version 3: Ink vertical, Amber dot, Deep Ink #0D1117 background -->
+  <!-- For use where a contained dark background is needed -->
+  <!-- Note: vertical is Deep Ink on Deep Ink — the mark specification uses -->
+  <!-- the ink vertical (#0D1117). On this dark background the vertical -->
+  <!-- reads as a contained mark; the amber dot anchors the composition. -->
+  <!-- Geometry: rect 4×40, circle r=5, circle centre at top edge of rect -->
+  <!-- rect: x=28, y=13, w=4, h=40 | circle: cx=30, cy=13, r=5 -->
+  <rect x="0" y="0" width="60" height="60" fill="#0D1117"/>
+  <circle cx="30" cy="13" r="5" fill="#D97706"/>
+  <rect x="28" y="13" width="4" height="40" fill="#0D1117"/>
+</svg>

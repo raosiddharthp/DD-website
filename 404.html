@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found · DataDomine</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+       Defined here so the page is self-sufficient if the shared
+       stylesheet is absent during development.
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────────────── */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Main — vertically centred content
+    ───────────────────────────────────────────────────────────────── */
+    .site-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--nav-height) + 48px) 48px 48px;
+    }
+
+    .error-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Diagram
+    ───────────────────────────────────────────────────────────────── */
+    .diagram-wrap {
+      width: 200px;
+      height: 240px;
+      margin-bottom: 40px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       404 numeral
+    ───────────────────────────────────────────────────────────────── */
+    .error-code {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 80px;
+      line-height: 1;
+      color: var(--deep-ink);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Message
+    ───────────────────────────────────────────────────────────────── */
+    .error-message {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 20px;
+      color: var(--slate);
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation options
+    ───────────────────────────────────────────────────────────────── */
+    .error-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .error-nav a {
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .error-nav a:hover {
+      opacity: 0.75;
+    }
+
+    .error-nav .link-home {
+      color: var(--amber);
+    }
+
+    .error-nav .separator {
+      color: var(--slate);
+      user-select: none;
+    }
+
+    .error-nav .link-programmes {
+      color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Contact note
+    ───────────────────────────────────────────────────────────────── */
+    .error-contact {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    .error-contact a {
+      color: var(--slate);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: rgba(100, 116, 139, 0.4);
+      transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    }
+
+    .error-contact a:hover {
+      color: var(--deep-ink);
+      text-decoration-color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(100, 116, 139, 0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Responsive — narrow viewports
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .site-footer {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN — ERROR CONTENT
+  ════════════════════════════════════════════════════════════════ -->
+  <main class="site-main" aria-labelledby="error-heading">
+
+    <div class="error-block">
+
+      <!-- ── Illustration: four-layer stack diagram ── -->
+      <div class="diagram-wrap" role="img" aria-label="Architectural stack diagram showing four layers; the top layer — Page — is marked as broken">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 200 240"
+          width="200"
+          height="240"
+          aria-hidden="true"
+        >
+          <!--
+            Four-layer stack.
+            Total height: 240px.
+            Each layer block: 40px tall, 160px wide, centred (x=20).
+            Gaps between layers: 8px.
+            Stack bottom: y=200. Layers ascend.
+
+            Layer positions (top of rect):
+              Layer 4 Infrastructure  y=8   (top layer, intact)
+              Layer 3 Intelligence    y=64  (intact)
+              Layer 2 Orchestration   y=120 (intact)
+              Layer 1 Page            y=176 (bottom — broken, amber X)
+
+            Labels sit 10px below each rect bottom, Inter Light 9px, Slate.
+          -->
+
+          <!-- ── Connector lines between layers (Slate, dashed) ── -->
+          <!-- Between Layer 4 and Layer 3 -->
+          <line x1="100" y1="48" x2="100" y2="64" stroke="#64748B" stroke-width="1" stroke-dasharray="3 3"/>
+          <!-- Between Layer 3 and Layer 2 -->
+          <line x1="100" y1="104" x2="100" y2="120" stroke="#64748B" stroke-width="1" stroke-dasharray="3 3"/>
+          <!-- Between Layer 2 and Layer 1 -->
+          <line x1="100" y1="160" x2="100" y2="176" stroke="#64748B" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <!-- ── Layer 4: Infrastructure — intact ── -->
+          <rect x="20" y="8" width="160" height="40" fill="none" stroke="#0D1117" stroke-width="1.5"/>
+          <!-- Interior horizontal rule — structural detail -->
+          <line x1="20" y1="20" x2="180" y2="20" stroke="#64748B" stroke-width="0.5" opacity="0.4"/>
+          <!-- Layer number tag -->
+          <text x="30" y="22" font-family="Inter, sans-serif" font-weight="300" font-size="7" fill="#64748B" opacity="0.6">04</text>
+          <!-- Layer label centred -->
+          <text x="100" y="33" font-family="Inter, sans-serif" font-weight="300" font-size="9" fill="#64748B" text-anchor="middle" dominant-baseline="middle">Infrastructure</text>
+
+          <!-- ── Layer 3: Intelligence — intact ── -->
+          <rect x="20" y="64" width="160" height="40" fill="none" stroke="#0D1117" stroke-width="1.5"/>
+          <line x1="20" y1="76" x2="180" y2="76" stroke="#64748B" stroke-width="0.5" opacity="0.4"/>
+          <text x="30" y="78" font-family="Inter, sans-serif" font-weight="300" font-size="7" fill="#64748B" opacity="0.6">03</text>
+          <text x="100" y="89" font-family="Inter, sans-serif" font-weight="300" font-size="9" fill="#64748B" text-anchor="middle" dominant-baseline="middle">Intelligence</text>
+
+          <!-- ── Layer 2: Orchestration — intact ── -->
+          <rect x="20" y="120" width="160" height="40" fill="none" stroke="#0D1117" stroke-width="1.5"/>
+          <line x1="20" y1="132" x2="180" y2="132" stroke="#64748B" stroke-width="0.5" opacity="0.4"/>
+          <text x="30" y="134" font-family="Inter, sans-serif" font-weight="300" font-size="7" fill="#64748B" opacity="0.6">02</text>
+          <text x="100" y="145" font-family="Inter, sans-serif" font-weight="300" font-size="9" fill="#64748B" text-anchor="middle" dominant-baseline="middle">Orchestration</text>
+
+          <!-- ── Layer 1: Page — broken ── -->
+          <!--
+            Broken layer treatment:
+            - Rect outline in Amber (the one amber element)
+            - Amber X drawn with two lines crossing the interior
+            - Label in Slate, same size
+          -->
+          <rect x="20" y="176" width="160" height="40" fill="rgba(217, 119, 6, 0.04)" stroke="#D97706" stroke-width="1.5"/>
+          <line x1="30" y1="186" x2="50" y2="186" stroke="#64748B" stroke-width="0.5" opacity="0.4"/>
+          <text x="30" y="190" font-family="Inter, sans-serif" font-weight="300" font-size="7" fill="#D97706" opacity="0.7">01</text>
+          <!-- Amber X — centred in layer box, precise -->
+          <!-- X centre: x=100, y=196 (mid of 176 to 216) -->
+          <!-- Arms: 10px half-length -->
+          <line x1="88" y1="184" x2="112" y2="208" stroke="#D97706" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="112" y1="184" x2="88" y2="208" stroke="#D97706" stroke-width="1.75" stroke-linecap="round"/>
+          <!-- Layer label -->
+          <text x="100" y="201" font-family="Inter, sans-serif" font-weight="300" font-size="9" fill="#64748B" text-anchor="middle" dominant-baseline="middle">Page</text>
+
+          <!-- ── Left-side bracket — structural framing detail ── -->
+          <line x1="12" y1="8" x2="8" y2="8"   stroke="#64748B" stroke-width="1" opacity="0.3"/>
+          <line x1="8"  y1="8" x2="8" y2="216" stroke="#64748B" stroke-width="1" opacity="0.3"/>
+          <line x1="8"  y1="216" x2="12" y2="216" stroke="#64748B" stroke-width="1" opacity="0.3"/>
+
+          <!-- ── Right-side bracket ── -->
+          <line x1="188" y1="8"   x2="192" y2="8"   stroke="#64748B" stroke-width="1" opacity="0.3"/>
+          <line x1="192" y1="8"   x2="192" y2="216" stroke="#64748B" stroke-width="1" opacity="0.3"/>
+          <line x1="192" y1="216" x2="188" y2="216" stroke="#64748B" stroke-width="1" opacity="0.3"/>
+
+          <!-- ── Breakdown annotation — small label below broken layer ── -->
+          <text x="100" y="232" font-family="Inter, sans-serif" font-weight="300" font-size="8" fill="#D97706" text-anchor="middle" opacity="0.8">layer not found</text>
+
+        </svg>
+      </div>
+      <!-- /diagram-wrap -->
+
+      <!-- ── 404 numeral ── -->
+      <p class="error-code" id="error-heading" aria-label="Error 404">404</p>
+
+      <!-- ── Message ── -->
+      <p class="error-message">This page could not be found.</p>
+
+      <!-- ── Navigation options ── -->
+      <nav class="error-nav" aria-label="Recovery options">
+        <a href="index.html" class="link-home">Return home</a>
+        <span class="separator" aria-hidden="true">·</span>
+        <a href="programmes.html" class="link-programmes">View programmes</a>
+      </nav>
+
+      <!-- ── Contact note ── -->
+      <p class="error-contact">
+        If you followed a link that should work, please let us know:
+        <a href="mailto:hello@datadomine.com">hello@datadomine.com</a>
+      </p>
+
+    </div>
+    <!-- /error-block -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    // Footer year — isolated from datadomine.js in case the shared
+    // script handles it differently; harmless if run twice.
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

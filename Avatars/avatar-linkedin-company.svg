@@ -1,0 +1,13 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <title>DataDomine LinkedIn Company Avatar</title>
+  <rect width="300" height="300" fill="#0D1117" rx="0"/>
+  <!-- Monogram centred, scaled to ~60% = 180px zone, centre at 150,150 -->
+  <!-- Scale factor vs 400px version: 180/240 = 0.75. Translate: (150-200*0.75, 150-200*0.75) -->
+  <!-- tx = 150 - 150 = 0, ty = 150 - 150 = 0. Apply transform scale(0.75) translate -->
+  <g transform="translate(150,150) scale(0.75) translate(-200,-200)" fill="#D97706">
+    <path d="M 128 120 L 152 120 C 202 120 228 142 228 200 C 228 258 202 280 152 280 L 128 280 Z"/>
+    <path d="M 150 143 L 152 143 C 192 143 204 160 204 200 C 204 240 192 257 152 257 L 150 257 Z" fill="#0D1117"/>
+    <path d="M 272 120 L 248 120 C 198 120 172 142 172 200 C 172 258 198 280 248 280 L 272 280 Z"/>
+    <path d="M 250 143 L 248 143 C 208 143 196 160 196 200 C 196 240 208 257 248 257 L 250 257 Z" fill="#0D1117"/>
+  </g>
+</svg>

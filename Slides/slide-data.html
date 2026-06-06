@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>DataDomine — Data Slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #F8F6F1;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    background: #F8F6F1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Header area */
+  .slide-header {
+    padding: 56px 80px 0 80px;
+    flex-shrink: 0;
+  }
+
+  .slide-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #0D1117;
+    letter-spacing: -0.3px;
+    line-height: 1.1;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+  .slide-title::before {
+    content: '[ Slide Title ]';
+    opacity: 0.3;
+  }
+
+  /* Amber rule — 2px full width, 8px gap below title */
+  .amber-rule {
+    width: calc(100% - 0px);
+    margin: 0 0 0 0;
+    height: 2px;
+    background: #D97706;
+    margin-top: 8px;
+  }
+  /* Full-width rule goes edge to edge */
+  .amber-rule-full {
+    width: 1920px;
+    margin-left: -80px;
+    height: 2px;
+    background: #D97706;
+    margin-top: 8px;
+  }
+
+  /* Main content area — two equal columns */
+  .content-row {
+    flex: 1;
+    display: flex;
+    padding: 48px 80px 0 80px;
+    gap: 60px;
+    min-height: 0;
+  }
+
+  /* Left column — diagram/data placeholder */
+  .col-diagram {
+    flex: 1;
+    border: 1.5px dashed #64748B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 0;
+  }
+
+  .diagram-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.25;
+  }
+
+  .diagram-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #64748B;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  .diagram-sublabel {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #64748B;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.45;
+  }
+
+  /* Right column — supporting points */
+  .col-points {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding: 20px 0;
+  }
+
+  .point {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(13,17,23,0.08);
+  }
+  .point:last-child {
+    border-bottom: none;
+  }
+
+  /* Amber square bullet 8×8px */
+  .bullet {
+    width: 8px;
+    height: 8px;
+    background: #D97706;
+    flex-shrink: 0;
+    margin-top: 8px; /* optical alignment to cap height at 20px */
+  }
+
+  .point-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #0D1117;
+    line-height: 1.7;
+    opacity: 0.3;
+  }
+
+  /* Bottom strip */
+  .bottom-strip {
+    width: 1920px;
+    height: 60px;
+    background: #0D1117;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    flex-shrink: 0;
+  }
+
+  /* Reversed wordmark in bottom strip */
+  .wordmark-reversed {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+  }
+  .wordmark-reversed .data { font-weight: 300; color: #F8F6F1; }
+  .wordmark-reversed .domine-d { font-weight: 700; color: #D97706; }
+  .wordmark-reversed .domine-rest { font-weight: 700; color: #F8F6F1; }
+
+  /* Source placeholder */
+  .source {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #64748B;
+    letter-spacing: 0.3px;
+  }
+  .source::before {
+    content: '[ Source: Organisation / Dataset / Date ]';
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- Header -->
+  <div class="slide-header">
+    <div class="slide-title"></div>
+    <div class="amber-rule-full"></div>
+  </div>
+
+  <!-- Two-column content -->
+  <div class="content-row">
+
+    <!-- Left: diagram/data placeholder -->
+    <div class="col-diagram">
+      <!-- Inline SVG grid icon -->
+      <svg class="diagram-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" stroke="#64748B" stroke-width="1.5"/>
+        <rect x="26" y="2" width="20" height="20" stroke="#64748B" stroke-width="1.5"/>
+        <rect x="2" y="26" width="20" height="20" stroke="#64748B" stroke-width="1.5"/>
+        <rect x="26" y="26" width="20" height="20" stroke="#64748B" stroke-width="1.5"/>
+      </svg>
+      <div class="diagram-label">Diagram / Data / Chart</div>
+      <div class="diagram-sublabel">Insert visual evidence here</div>
+    </div>
+
+    <!-- Right: supporting points -->
+    <div class="col-points">
+      <div class="point">
+        <div class="bullet"></div>
+        <div class="point-text">
+          Supporting point one — the primary finding or the most important data assertion this slide makes.
+          Keep to two sentences maximum. Precision over volume.
+        </div>
+      </div>
+      <div class="point">
+        <div class="bullet"></div>
+        <div class="point-text">
+          Supporting point two — context, comparison, or the implication of the evidence on the left.
+          This is where the diagram becomes an argument.
+        </div>
+      </div>
+      <div class="point">
+        <div class="bullet"></div>
+        <div class="point-text">
+          Supporting point three — the decision or action this evidence supports.
+          End with something the audience can act on or verify.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom strip -->
+  <div class="bottom-strip">
+    <div class="wordmark-reversed">
+      <span class="data">Data</span><span class="domine-d">D</span><span class="domine-rest">omine</span>
+    </div>
+    <div class="source"></div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>DataDomine LinkedIn Personal Avatar</title>
+  <rect width="400" height="400" fill="#0D1117" rx="0"/>
+  <!-- DD Monogram in Amber, centred in 240×240 zone at (80,80) -->
+  <!-- Each D: serif bold, ~120px tall, 72px wide approx. Two Ds share central axis at x=200 -->
+  <!-- Constructed from paths: D letterform = vertical stroke + curved bowl -->
+  <!-- Left D (normal, facing right): vertical left edge at x=128, bowl curves right to x=200 -->
+  <!-- Right D (mirrored, facing left): vertical right edge at x=272, bowl curves left to x=200 -->
+  <!-- Shared vertical axis at x=200 -->
+  <!-- D proportions: height=160, stem width=22, bowl depth=72 -->
+  <g fill="#D97706">
+    <!-- Left D: facing right. Outer left edge x=128, inner right bowl reaches x=200 -->
+    <!-- Outer path: top-left corner, arc right, bottom-left corner -->
+    <path d="
+      M 128 120
+      L 152 120
+      C 202 120 228 142 228 200
+      C 228 258 202 280 152 280
+      L 128 280
+      Z
+    "/>
+    <!-- Inner cutout for left D bowl -->
+    <path d="
+      M 150 143
+      L 152 143
+      C 192 143 204 160 204 200
+      C 204 240 192 257 152 257
+      L 150 257
+      Z
+    " fill="#0D1117"/>
+    <!-- Right D: mirrored, facing left. Outer right edge x=272, bowl curves left to x=200 -->
+    <path d="
+      M 272 120
+      L 248 120
+      C 198 120 172 142 172 200
+      C 172 258 198 280 248 280
+      L 272 280
+      Z
+    "/>
+    <!-- Inner cutout for right D bowl -->
+    <path d="
+      M 250 143
+      L 248 143
+      C 208 143 196 160 196 200
+      C 196 240 208 257 248 257
+      L 250 257
+      Z
+    " fill="#0D1117"/>
+  </g>
+</svg>

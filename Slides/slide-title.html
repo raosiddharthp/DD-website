@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>DataDomine — Title Slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #0D1117;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    background: #0D1117;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Domine Mark — top left */
+  .domine-mark {
+    position: absolute;
+    top: 48px;
+    left: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .domine-mark .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D97706;
+    /* dot centre sits at the top edge of the vertical */
+    margin-bottom: -5px;
+    position: relative;
+    z-index: 2;
+  }
+  .domine-mark .vertical {
+    /* Scale: 4 units wide, 40 units tall — at 24px height, ratio 4:40 = 1:10, so width = 24/10*1 = 2.4px; keep to 3px min for visibility */
+    /* 24px height specified. Original ratio 40:4 = 10:1. Width = 24/10 ≈ 2.4 → use proportional: 24px tall = 4 units * (24/40) scale factor */
+    /* Recompute: mark total visual height = dot radius + vertical height = 5 + 24 = 29px. Vertical = 24px. Width at ratio 4:40 = 24*(4/40) = 2.4px → 3px min */
+    width: 3px;
+    height: 24px;
+    background: #F8F6F1;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Amber rule */
+  .amber-rule {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #D97706;
+  }
+
+  /* Centre content */
+  .centre-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Wordmark — reversed: white Data, white Domine, amber D */
+  .wordmark {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: baseline;
+    color: #F8F6F1;
+    margin-bottom: 28px;
+  }
+  .wordmark .data {
+    font-weight: 300;
+    color: #F8F6F1;
+  }
+  .wordmark .domine-text {
+    font-weight: 700;
+    color: #F8F6F1;
+  }
+  .wordmark .domine-d {
+    font-weight: 700;
+    color: #D97706;
+  }
+
+  /* Tagline */
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    color: #64748B;
+    letter-spacing: 0.5px;
+    margin-bottom: 52px;
+  }
+
+  /* Presentation title placeholder */
+  .presentation-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 36px;
+    color: #F8F6F1;
+    text-align: center;
+    border: 1px dashed #64748B;
+    padding: 18px 48px;
+    letter-spacing: 0.2px;
+    min-width: 600px;
+  }
+  .presentation-title::before {
+    content: '[ PRESENTATION TITLE ]';
+    opacity: 0.4;
+  }
+
+  /* Bottom left */
+  .bottom-left {
+    position: absolute;
+    bottom: 100px;
+    left: 60px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #64748B;
+    letter-spacing: 0.3px;
+  }
+
+  /* Bottom right */
+  .bottom-right {
+    position: absolute;
+    bottom: 100px;
+    right: 60px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #64748B;
+    letter-spacing: 0.3px;
+  }
+  .bottom-right::before {
+    content: '[ DATE ]';
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- Domine Mark top left -->
+  <div class="domine-mark">
+    <div class="dot"></div>
+    <div class="vertical"></div>
+  </div>
+
+  <!-- Centre content -->
+  <div class="centre-content">
+    <div class="wordmark">
+      <span class="data">Data</span><span class="domine-d">D</span><span class="domine-text">omine</span>
+    </div>
+    <div class="tagline">Production-Ready. By Design.</div>
+    <div class="presentation-title"></div>
+  </div>
+
+  <!-- Amber rule -->
+  <div class="amber-rule"></div>
+
+  <!-- Bottom left -->
+  <div class="bottom-left">Siddharth Potukuchi &nbsp;·&nbsp; datadomine.com</div>
+
+  <!-- Bottom right -->
+  <div class="bottom-right"></div>
+
+</div>
+</body>
+</html>

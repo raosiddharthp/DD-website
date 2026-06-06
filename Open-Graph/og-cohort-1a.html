@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — og-cohort-1a</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; }
+
+  :root {
+    --deep-ink: #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+  }
+
+  .canvas {
+    width: 1200px;
+    height: 630px;
+    background: var(--deep-ink);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 80px 44px;
+  }
+
+  /* Top amber horizontal rule */
+  .amber-rule-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 420px;
+    height: 4px;
+    background: var(--amber);
+  }
+
+  /* Centre content — left aligned */
+  .centre {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    padding-top: 20px;
+  }
+
+  .label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--slate);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+
+  .heading {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 58px;
+    color: var(--white);
+    letter-spacing: -1.2px;
+    line-height: 1.05;
+    max-width: 800px;
+  }
+
+  .meta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--slate);
+    letter-spacing: 0.3px;
+  }
+
+  .tagline {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--amber);
+    letter-spacing: 0.2px;
+  }
+
+  /* Bottom */
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  /* Wordmark reversed */
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 26px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .wordmark-domine .d-amber {
+    color: var(--amber);
+  }
+
+  .domain {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--slate);
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="amber-rule-top"></div>
+
+  <div class="centre">
+    <div class="label">Tier 1A — Cohort Programme</div>
+    <div class="heading">Enterprise AI<br>Architecture</div>
+    <div class="meta">3 Weekends&nbsp;&nbsp;·&nbsp;&nbsp;42 Hours&nbsp;&nbsp;·&nbsp;&nbsp;Maximum 12 Participants</div>
+    <div class="tagline">Production-Ready. By Design.</div>
+  </div>
+
+  <div class="bottom">
+    <div class="wordmark">
+      <span class="wordmark-data">Data</span>
+      <span class="wordmark-domine"><span class="d-amber">D</span>omine</span>
+    </div>
+    <div class="domain">datadomine.com</div>
+  </div>
+</div>
+</body>
+</html>

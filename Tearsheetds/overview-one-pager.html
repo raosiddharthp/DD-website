@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — Company Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Tokens ── */
+  :root {
+    --ink:   #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --pad-x: 14mm;
+  }
+
+  /* ── Screen shell ── */
+  html, body {
+    background: #CBD5E1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px 0 48px;
+    font-family: 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Page ── */
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    background: var(--white);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    overflow: hidden;
+  }
+
+  /* ════════════════════════════════════════
+     TOP BAND — 15% ≈ 44.5mm
+  ════════════════════════════════════════ */
+  .top-band {
+    background: var(--ink);
+    flex: 0 0 15%;
+    padding: 0 var(--pad-x);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Wordmark */
+  .wordmark {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 20pt;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+  }
+
+  .wordmark__data {
+    font-weight: 300;
+    color: var(--white);
+  }
+
+  .wordmark__domine {
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .wordmark__d-amber {
+    color: var(--amber);
+  }
+
+  /* Domine mark inline with wordmark */
+  .wordmark__mark {
+    margin-right: 4mm;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Right tagline */
+  .top-band__tagline {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 13pt;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  /* ════════════════════════════════════════
+     INTRO SECTION — 15% ≈ 44.5mm
+  ════════════════════════════════════════ */
+  .intro-section {
+    background: var(--white);
+    flex: 0 0 15%;
+    padding: 0 var(--pad-x);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .intro-section__para {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 400;
+    font-size: 10pt;
+    line-height: 1.75;
+    color: var(--ink);
+    max-width: 100%;
+  }
+
+  .intro-section__rule {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--amber);
+  }
+
+  /* ════════════════════════════════════════
+     BODY — 60%
+  ════════════════════════════════════════ */
+  .body {
+    flex: 1 1 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .col {
+    padding: 7mm var(--pad-x) 6mm;
+    overflow: hidden;
+  }
+
+  .col--left {
+    padding-right: 7mm;
+    border-right: 1px solid rgba(13,17,23,0.10);
+  }
+
+  .col--right {
+    padding-left: 7mm;
+  }
+
+  /* ── Column headings ── */
+  .col-heading {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: var(--ink);
+    margin-bottom: 4mm;
+    line-height: 1.2;
+  }
+
+  /* ── Programme blocks ── */
+  .programme-block {
+    margin-bottom: 4mm;
+    padding-bottom: 4mm;
+    border-bottom: 1px solid rgba(13,17,23,0.08);
+  }
+
+  .programme-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .programme-block__name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--amber);
+    line-height: 1.2;
+    margin-bottom: 1mm;
+  }
+
+  .programme-block__descriptor {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8pt;
+    color: var(--ink);
+    line-height: 1.45;
+    margin-bottom: 0.8mm;
+  }
+
+  .programme-block__format {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 7.5pt;
+    color: var(--slate);
+    line-height: 1.4;
+  }
+
+  /* ── Framework section ── */
+  .framework-sub {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 9pt;
+    color: var(--slate);
+    margin-bottom: 2mm;
+    line-height: 1.3;
+  }
+
+  .framework-desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8pt;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 3mm;
+  }
+
+  /* Lens list */
+  .lens-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8mm;
+    margin-bottom: 5mm;
+  }
+
+  .lens-list li {
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .lens-list__bullet {
+    width: 5px;
+    height: 5px;
+    background: var(--amber);
+    flex-shrink: 0;
+    margin-top: 2.5px;
+  }
+
+  .lens-list__content {
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .lens-list__name {
+    font-weight: 500;
+  }
+
+  .lens-list__desc {
+    font-weight: 400;
+    color: var(--slate);
+  }
+
+  /* ── Founder section ── */
+  .right-section + .right-section {
+    margin-top: 4mm;
+    padding-top: 4mm;
+    border-top: 1px solid rgba(13,17,23,0.08);
+  }
+
+  .founder-name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--ink);
+    margin-bottom: 0.8mm;
+    line-height: 1.2;
+  }
+
+  .founder-credentials {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 7.5pt;
+    color: var(--slate);
+    line-height: 1.5;
+    margin-bottom: 2mm;
+  }
+
+  .founder-outcomes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+  }
+
+  .founder-outcomes li {
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--ink);
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+  }
+
+  .founder-outcomes li::before {
+    content: '—';
+    color: var(--slate);
+    font-size: 7.5pt;
+    flex-shrink: 0;
+  }
+
+  /* ════════════════════════════════════════
+     FOOTER BAND — 10% ≈ 29.7mm
+  ════════════════════════════════════════ */
+  .footer-band {
+    background: var(--slate);
+    flex: 0 0 10%;
+    padding: 0 var(--pad-x);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-band__item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 8.5pt;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .footer-band__item--centre {
+    text-align: center;
+  }
+
+  .footer-band__item--right {
+    text-align: right;
+    font-family: 'IBM Plex Serif', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(248,246,241,0.7);
+  }
+
+  /* ── Print ── */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      background: none;
+      padding: 0;
+      min-height: unset;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── TOP BAND ── -->
+  <div class="top-band">
+
+    <div style="display:flex; align-items:center; gap:4mm;">
+      <!-- Domine mark -->
+      <div class="wordmark__mark">
+        <svg width="18" height="48" viewBox="0 0 24 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="10" r="10" fill="#D97706"/>
+          <rect x="10" y="10" width="4" height="44" fill="#F8F6F1"/>
+        </svg>
+      </div>
+      <!-- Wordmark -->
+      <div class="wordmark">
+        <span class="wordmark__data">Data</span><span class="wordmark__domine"><span class="wordmark__d-amber">D</span>omine</span>
+      </div>
+    </div>
+
+    <div class="top-band__tagline">Production-Ready. By Design.</div>
+
+  </div>
+
+  <!-- ── INTRO SECTION ── -->
+  <div class="intro-section">
+    <p class="intro-section__para">DataDomine is a technical practitioner education company. It trains solution architects, enterprise architects, and ML engineers to make the decisions their roles actually demand — from data, under constraint, with the economic and organisational rigour that regulated production environments require. Every programme is built around a proprietary pedagogical framework, a real-world spine project, and a production-ready output the participant can place in front of an architecture review board, a compliance team, or a hiring manager on the day they leave.</p>
+    <div class="intro-section__rule"></div>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col col--left">
+
+      <div class="col-heading">The Programmes</div>
+
+      <!-- Cohort 1A -->
+      <div class="programme-block">
+        <div class="programme-block__name">Enterprise AI Architecture Cohort</div>
+        <div class="programme-block__descriptor">How to make architectural decisions that survive production, compliance audits, and board reviews.</div>
+        <div class="programme-block__format">Cohort 1A &middot; Three weekends &middot; 42 hours &middot; Max 12 &middot; £1,800 founder price</div>
+      </div>
+
+      <!-- Cohort 1B -->
+      <div class="programme-block">
+        <div class="programme-block__name">ML Engineering for Regulated Industries Cohort</div>
+        <div class="programme-block__descriptor">How to build the governance layer, audit trail, and retraining pipeline that make models viable in regulated production.</div>
+        <div class="programme-block__format">Cohort 1B &middot; Three weekends &middot; 42 hours &middot; Max 12 &middot; £1,800 founder price</div>
+      </div>
+
+      <!-- Workshop -->
+      <div class="programme-block">
+        <div class="programme-block__name">Architecture Design Workshop</div>
+        <div class="programme-block__descriptor">Facilitated design for a high-stakes decision, a stuck team, or a practice capability gap.</div>
+        <div class="programme-block__format">Tier 2 &middot; One or two days &middot; 4–12 participants &middot; Pricing on enquiry</div>
+      </div>
+
+      <!-- Intensives -->
+      <div class="programme-block">
+        <div class="programme-block__name">Live Intensives</div>
+        <div class="programme-block__descriptor">Single-topic working sessions on specific decisions and capabilities. Open enrolment. No approval required.</div>
+        <div class="programme-block__format">Tier 3 &middot; 3 hours online &middot; Max 20 &middot; £120–£180 per session</div>
+      </div>
+
+    </div><!-- /col--left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="col col--right">
+
+      <!-- Framework -->
+      <div class="right-section">
+        <div class="col-heading">The Framework</div>
+        <div class="framework-sub">The Clarity Point Framework</div>
+        <p class="framework-desc">Every DataDomine programme is built on a single observation: every practitioner has experienced the moment when a complex decision resolves into something they can act on and defend. The Clarity Point Framework is built to design those moments deliberately, repeatedly, and at every level of the work. It applies ten lenses to every programme — from economic judgment to behavioural discipline to the governance of failure.</p>
+        <ul class="lens-list">
+          <li>
+            <span class="lens-list__bullet"></span>
+            <span class="lens-list__content"><span class="lens-list__name">Economic Decisions First. </span><span class="lens-list__desc">Architectural decisions are economic decisions wearing a technical coat.</span></span>
+          </li>
+          <li>
+            <span class="lens-list__bullet"></span>
+            <span class="lens-list__content"><span class="lens-list__name">The Behavioural Layer. </span><span class="lens-list__desc">The behaviour of the practitioner in the rooms where approval is sought determines whether correct decisions get built.</span></span>
+          </li>
+          <li>
+            <span class="lens-list__bullet"></span>
+            <span class="lens-list__content"><span class="lens-list__name">Discovery Over Instruction. </span><span class="lens-list__desc">What is discovered is owned. What is told is forgotten.</span></span>
+          </li>
+          <li>
+            <span class="lens-list__bullet"></span>
+            <span class="lens-list__content"><span class="lens-list__name">The Failure Modes Taxonomy. </span><span class="lens-list__desc">Name the failure modes specific to your context before they occur — and instrument the system to detect them early.</span></span>
+          </li>
+          <li>
+            <span class="lens-list__bullet"></span>
+            <span class="lens-list__content"><span class="lens-list__name">The Handoff Discipline. </span><span class="lens-list__desc">A system that cannot be handed off cleanly is not production-ready.</span></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Founder -->
+      <div class="right-section">
+        <div class="col-heading">The Founder</div>
+        <div class="founder-name">Siddharth Potukuchi</div>
+        <div class="founder-credentials">TOGAF EA &middot; Google Certified Cloud Architect &middot; Google Certified ML Engineer<br>18+ years across technical support, instructional design, solution architecture, and enterprise AI &middot; 1,000+ practitioners trained &middot; 5 countries &middot; Partner enablement: Accenture, Wipro, TCS, Infosys, Deloitte</div>
+        <ul class="founder-outcomes">
+          <li>IBM Americas: ~35% improvement in customer conversion following CPQ rollout for 300 users</li>
+          <li>GETAC: product configuration cycle reduced from two weeks to under 24 hours for 100+ global sales users</li>
+          <li>Mind Merchants: contract agreement cycle time reduced by over 90%</li>
+        </ul>
+      </div>
+
+    </div><!-- /col--right -->
+
+  </div><!-- /body -->
+
+  <!-- ── FOOTER BAND ── -->
+  <div class="footer-band">
+    <div class="footer-band__item">datadomine.com</div>
+    <div class="footer-band__item footer-band__item--centre">hello@datadomine.com</div>
+    <div class="footer-band__item footer-band__item--right">Production-Ready. By Design.</div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>

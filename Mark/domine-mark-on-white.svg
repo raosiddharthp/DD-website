@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" fill="none">
+  <!-- DataDomine — Domine Mark -->
+  <!-- Version 4: Ink vertical, Amber dot, Architectural White #F8F6F1 background -->
+  <!-- For use where a contained light background is needed -->
+  <!-- Geometry: rect 4×40, circle r=5, circle centre at top edge of rect -->
+  <!-- rect: x=28, y=13, w=4, h=40 | circle: cx=30, cy=13, r=5 -->
+  <rect x="0" y="0" width="60" height="60" fill="#F8F6F1"/>
+  <circle cx="30" cy="13" r="5" fill="#D97706"/>
+  <rect x="28" y="13" width="4" height="40" fill="#0D1117"/>
+</svg>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — og-about</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; }
+
+  :root {
+    --deep-ink: #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+  }
+
+  .canvas {
+    width: 1200px;
+    height: 630px;
+    background: var(--deep-ink);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 56px 80px 44px;
+  }
+
+  /* Top wordmark reversed */
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    align-self: flex-start;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .wordmark-domine .d-amber {
+    color: var(--amber);
+  }
+
+  /* Centre content */
+  .centre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 58px;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1.05;
+  }
+
+  .credentials {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--slate);
+    letter-spacing: 0.8px;
+  }
+
+  /* Thin amber rule below name */
+  .rule {
+    width: 48px;
+    height: 2px;
+    background: var(--amber);
+  }
+
+  /* Bottom */
+  .bottom {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .domain {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--amber);
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="wordmark">
+    <span class="wordmark-data">Data</span>
+    <span class="wordmark-domine"><span class="d-amber">D</span>omine</span>
+  </div>
+
+  <div class="centre">
+    <div class="name">Siddharth Potukuchi</div>
+    <div class="rule"></div>
+    <div class="credentials">TOGAF EA&nbsp;&nbsp;·&nbsp;&nbsp;Google Cloud Architect&nbsp;&nbsp;·&nbsp;&nbsp;Google ML Engineer</div>
+  </div>
+
+  <div class="bottom">
+    <div class="domain">datadomine.com</div>
+  </div>
+</div>
+</body>
+</html>

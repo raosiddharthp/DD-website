@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 315 88" role="img" aria-label="DataDomine wordmark reversed">
+  <title>DataDomine — Reversed</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- "Data" — Architectural White, for use on dark backgrounds -->
+  <text
+    x="20"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="300"
+    font-size="48"
+    letter-spacing="0.96"
+    fill="#F8F6F1"
+    xml:space="preserve">Data</text>
+
+  <!-- "D" in Domine — Amber (unchanged across all versions) -->
+  <text
+    x="125.79"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#D97706"
+    xml:space="preserve">D</text>
+
+  <!-- "omine" — Architectural White -->
+  <text
+    x="160.45"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#F8F6F1"
+    xml:space="preserve">omine</text>
+</svg>

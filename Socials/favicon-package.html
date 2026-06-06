@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataDomine — Favicon Package</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0D1117;
+      --white: #F8F6F1;
+      --slate: #64748B;
+      --amber: #D97706;
+    }
+    body {
+      background: #1A1F2E;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 48px 32px;
+    }
+    .page-header {
+      margin-bottom: 48px;
+      border-bottom: 1px solid rgba(248,246,241,0.1);
+      padding-bottom: 24px;
+    }
+    .page-header h1 {
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .page-header h1 span { font-weight: 700; }
+    .page-header p {
+      color: var(--slate);
+      font-size: 13px;
+    }
+    .section {
+      margin-bottom: 56px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(248,246,241,0.08);
+    }
+    .favicon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-end;
+    }
+    .favicon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .favicon-frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(248,246,241,0.12);
+      border-radius: 4px;
+      padding: 12px;
+      background: rgba(248,246,241,0.03);
+    }
+    .favicon-meta {
+      text-align: center;
+    }
+    .favicon-meta .size {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .favicon-meta .desc {
+      font-size: 11px;
+      color: var(--slate);
+    }
+    .code-block {
+      background: var(--ink);
+      border: 1px solid rgba(248,246,241,0.1);
+      border-radius: 4px;
+      padding: 24px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #C9D1D9;
+      white-space: pre;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+    .code-block .attr { color: #79C0FF; }
+    .code-block .val  { color: #A5D6FF; }
+    .code-block .tag  { color: #7EE787; }
+    .code-block .cmt  { color: #8B949E; font-style: italic; }
+    .code-block .str  { color: #F0B429; }
+    .divider {
+      height: 1px;
+      background: rgba(248,246,241,0.08);
+      margin: 48px 0;
+    }
+    .amber { color: var(--amber); }
+    .pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(217,119,6,0.15);
+      color: var(--amber);
+      border: 1px solid rgba(217,119,6,0.3);
+      border-radius: 2px;
+      padding: 2px 7px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Data<span>Domine</span> — Favicon Package</h1>
+  <p>Production-Ready. By Design. &nbsp;·&nbsp; All sizes &nbsp;·&nbsp; Head snippet &nbsp;·&nbsp; Web manifest</p>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1 — FAVICON VISUAL PREVIEW
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">Favicon Sizes — Visual Preview</div>
+  <div class="favicon-grid">
+
+    <!-- 16×16 -->
+    <div class="favicon-item">
+      <div class="favicon-frame">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+          <rect width="16" height="16" fill="#0D1117"/>
+          <!-- Vertical: 2px wide, 10px tall, centred horizontally at x=7, top at y=3 -->
+          <rect x="7" y="3" width="2" height="10" fill="#F8F6F1"/>
+          <!-- Dot: 4px diameter, centred at x=8, y=3 (top of vertical) -->
+          <circle cx="8" cy="3" r="2" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="favicon-meta">
+        <div class="size">16 × 16</div>
+        <div class="desc">favicon.ico / browser tab</div>
+      </div>
+    </div>
+
+    <!-- 32×32 -->
+    <div class="favicon-item">
+      <div class="favicon-frame">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <rect width="32" height="32" fill="#0D1117"/>
+          <!-- Vertical: 4px wide, 20px tall, centred at x=14 → left edge x=14, top y=6 -->
+          <rect x="14" y="6" width="4" height="20" fill="#F8F6F1"/>
+          <!-- Dot: 10px diameter → r=5, centred at x=16, y=6 -->
+          <circle cx="16" cy="6" r="5" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="favicon-meta">
+        <div class="size">32 × 32</div>
+        <div class="desc">favicon.png / browser tab HD</div>
+      </div>
+    </div>
+
+    <!-- 180×180 Apple Touch Icon -->
+    <div class="favicon-item">
+      <div class="favicon-frame">
+        <!-- Display at 90×90 for preview, actual export is 180×180 -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 180 180">
+          <rect width="180" height="180" fill="#0D1117"/>
+          <!-- Vertical: 4 units wide scaled to canvas. At 180px with generous padding:
+               width=16px, height=100px, centred at x=82, top at y=40 -->
+          <rect x="82" y="40" width="16" height="100" fill="#F8F6F1"/>
+          <!-- Dot: diameter=40px → r=20, centred at x=90, y=40 -->
+          <circle cx="90" cy="40" r="20" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="favicon-meta">
+        <div class="size">180 × 180</div>
+        <div class="desc">Apple touch icon</div>
+      </div>
+    </div>
+
+    <!-- 192×192 Android -->
+    <div class="favicon-item">
+      <div class="favicon-frame">
+        <!-- Display at 96×96 for preview, actual export is 192×192 -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 192 192">
+          <rect width="192" height="192" fill="#0D1117"/>
+          <!-- Vertical: 16px wide, 108px tall, centred at x=88, top at y=42 -->
+          <rect x="88" y="42" width="16" height="108" fill="#F8F6F1"/>
+          <!-- Dot: r=22, centred at x=96, y=42 -->
+          <circle cx="96" cy="42" r="22" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="favicon-meta">
+        <div class="size">192 × 192</div>
+        <div class="desc">Android / web app icon</div>
+      </div>
+    </div>
+
+    <!-- SVG Favicon (scalable, shown at 64×64) -->
+    <div class="favicon-item">
+      <div class="favicon-frame">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+          <rect width="64" height="64" fill="#0D1117"/>
+          <!-- Proportional to Domine Mark spec: vertical 4 wide, 40 tall
+               Scale factor: ~1.2 to fill nicely with padding
+               Vertical: 6px wide, 36px tall, centred at x=29, top at y=12 -->
+          <rect x="29" y="12" width="6" height="36" fill="#F8F6F1"/>
+          <!-- Dot: diameter=14px → r=7, centred at x=32, y=12 -->
+          <circle cx="32" cy="12" r="7" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="favicon-meta">
+        <div class="size">SVG</div>
+        <div class="desc">Scalable favicon (modern browsers)</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2 — INLINE SVG SOURCE FOR EACH SIZE
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">Inline SVG Source — 16 × 16 <span class="pill">favicon.ico source</span></div>
+  <div class="code-block">&lt;<span class="tag">svg</span> <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="str">"16"</span> <span class="attr">height</span>=<span class="str">"16"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 16 16"</span>&gt;
+  &lt;<span class="tag">rect</span> <span class="attr">width</span>=<span class="str">"16"</span> <span class="attr">height</span>=<span class="str">"16"</span> <span class="attr">fill</span>=<span class="str">"#0D1117"</span>/&gt;
+  <span class="cmt">&lt;!-- Vertical stroke: 2px wide, 10px tall, horizontally centred --&gt;</span>
+  &lt;<span class="tag">rect</span> <span class="attr">x</span>=<span class="str">"7"</span> <span class="attr">y</span>=<span class="str">"3"</span> <span class="attr">width</span>=<span class="str">"2"</span> <span class="attr">height</span>=<span class="str">"10"</span> <span class="attr">fill</span>=<span class="str">"#F8F6F1"</span>/&gt;
+  <span class="cmt">&lt;!-- Amber dot: 4px diameter, centred at top of vertical --&gt;</span>
+  &lt;<span class="tag">circle</span> <span class="attr">cx</span>=<span class="str">"8"</span> <span class="attr">cy</span>=<span class="str">"3"</span> <span class="attr">r</span>=<span class="str">"2"</span> <span class="attr">fill</span>=<span class="str">"#D97706"</span>/&gt;
+&lt;/<span class="tag">svg</span>&gt;</div>
+</section>
+
+<section class="section">
+  <div class="section-label">Inline SVG Source — 32 × 32 <span class="pill">favicon-32x32.png source</span></div>
+  <div class="code-block">&lt;<span class="tag">svg</span> <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="str">"32"</span> <span class="attr">height</span>=<span class="str">"32"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 32 32"</span>&gt;
+  &lt;<span class="tag">rect</span> <span class="attr">width</span>=<span class="str">"32"</span> <span class="attr">height</span>=<span class="str">"32"</span> <span class="attr">fill</span>=<span class="str">"#0D1117"</span>/&gt;
+  <span class="cmt">&lt;!-- Vertical: 4px wide, 20px tall, horizontally centred --&gt;</span>
+  &lt;<span class="tag">rect</span> <span class="attr">x</span>=<span class="str">"14"</span> <span class="attr">y</span>=<span class="str">"6"</span> <span class="attr">width</span>=<span class="str">"4"</span> <span class="attr">height</span>=<span class="str">"20"</span> <span class="attr">fill</span>=<span class="str">"#F8F6F1"</span>/&gt;
+  <span class="cmt">&lt;!-- Amber dot: 10px diameter, centred on top of vertical --&gt;</span>
+  &lt;<span class="tag">circle</span> <span class="attr">cx</span>=<span class="str">"16"</span> <span class="attr">cy</span>=<span class="str">"6"</span> <span class="attr">r</span>=<span class="str">"5"</span> <span class="attr">fill</span>=<span class="str">"#D97706"</span>/&gt;
+&lt;/<span class="tag">svg</span>&gt;</div>
+</section>
+
+<section class="section">
+  <div class="section-label">Inline SVG Source — 180 × 180 <span class="pill">apple-touch-icon.png source</span></div>
+  <div class="code-block">&lt;<span class="tag">svg</span> <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="str">"180"</span> <span class="attr">height</span>=<span class="str">"180"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 180 180"</span>&gt;
+  &lt;<span class="tag">rect</span> <span class="attr">width</span>=<span class="str">"180"</span> <span class="attr">height</span>=<span class="str">"180"</span> <span class="attr">fill</span>=<span class="str">"#0D1117"</span>/&gt;
+  <span class="cmt">&lt;!-- Vertical: 16px wide, 100px tall, horizontally centred --&gt;</span>
+  &lt;<span class="tag">rect</span> <span class="attr">x</span>=<span class="str">"82"</span> <span class="attr">y</span>=<span class="str">"40"</span> <span class="attr">width</span>=<span class="str">"16"</span> <span class="attr">height</span>=<span class="str">"100"</span> <span class="attr">fill</span>=<span class="str">"#F8F6F1"</span>/&gt;
+  <span class="cmt">&lt;!-- Amber dot: 40px diameter, centred on top of vertical --&gt;</span>
+  &lt;<span class="tag">circle</span> <span class="attr">cx</span>=<span class="str">"90"</span> <span class="attr">cy</span>=<span class="str">"40"</span> <span class="attr">r</span>=<span class="str">"20"</span> <span class="attr">fill</span>=<span class="str">"#D97706"</span>/&gt;
+&lt;/<span class="tag">svg</span>&gt;</div>
+</section>
+
+<section class="section">
+  <div class="section-label">Inline SVG Source — 192 × 192 <span class="pill">android-chrome-192x192.png source</span></div>
+  <div class="code-block">&lt;<span class="tag">svg</span> <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="str">"192"</span> <span class="attr">height</span>=<span class="str">"192"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 192 192"</span>&gt;
+  &lt;<span class="tag">rect</span> <span class="attr">width</span>=<span class="str">"192"</span> <span class="attr">height</span>=<span class="str">"192"</span> <span class="attr">fill</span>=<span class="str">"#0D1117"</span>/&gt;
+  <span class="cmt">&lt;!-- Vertical: 16px wide, 108px tall, horizontally centred --&gt;</span>
+  &lt;<span class="tag">rect</span> <span class="attr">x</span>=<span class="str">"88"</span> <span class="attr">y</span>=<span class="str">"42"</span> <span class="attr">width</span>=<span class="str">"16"</span> <span class="attr">height</span>=<span class="str">"108"</span> <span class="attr">fill</span>=<span class="str">"#F8F6F1"</span>/&gt;
+  <span class="cmt">&lt;!-- Amber dot: 44px diameter, centred on top of vertical --&gt;</span>
+  &lt;<span class="tag">circle</span> <span class="attr">cx</span>=<span class="str">"96"</span> <span class="attr">cy</span>=<span class="str">"42"</span> <span class="attr">r</span>=<span class="str">"22"</span> <span class="attr">fill</span>=<span class="str">"#D97706"</span>/&gt;
+&lt;/<span class="tag">svg</span>&gt;</div>
+</section>
+
+<section class="section">
+  <div class="section-label">Inline SVG Source — Scalable SVG Favicon <span class="pill">favicon.svg</span></div>
+  <div class="code-block">&lt;<span class="tag">svg</span> <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 64 64"</span>&gt;
+  &lt;<span class="tag">rect</span> <span class="attr">width</span>=<span class="str">"64"</span> <span class="attr">height</span>=<span class="str">"64"</span> <span class="attr">fill</span>=<span class="str">"#0D1117"</span>/&gt;
+  <span class="cmt">&lt;!-- Vertical: 6px wide, 36px tall, proportional to Domine Mark spec --&gt;</span>
+  &lt;<span class="tag">rect</span> <span class="attr">x</span>=<span class="str">"29"</span> <span class="attr">y</span>=<span class="str">"12"</span> <span class="attr">width</span>=<span class="str">"6"</span> <span class="attr">height</span>=<span class="str">"36"</span> <span class="attr">fill</span>=<span class="str">"#F8F6F1"</span>/&gt;
+  <span class="cmt">&lt;!-- Amber dot: 14px diameter, centred on top of vertical --&gt;</span>
+  &lt;<span class="tag">circle</span> <span class="attr">cx</span>=<span class="str">"32"</span> <span class="attr">cy</span>=<span class="str">"12"</span> <span class="attr">r</span>=<span class="str">"7"</span> <span class="attr">fill</span>=<span class="str">"#D97706"</span>/&gt;
+&lt;/<span class="tag">svg</span>&gt;</div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3 — HTML HEAD SNIPPET
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">HTML &lt;head&gt; Snippet — paste into every page</div>
+  <div class="code-block"><span class="cmt">&lt;!-- DataDomine Favicons — paste inside &lt;head&gt; on every page --&gt;</span>
+
+<span class="cmt">&lt;!-- Theme colour --&gt;</span>
+&lt;<span class="tag">meta</span> <span class="attr">name</span>=<span class="str">"theme-color"</span> <span class="attr">content</span>=<span class="str">"#0D1117"</span>/&gt;
+
+<span class="cmt">&lt;!-- Classic ICO for legacy browsers --&gt;</span>
+&lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"icon"</span> <span class="attr">href</span>=<span class="str">"/favicon.ico"</span> <span class="attr">sizes</span>=<span class="str">"any"</span>/&gt;
+
+<span class="cmt">&lt;!-- SVG favicon — modern browsers (auto scales, respects prefers-color-scheme) --&gt;</span>
+&lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"icon"</span> <span class="attr">href</span>=<span class="str">"/favicon.svg"</span> <span class="attr">type</span>=<span class="str">"image/svg+xml"</span>/&gt;
+
+<span class="cmt">&lt;!-- 32×32 PNG — browser tabs in environments that prefer raster --&gt;</span>
+&lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"icon"</span> <span class="attr">href</span>=<span class="str">"/favicon-32x32.png"</span> <span class="attr">type</span>=<span class="str">"image/png"</span> <span class="attr">sizes</span>=<span class="str">"32x32"</span>/&gt;
+
+<span class="cmt">&lt;!-- Apple touch icon — iOS home screen, 180×180 --&gt;</span>
+&lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"apple-touch-icon"</span> <span class="attr">href</span>=<span class="str">"/apple-touch-icon.png"</span> <span class="attr">sizes</span>=<span class="str">"180x180"</span>/&gt;
+
+<span class="cmt">&lt;!-- Web manifest — Android home screen, PWA --&gt;</span>
+&lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"manifest"</span> <span class="attr">href</span>=<span class="str">"/site.webmanifest"</span>/&gt;</div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 4 — WEB MANIFEST
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">site.webmanifest — complete JSON</div>
+  <div class="code-block">{
+  <span class="attr">"name"</span>: <span class="str">"DataDomine"</span>,
+  <span class="attr">"short_name"</span>: <span class="str">"DataDomine"</span>,
+  <span class="attr">"description"</span>: <span class="str">"Technical practitioner education for enterprise architects, solution architects, and ML engineers in regulated environments."</span>,
+  <span class="attr">"theme_color"</span>: <span class="str">"#0D1117"</span>,
+  <span class="attr">"background_color"</span>: <span class="str">"#0D1117"</span>,
+  <span class="attr">"display"</span>: <span class="str">"standalone"</span>,
+  <span class="attr">"start_url"</span>: <span class="str">"/"</span>,
+  <span class="attr">"icons"</span>: [
+    {
+      <span class="attr">"src"</span>: <span class="str">"/favicon-32x32.png"</span>,
+      <span class="attr">"sizes"</span>: <span class="str">"32x32"</span>,
+      <span class="attr">"type"</span>: <span class="str">"image/png"</span>
+    },
+    {
+      <span class="attr">"src"</span>: <span class="str">"/apple-touch-icon.png"</span>,
+      <span class="attr">"sizes"</span>: <span class="str">"180x180"</span>,
+      <span class="attr">"type"</span>: <span class="str">"image/png"</span>
+    },
+    {
+      <span class="attr">"src"</span>: <span class="str">"/android-chrome-192x192.png"</span>,
+      <span class="attr">"sizes"</span>: <span class="str">"192x192"</span>,
+      <span class="attr">"type"</span>: <span class="str">"image/png"</span>
+    },
+    {
+      <span class="attr">"src"</span>: <span class="str">"/favicon.svg"</span>,
+      <span class="attr">"sizes"</span>: <span class="str">"any"</span>,
+      <span class="attr">"type"</span>: <span class="str">"image/svg+xml"</span>,
+      <span class="attr">"purpose"</span>: <span class="str">"any maskable"</span>
+    }
+  ]
+}</div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 5 — FILE CHECKLIST
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">File Checklist — files to place at site root</div>
+  <div class="code-block"><span class="cmt">favicon.ico              16×16 ICO  — convert 16×16 SVG above using any ICO tool
+favicon.svg              Scalable   — save SVG source above directly
+favicon-32x32.png        32×32 PNG  — export 32×32 SVG above as PNG
+apple-touch-icon.png     180×180    — export 180×180 SVG above as PNG
+android-chrome-192x192.png  192×192 — export 192×192 SVG above as PNG
+site.webmanifest         JSON       — save manifest JSON above as-is</span>
+
+<span class="cmt">Recommended export tools:
+  Squoosh (squoosh.app)       — browser-based, lossless PNG export
+  Inkscape                    — open source, SVG to PNG/ICO
+  RealFaviconGenerator.net    — paste the 512×512 version of the SVG
+                                to generate all formats in one pass</span></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 6 — BROWSER SIMULATION
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">Browser Tab Simulation</div>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+
+    <!-- Chrome-style tab -->
+    <div style="display: flex; align-items: stretch; max-width: 480px;">
+      <div style="display: flex; align-items: center; gap: 8px; background: #2D3240; border-radius: 6px 6px 0 0; padding: 8px 16px 8px 12px; flex: 1; border-top: 2px solid #D97706;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" style="flex-shrink: 0;">
+          <rect width="16" height="16" fill="#0D1117"/>
+          <rect x="7" y="3" width="2" height="10" fill="#F8F6F1"/>
+          <circle cx="8" cy="3" r="2" fill="#D97706"/>
+        </svg>
+        <span style="font-size: 12px; color: #E8E6E1; font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">DataDomine — Production-Ready. By Design.</span>
+        <span style="margin-left: auto; font-size: 16px; color: var(--slate); flex-shrink: 0;">×</span>
+      </div>
+    </div>
+    <div style="background: #1C2030; border-radius: 0 4px 4px 4px; padding: 10px 14px; max-width: 480px; display: flex; align-items: center; gap: 8px;">
+      <div style="background: #2D3240; border-radius: 3px; padding: 4px 10px; display: flex; align-items: center; gap: 6px; flex: 1;">
+        <span style="font-size: 11px; color: var(--slate);">🔒</span>
+        <span style="font-size: 11px; color: #9BA3AF; font-family: 'Inter', sans-serif;">datadomine.com</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     NOTES
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">Implementation Notes</div>
+  <div style="color: #9BA3AF; font-size: 13px; line-height: 1.8; max-width: 640px;">
+    <p style="margin-bottom: 12px;">The SVG favicon references modern browsers (Chrome 80+, Firefox 84+, Safari 16+). The <code style="background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 2px; font-family: monospace;">sizes="any"</code> attribute on the ICO link ensures that legacy browsers fall back correctly without ambiguity.</p>
+    <p style="margin-bottom: 12px;">At 16×16 the Domine Mark is reduced to a 2px vertical with a 4px amber dot. This is the minimum legible rendering. At this size the amber dot reads as a distinct coloured cap above a white stem — the mark is identifiable even at the smallest browser tab scale.</p>
+    <p style="margin-bottom: 12px;">The <code style="background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 2px; font-family: monospace;">purpose: "any maskable"</code> on the SVG manifest entry covers both standard and maskable icon contexts. If a dedicated maskable PNG is required (with safe-zone padding to 80% of canvas), export the 192×192 SVG with the mark scaled to approximately 60% of the canvas area.</p>
+    <p>All SVG sources are self-contained. No external dependencies. No filters, gradients, or shadows. Compliant with all DataDomine brand rules.</p>
+  </div>
+</section>
+
+</body>
+</html>

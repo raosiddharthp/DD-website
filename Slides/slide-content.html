@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>DataDomine — Content Slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #F8F6F1;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    display: flex;
+    position: relative;
+  }
+
+  /* Left column — 30% width */
+  .left-col {
+    width: 576px; /* 30% of 1920 */
+    height: 1080px;
+    background: #0D1117;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  /* Amber vertical rule on right edge of left column */
+  .left-col::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: #D97706;
+  }
+
+  /* Domine Mark in left column top */
+  .domine-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 48px;
+    margin-left: 48px;
+  }
+  .domine-mark .dot {
+    width: 6px;   /* 16px height, ratio: dot = 10/40 * 16 = 4px → 6px for visibility */
+    height: 6px;
+    border-radius: 50%;
+    background: #D97706;
+    margin-bottom: -3px;
+    position: relative;
+    z-index: 2;
+  }
+  .domine-mark .vertical {
+    width: 2px;
+    height: 16px;
+    background: #F8F6F1;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Section number / icon area */
+  .section-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 60px 0 60px;
+    gap: 20px;
+  }
+
+  .section-number {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 100px;
+    color: #F8F6F1;
+    opacity: 0.08;
+    line-height: 1;
+    letter-spacing: -4px;
+  }
+
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #64748B;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .section-label::before {
+    content: '[ SECTION ]';
+  }
+
+  /* Bottom wordmark in left column */
+  .left-col .wordmark-small {
+    position: absolute;
+    bottom: 36px;
+    left: 48px;
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+  }
+  .wordmark-small .data { font-weight: 300; color: #F8F6F1; }
+  .wordmark-small .domine-d { font-weight: 700; color: #D97706; }
+  .wordmark-small .domine-rest { font-weight: 700; color: #F8F6F1; }
+
+  /* Right column — 70% width */
+  .right-col {
+    flex: 1;
+    height: 1080px;
+    background: #F8F6F1;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 100px 60px 80px;
+    position: relative;
+  }
+
+  /* Slide title placeholder */
+  .slide-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: #0D1117;
+    letter-spacing: -0.3px;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(13,17,23,0.1);
+  }
+  .slide-title::before {
+    content: '[ SLIDE TITLE ]';
+    opacity: 0.3;
+  }
+
+  /* Content area placeholder */
+  .content-area {
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.7;
+    color: #0D1117;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .content-placeholder {
+    border: 1px dashed rgba(100,116,139,0.4);
+    padding: 48px 52px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .content-line {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.7;
+    color: #0D1117;
+    opacity: 0.25;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(100,116,139,0.2);
+  }
+  .content-line:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .placeholder-note {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #64748B;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  /* Slide number bottom right */
+  .slide-number {
+    position: absolute;
+    bottom: 36px;
+    right: 60px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #64748B;
+  }
+  .slide-number::before {
+    content: '00 / 00';
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- Left column -->
+  <div class="left-col">
+    <div class="domine-mark">
+      <div class="dot"></div>
+      <div class="vertical"></div>
+    </div>
+
+    <div class="section-area">
+      <div class="section-number">01</div>
+      <div class="section-label"></div>
+    </div>
+
+    <div class="wordmark-small">
+      <span class="data">Data</span><span class="domine-d">D</span><span class="domine-rest">omine</span>
+    </div>
+  </div>
+
+  <!-- Right column -->
+  <div class="right-col">
+    <div class="slide-title"></div>
+
+    <div class="content-area">
+      <div class="content-placeholder">
+        <div class="content-line">
+          Content line one — replace with body copy at 20px Inter Regular, line-height 1.7. 
+          The paragraph depth should reflect the weight of the argument being made.
+        </div>
+        <div class="content-line">
+          Content line two — supporting point, elaboration, or evidence. 
+          Keep prose dense and precise in the DataDomine voice.
+        </div>
+        <div class="content-line">
+          Content line three — conclusion, implication, or call to action. 
+          End the slide with something the audience can act on.
+        </div>
+        <div class="placeholder-note">[ Content Area — Replace with Slide Copy ]</div>
+      </div>
+    </div>
+
+    <div class="slide-number"></div>
+  </div>
+
+</div>
+</body>
+</html>

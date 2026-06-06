@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1584">
+<title>DataDomine — LinkedIn Personal Banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1584px;
+    height: 396px;
+    overflow: hidden;
+    background: #0D1117;
+  }
+
+  .banner {
+    width: 1584px;
+    height: 396px;
+    background: #0D1117;
+    display: flex;
+    align-items: center;
+    padding: 0 72px;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Left column: wordmark + tagline */
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    min-width: 320px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+  }
+
+  .wordmark-data {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 52px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 52px;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+  }
+
+  .wordmark-domine .amber {
+    color: #D97706;
+  }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #64748B;
+    letter-spacing: 0.04em;
+  }
+
+  /* Divider */
+  .divider {
+    width: 1px;
+    height: 160px;
+    background: #64748B;
+    opacity: 0.35;
+    margin: 0 72px;
+    flex-shrink: 0;
+  }
+
+  /* Right column: credentials */
+  .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .cred-line {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: #F8F6F1;
+    letter-spacing: 0.03em;
+    opacity: 0.88;
+  }
+
+  .cred-line.url {
+    font-size: 13px;
+    color: #64748B;
+    opacity: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Far right: Domine Mark */
+  .domine-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 64px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+
+  <!-- Left: wordmark + tagline -->
+  <div class="left">
+    <div class="wordmark">
+      <span class="wordmark-data">Data</span>
+      <span class="wordmark-domine"><span class="amber">D</span>omine</span>
+    </div>
+    <div class="tagline">Production-Ready. By Design.</div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- Right: credentials -->
+  <div class="right">
+    <div class="cred-line">TOGAF EA &nbsp;·&nbsp; Google Cloud Architect &nbsp;·&nbsp; Google ML Engineer</div>
+    <div class="cred-line">Enterprise AI Architecture &nbsp;·&nbsp; ML Engineering for Regulated Industries</div>
+    <div class="cred-line url">datadomine.com</div>
+  </div>
+
+  <!-- Domine Mark: white vertical, amber dot -->
+  <div class="domine-mark">
+    <svg width="30" height="174" viewBox="0 0 30 174" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Amber dot: 10 units diameter, centre at top edge of vertical -->
+      <!-- Vertical: 4 units wide, 40 units tall — scaled to fit composition -->
+      <!-- Scale factor: vertical height = 150px → scale = 150/40 = 3.75 -->
+      <!-- Vertical width = 4 × 3.75 = 15px, Dot diameter = 10 × 3.75 = 37.5px -->
+      <!-- Centred in 30px wide SVG: vertical x = (30-15)/2 = 7.5 -->
+      <!-- Dot centre at y = dot_radius = 18.75, x = 15 -->
+      <circle cx="15" cy="18.75" r="18.75" fill="#D97706"/>
+      <rect x="7.5" y="18.75" width="15" height="150" fill="#F8F6F1"/>
+    </svg>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&amp;family=Inter:wght@300;500&amp;display=swap');
+    </style>
+    <clipPath id="contentClip">
+      <rect x="0" y="0" width="1280" height="720"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background: Deep Ink full bleed -->
+  <rect width="1280" height="720" fill="#0D1117"/>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- LEFT CONTENT AREA (0 to 832px = 65% of 1280) -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <!-- Track label: [TRACK NAME] -->
+  <text
+    x="80"
+    y="200"
+    font-family="Inter, sans-serif"
+    font-weight="500"
+    font-size="14"
+    fill="#64748B"
+    letter-spacing="3"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >[ TRACK NAME ]</text>
+
+  <!-- Amber rule 2px × 80px below track label -->
+  <rect x="80" y="218" width="80" height="2" fill="#D97706"/>
+
+  <!-- SESSION TITLE — line 1 -->
+  <text
+    x="80"
+    y="290"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="36"
+    fill="#F8F6F1"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >[ SESSION TITLE — LINE 1 ]</text>
+
+  <!-- SESSION TITLE — line 2 (optional, line-height ~1.3 → 36×1.3 ≈ 47px) -->
+  <text
+    x="80"
+    y="337"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="36"
+    fill="#F8F6F1"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >[ SESSION TITLE — LINE 2 ]</text>
+
+  <!-- One-line descriptor -->
+  <text
+    x="80"
+    y="400"
+    font-family="Inter, sans-serif"
+    font-weight="300"
+    font-size="18"
+    fill="#64748B"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >[ ONE LINE DESCRIPTOR ]</text>
+
+  <!-- "3 Hours · Online · Live" -->
+  <text
+    x="80"
+    y="510"
+    font-family="Inter, sans-serif"
+    font-weight="300"
+    font-size="14"
+    fill="#64748B"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >3 Hours · Online · Live</text>
+
+  <!-- datadomine.com in Amber -->
+  <text
+    x="80"
+    y="534"
+    font-family="Inter, sans-serif"
+    font-weight="300"
+    font-size="13"
+    fill="#D97706"
+    text-anchor="start"
+    dominant-baseline="auto"
+  >datadomine.com</text>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- AMBER VERTICAL RULE at x=832 (left edge of right 35%) -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <rect x="832" y="0" width="3" height="720" fill="#D97706"/>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- RIGHT MARK AREA (835 to 1280, centre x = 1057.5) -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <!-- DD Monogram: two IBM Plex Serif Bold D letterforms back-to-back -->
+  <!-- Rendered as SVG paths at ~160px cap-height, centred at x=1057.5, y=310 -->
+  <!-- 
+    The monogram is constructed geometrically:
+    Each D is an upright stroke (rectangle) with a semicircular bowl.
+    First D: vertical on left, bowl curves right.
+    Second D: mirrored — vertical on right, bowl curves left.
+    Both verticals share the same centre axis.
+    Single colour: Amber #D97706.
+
+    Dimensions scaled to ~160px tall:
+    Vertical stroke: 18px wide × 160px tall
+    Bowl outer radius: 64px, inner radius: 46px
+    Total width per D: 18 + 64 = 82px
+    Combined width: 82 + 18 + 82 = 182px (shared vertical = 18px)
+    Centre x = 1057.5, so left edge = 1057.5 - 91 = 966.5
+    Vertical stroke x: 966.5 to 984.5 (left D) and 1130.5 to 1148.5 (right D)
+    Shared centre axis at x = 1057.5, vertical span y: 230 to 390
+  -->
+
+  <!-- DD Monogram group, centred in right panel -->
+  <g transform="translate(1057.5, 310)">
+    <!-- Left D: vertical stroke + right-facing bowl -->
+    <!-- Vertical: x -91 to -73, y -80 to 80 -->
+    <rect x="-91" y="-80" width="18" height="160" fill="#D97706"/>
+    <!-- Bowl (right-facing): outer semicircle - inner semicircle -->
+    <!-- Outer arc: r=64, inner arc: r=46, centred at x=-73, y=0 -->
+    <path d="M -73,-64 A 64,64 0 0,1 -73,64 L -73,46 A 46,46 0 0,0 -73,-46 Z" fill="#D97706"/>
+
+    <!-- Right D: vertical stroke + left-facing bowl (mirrored) -->
+    <!-- Vertical: x 73 to 91, y -80 to 80 -->
+    <rect x="73" y="-80" width="18" height="160" fill="#D97706"/>
+    <!-- Bowl (left-facing): outer semicircle - inner semicircle -->
+    <path d="M 73,-64 A 64,64 0 0,0 73,64 L 73,46 A 46,46 0 0,1 73,-46 Z" fill="#D97706"/>
+  </g>
+
+  <!-- "DataDomine" below monogram -->
+  <text
+    x="1057.5"
+    y="430"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="16"
+    fill="#F8F6F1"
+    text-anchor="middle"
+    dominant-baseline="auto"
+  >DataDomine</text>
+
+  <!-- "Production-Ready. By Design." below brand name -->
+  <text
+    x="1057.5"
+    y="452"
+    font-family="Inter, sans-serif"
+    font-weight="300"
+    font-size="12"
+    fill="#64748B"
+    text-anchor="middle"
+    dominant-baseline="auto"
+  >Production-Ready. By Design.</text>
+
+</svg>

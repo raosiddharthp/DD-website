@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 323 96" role="img" aria-label="DataDomine wordmark on Architectural White">
+  <title>DataDomine — On White</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Architectural White background -->
+  <rect width="323" height="96" fill="#F8F6F1"/>
+
+  <!-- "Data" — Deep Ink -->
+  <text
+    x="24"
+    y="66"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="300"
+    font-size="48"
+    letter-spacing="0.96"
+    fill="#0D1117"
+    xml:space="preserve">Data</text>
+
+  <!-- "D" — Amber -->
+  <text
+    x="129.79"
+    y="66"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#D97706"
+    xml:space="preserve">D</text>
+
+  <!-- "omine" — Deep Ink -->
+  <text
+    x="164.45"
+    y="66"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#0D1117"
+    xml:space="preserve">omine</text>
+</svg>

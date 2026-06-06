@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — Live Intensives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Tokens ── */
+  :root {
+    --ink:   #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+    --col-gap: 28px;
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --pad-x: 14mm;
+    --pad-bot: 10mm;
+  }
+
+  /* ── Page shell ── */
+  html, body {
+    background: #CBD5E1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px 0 48px;
+    font-family: 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--white);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Top band ── */
+  .top-band {
+    background: var(--ink);
+    color: var(--white);
+    padding: 10mm var(--pad-x) 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    position: relative;
+  }
+
+  .top-band__tier-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .top-band__tier-label::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .top-band__programme-name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 22pt;
+    line-height: 1.1;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+
+  .top-band__tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 9pt;
+    color: rgba(248,246,241,0.62);
+    letter-spacing: 0.04em;
+    margin-top: 1mm;
+  }
+
+  /* Domine mark top-right */
+  .top-band__mark {
+    position: absolute;
+    right: var(--pad-x);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Amber rule ── */
+  .amber-rule {
+    width: 100%;
+    height: 2px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  /* ── Body: two columns ── */
+  .body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .col {
+    padding: 8mm var(--pad-x) var(--pad-bot);
+  }
+
+  .col--left {
+    padding-right: calc(var(--col-gap) / 2);
+    border-right: 1px solid rgba(13,17,23,0.10);
+  }
+
+  .col--right {
+    padding-left: calc(var(--col-gap) / 2);
+  }
+
+  /* ── Section blocks ── */
+  .section {
+    margin-bottom: 6mm;
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section__label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6.5pt;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2.5mm;
+  }
+
+  .section__heading {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 11pt;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 2mm;
+  }
+
+  .section__body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8.2pt;
+    line-height: 1.62;
+    color: var(--ink);
+  }
+
+  .section__body p + p {
+    margin-top: 2mm;
+  }
+
+  /* ── Format meta box ── */
+  .meta-box {
+    border: 1px solid rgba(13,17,23,0.12);
+    padding: 4mm 4.5mm;
+    margin-top: 0;
+  }
+
+  .meta-box__row {
+    display: flex;
+    gap: 3mm;
+    align-items: baseline;
+    margin-bottom: 1.8mm;
+  }
+
+  .meta-box__row:last-child {
+    margin-bottom: 0;
+  }
+
+  .meta-box__key {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate);
+    min-width: 16mm;
+    flex-shrink: 0;
+  }
+
+  .meta-box__val {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.8pt;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  /* ── After session note ── */
+  .after-note {
+    padding: 3.5mm 4mm;
+    border-left: 2px solid rgba(13,17,23,0.12);
+  }
+
+  .after-note p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8pt;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .after-note p + p {
+    margin-top: 1.5mm;
+  }
+
+  /* ── Topic library ── */
+  .track-block {
+    padding-bottom: 3.5mm;
+    margin-bottom: 3mm;
+  }
+
+  .track-block:not(:last-child) {
+    border-bottom: 1.5px solid var(--amber);
+  }
+
+  .track-block:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .track-block__header {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 2mm;
+  }
+
+  .track-block__id {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .track-block__name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .session-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+  }
+
+  .session-list li {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+  }
+
+  .session-list__code {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6.8pt;
+    color: var(--slate);
+    min-width: 6mm;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .session-list__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  /* ── Footer band ── */
+  .footer-band {
+    background: var(--ink);
+    color: rgba(248,246,241,0.55);
+    padding: 4mm var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .footer-band__wordmark {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 9pt;
+  }
+
+  .footer-band__wordmark span.data {
+    font-weight: 300;
+    color: rgba(248,246,241,0.7);
+  }
+
+  .footer-band__wordmark span.domine {
+    font-weight: 700;
+    color: rgba(248,246,241,0.7);
+  }
+
+  .footer-band__wordmark span.d-amber {
+    color: var(--amber);
+  }
+
+  .footer-band__contact {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.5pt;
+    line-height: 1.55;
+    color: rgba(248,246,241,0.55);
+    text-align: center;
+  }
+
+  .footer-band__contact span.email {
+    display: block;
+    color: rgba(248,246,241,0.75);
+    font-weight: 500;
+  }
+
+  .footer-band__contact span.subject {
+    display: block;
+    font-size: 6.8pt;
+    letter-spacing: 0.06em;
+    color: rgba(248,246,241,0.38);
+    margin-top: 0.5mm;
+  }
+
+  .footer-band__tagline {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 7.5pt;
+    letter-spacing: 0.04em;
+    color: rgba(248,246,241,0.4);
+    font-style: italic;
+  }
+
+  /* ── Print ── */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      background: none;
+      padding: 0;
+      min-height: unset;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP BAND -->
+  <div class="top-band">
+    <div class="top-band__tier-label">Tier 3</div>
+    <div class="top-band__programme-name">Live Intensives</div>
+    <div class="top-band__tagline">Production-Ready. By Design.</div>
+
+    <!-- Domine mark -->
+    <div class="top-band__mark">
+      <svg width="24" height="64" viewBox="0 0 24 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="10" r="10" fill="#D97706"/>
+        <rect x="10" y="10" width="4" height="44" fill="#F8F6F1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- AMBER RULE -->
+  <div class="amber-rule"></div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col col--left">
+
+      <div class="section">
+        <div class="section__label">What A Live Intensive Is</div>
+        <div class="section__body">
+          <p>Three hours. One decision. Real working time. Not a webinar — a structured working session with a defined output that participants leave with. The topic is specific, the method is precise, and the time is used. There is no padding, no motivational framing, and no content that could have been a document.</p>
+          <p>Every session is built around a single lens from the Clarity Point Framework, applied to a problem class the participant recognises from their own work.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__label">Who These Are For</div>
+        <div class="section__body">
+          <p>Individual practitioners. Open enrolment. No company approval required, no cohort commitment, no prerequisite. Pay and attend. The format is designed for the practitioner who needs to move on a specific decision or capability now, not at the next budget cycle.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__label">Format</div>
+        <div class="meta-box">
+          <div class="meta-box__row">
+            <div class="meta-box__key">Duration</div>
+            <div class="meta-box__val">3 hours online</div>
+          </div>
+          <div class="meta-box__row">
+            <div class="meta-box__key">Capacity</div>
+            <div class="meta-box__val">Maximum 20 participants</div>
+          </div>
+          <div class="meta-box__row">
+            <div class="meta-box__key">Structure</div>
+            <div class="meta-box__val">Q&amp;A and application built in</div>
+          </div>
+          <div class="meta-box__row">
+            <div class="meta-box__key">Pricing</div>
+            <div class="meta-box__val">£120–£180 per session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__label">After The Session</div>
+        <div class="after-note">
+          <p>Every live session is recorded. Recordings are made available as on-demand products for practitioners who cannot attend the live date or who want to return to the material.</p>
+          <p>Join the interest list to be notified when sessions are scheduled and when recordings become available.</p>
+        </div>
+      </div>
+
+    </div><!-- /col--left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="col col--right">
+
+      <div class="section">
+        <div class="section__label">The Topic Library</div>
+
+        <!-- Track 1 -->
+        <div class="track-block">
+          <div class="track-block__header">
+            <span class="track-block__id">Track 1</span>
+            <span class="track-block__name">Architectural Judgment</span>
+          </div>
+          <ul class="session-list">
+            <li>
+              <span class="session-list__code">A1</span>
+              <span class="session-list__title">The Production Ready Standard</span>
+            </li>
+            <li>
+              <span class="session-list__code">A2</span>
+              <span class="session-list__title">Economic Decisions First</span>
+            </li>
+            <li>
+              <span class="session-list__code">A3</span>
+              <span class="session-list__title">ADRs That Survive Scrutiny</span>
+            </li>
+            <li>
+              <span class="session-list__code">A4</span>
+              <span class="session-list__title">HITL as a Structural Constraint</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="track-block">
+          <div class="track-block__header">
+            <span class="track-block__id">Track 2</span>
+            <span class="track-block__name">ML Engineering for Production</span>
+          </div>
+          <ul class="session-list">
+            <li>
+              <span class="session-list__code">B1</span>
+              <span class="session-list__title">Model Selection as a Constraint Satisfaction Problem</span>
+            </li>
+            <li>
+              <span class="session-list__code">B2</span>
+              <span class="session-list__title">SHAP as a Compliance Artefact</span>
+            </li>
+            <li>
+              <span class="session-list__code">B3</span>
+              <span class="session-list__title">Drift Detection as a Governed Process</span>
+            </li>
+            <li>
+              <span class="session-list__code">B4</span>
+              <span class="session-list__title">The Unbuilt Model</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="track-block">
+          <div class="track-block__header">
+            <span class="track-block__id">Track 3</span>
+            <span class="track-block__name">The Human Layer</span>
+          </div>
+          <ul class="session-list">
+            <li>
+              <span class="session-list__code">C1</span>
+              <span class="session-list__title">Getting the ARB to Yes</span>
+            </li>
+            <li>
+              <span class="session-list__code">C2</span>
+              <span class="session-list__title">The Sprint Negotiation</span>
+            </li>
+            <li>
+              <span class="session-list__code">C3</span>
+              <span class="session-list__title">The Handoff Standard</span>
+            </li>
+            <li>
+              <span class="session-list__code">C4</span>
+              <span class="session-list__title">Reading the Turtles</span>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /section -->
+
+    </div><!-- /col--right -->
+
+  </div><!-- /body -->
+
+  <!-- FOOTER BAND -->
+  <div class="footer-band">
+    <div class="footer-band__wordmark">
+      <span class="data">Data</span><span class="domine"><span class="d-amber">D</span>omine</span>
+    </div>
+    <div class="footer-band__contact">
+      <span class="email">hello@datadomine.com</span>
+      <span class="subject">Subject: Live Intensives Interest</span>
+    </div>
+    <div class="footer-band__tagline">Production-Ready. By Design.</div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>DataDomine — Section Divider Slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #0D1117;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    display: flex;
+    position: relative;
+  }
+
+  /* Left 40% — Deep Ink */
+  .left-panel {
+    width: 768px; /* 40% of 1920 */
+    height: 1080px;
+    background: #0D1117;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  /* Amber vertical rule at 40% boundary */
+  .amber-divider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: #D97706;
+    z-index: 10;
+  }
+
+  /* Section number — centred in left 40% */
+  .section-number {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 120px;
+    color: #D97706;
+    line-height: 1;
+    letter-spacing: -6px;
+    text-align: center;
+    user-select: none;
+  }
+
+  /* Domine Mark bottom left */
+  .domine-mark {
+    position: absolute;
+    bottom: 48px;
+    left: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .domine-mark .dot {
+    width: 8px;   /* 20px height mark: dot diameter = 10/40 * 20 = 5px → 8px for presence */
+    height: 8px;
+    border-radius: 50%;
+    background: #D97706;
+    margin-bottom: -4px;
+    position: relative;
+    z-index: 2;
+  }
+  .domine-mark .vertical {
+    width: 2.5px;
+    height: 20px;
+    background: #F8F6F1;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Right 60% — slightly lighter */
+  .right-panel {
+    flex: 1;
+    height: 1080px;
+    background: #161B22;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 120px 0 100px;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Section title */
+  .section-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: #F8F6F1;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 32px;
+  }
+  .section-title::before {
+    content: '[ Section Title ]';
+    opacity: 0.35;
+  }
+
+  /* Section subtitle */
+  .section-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    color: #64748B;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    max-width: 760px;
+  }
+  .section-subtitle::before {
+    content: '[ Section subtitle — one sentence that frames what follows ]';
+    opacity: 0.5;
+  }
+
+  /* Decorative large numeral echo — background texture */
+  .number-echo {
+    position: absolute;
+    right: 80px;
+    bottom: -20px;
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 320px;
+    color: #F8F6F1;
+    opacity: 0.025;
+    line-height: 1;
+    letter-spacing: -16px;
+    user-select: none;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- Left panel -->
+  <div class="left-panel">
+    <div class="section-number">01</div>
+
+    <!-- Amber vertical rule at boundary -->
+    <div class="amber-divider"></div>
+
+    <!-- Domine Mark bottom left -->
+    <div class="domine-mark">
+      <div class="dot"></div>
+      <div class="vertical"></div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right-panel">
+    <div class="section-title"></div>
+    <div class="section-subtitle"></div>
+    <!-- Background number echo for depth -->
+    <div class="number-echo">01</div>
+  </div>
+
+</div>
+</body>
+</html>

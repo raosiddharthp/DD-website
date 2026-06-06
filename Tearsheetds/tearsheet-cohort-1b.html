@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataDomine — Cohort 1B: ML Engineering for Regulated Industries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Tokens ── */
+  :root {
+    --ink:   #0D1117;
+    --white: #F8F6F1;
+    --slate: #64748B;
+    --amber: #D97706;
+    --col-gap: 28px;
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --pad-x: 14mm;
+    --pad-top: 0mm;
+    --pad-bot: 10mm;
+  }
+
+  /* ── Page shell ── */
+  html, body {
+    background: #CBD5E1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px 0 48px;
+    font-family: 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--white);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Top band ── */
+  .top-band {
+    background: var(--ink);
+    color: var(--white);
+    padding: 10mm var(--pad-x) 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    position: relative;
+  }
+
+  .top-band__cohort-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .top-band__cohort-label::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .top-band__programme-name {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 22pt;
+    line-height: 1.1;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+
+  .top-band__tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 9pt;
+    color: rgba(248,246,241,0.62);
+    letter-spacing: 0.04em;
+    margin-top: 1mm;
+  }
+
+  /* Domine mark in top-right corner */
+  .top-band__mark {
+    position: absolute;
+    right: var(--pad-x);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── Divider rule ── */
+  .amber-rule {
+    width: 100%;
+    height: 2px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  /* ── Body: two columns ── */
+  .body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .col {
+    padding: 8mm var(--pad-x) var(--pad-bot);
+  }
+
+  .col--left {
+    padding-right: calc(var(--col-gap) / 2);
+    border-right: 1px solid rgba(13,17,23,0.10);
+  }
+
+  .col--right {
+    padding-left: calc(var(--col-gap) / 2);
+  }
+
+  /* ── Section blocks ── */
+  .section {
+    margin-bottom: 6mm;
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section__label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6.5pt;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2.5mm;
+  }
+
+  .section__heading {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 11pt;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 2mm;
+  }
+
+  .section__body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8.2pt;
+    line-height: 1.62;
+    color: var(--ink);
+  }
+
+  .section__body p + p {
+    margin-top: 2mm;
+  }
+
+  /* Artefact list */
+  .artefact-list {
+    list-style: none;
+    margin-top: 2mm;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4mm;
+  }
+
+  .artefact-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    line-height: 1.4;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .artefact-list li::before {
+    content: '—';
+    color: var(--slate);
+    flex-shrink: 0;
+    font-size: 7.5pt;
+  }
+
+  /* Weekend blocks */
+  .weekend-block {
+    margin-bottom: 4mm;
+  }
+
+  .weekend-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .weekend-block__header {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 1.5mm;
+  }
+
+  .weekend-block__number {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 700;
+    font-size: 8pt;
+    color: var(--ink);
+  }
+
+  .weekend-block__title {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 8pt;
+    color: var(--slate);
+  }
+
+  .weekend-block__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+    margin-bottom: 1px;
+  }
+
+  .chapter-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8mm;
+    padding-left: 3mm;
+    border-left: 1.5px solid rgba(13,17,23,0.10);
+  }
+
+  .chapter-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.4pt;
+    line-height: 1.4;
+    color: var(--slate);
+  }
+
+  .chapter-list li span.ch-num {
+    color: rgba(13,17,23,0.35);
+    font-size: 6.8pt;
+    margin-right: 3px;
+  }
+
+  /* Format + Pricing box */
+  .meta-box {
+    border: 1px solid rgba(13,17,23,0.12);
+    padding: 4mm 4.5mm;
+    margin-top: 5mm;
+  }
+
+  .meta-box__row {
+    display: flex;
+    gap: 3mm;
+    align-items: baseline;
+    margin-bottom: 1.8mm;
+  }
+
+  .meta-box__row:last-child {
+    margin-bottom: 0;
+  }
+
+  .meta-box__key {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 6.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate);
+    min-width: 16mm;
+    flex-shrink: 0;
+  }
+
+  .meta-box__val {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.8pt;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .meta-box__val strong {
+    font-weight: 600;
+  }
+
+  /* ── Footer band ── */
+  .footer-band {
+    background: var(--ink);
+    color: rgba(248,246,241,0.55);
+    padding: 4mm var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .footer-band__wordmark {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 9pt;
+  }
+
+  .footer-band__wordmark span.data {
+    font-weight: 300;
+    color: rgba(248,246,241,0.7);
+  }
+
+  .footer-band__wordmark span.domine {
+    font-weight: 700;
+    color: rgba(248,246,241,0.7);
+  }
+
+  .footer-band__wordmark span.d-amber {
+    color: var(--amber);
+  }
+
+  .footer-band__contact {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.5pt;
+    letter-spacing: 0.02em;
+    color: rgba(248,246,241,0.55);
+  }
+
+  .footer-band__tagline {
+    font-family: 'IBM Plex Serif', serif;
+    font-weight: 300;
+    font-size: 7.5pt;
+    letter-spacing: 0.04em;
+    color: rgba(248,246,241,0.4);
+    font-style: italic;
+  }
+
+  /* ── Print styles ── */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      background: none;
+      padding: 0;
+      min-height: unset;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP BAND -->
+  <div class="top-band">
+    <div class="top-band__cohort-label">Cohort 1B</div>
+    <div class="top-band__programme-name">ML Engineering<br>for Regulated Industries</div>
+    <div class="top-band__tagline">Production-Ready. By Design.</div>
+
+    <!-- Domine mark: vertical rect + amber dot, SVG inline -->
+    <div class="top-band__mark">
+      <svg width="24" height="64" viewBox="0 0 24 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- amber dot centred at top of vertical; dot centre = top edge of rect -->
+        <circle cx="12" cy="10" r="10" fill="#D97706"/>
+        <!-- vertical rect: 4 units wide, 40 tall, centred; starts at top edge (y=10) -->
+        <rect x="10" y="10" width="4" height="44" fill="#F8F6F1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- AMBER RULE -->
+  <div class="amber-rule"></div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col col--left">
+
+      <div class="section">
+        <div class="section__label">The Problem</div>
+        <div class="section__heading">Models are not systems.</div>
+        <div class="section__body">
+          <p>Most ML programmes teach practitioners how to build models. Almost none teach them how to build the systems around the model — the governance layer, the audit trail, the retraining pipeline, the compliance documentation — that make those models viable in a regulated production environment.</p>
+          <p>The result is a practitioner who can train and evaluate a model but cannot answer the questions that matter to a risk committee, a compliance officer, or a regulated board: How does this decision get explained? How is drift detected and governed? Who owns the retraining trigger? What is the audit trail if a prediction is challenged?</p>
+          <p>These are not peripheral concerns. In regulated environments they are the difference between a model that reaches production and one that does not.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__label">Who This Is For</div>
+        <div class="section__body">
+          <p>ML Engineers, Data Scientists, and Senior Developers building ML systems in finance, healthcare, supply chain, insurance, or any regulated environment where models must survive a compliance audit, pass a risk review, and sustain a governed production lifecycle.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__label">What You Leave With</div>
+        <div class="section__body">
+          <p>A complete ML system artefact — a portfolio piece you can present to a governance board, a risk committee, or a hiring manager.</p>
+        </div>
+        <ul class="artefact-list">
+          <li>Model card</li>
+          <li>Feature register</li>
+          <li>Architecture Decision Record log</li>
+          <li>Compliance mapping</li>
+          <li>MLOps architecture</li>
+          <li>Drift governance document</li>
+          <li>Failure modes register</li>
+          <li>Handoff checklist</li>
+        </ul>
+      </div>
+
+    </div><!-- /col--left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="col col--right">
+
+      <div class="section">
+        <div class="section__label">The Programme</div>
+
+        <!-- Weekend 1 -->
+        <div class="weekend-block">
+          <div class="weekend-block__header">
+            <span class="weekend-block__number">Weekend 1</span>
+            <span class="weekend-block__dot"></span>
+            <span class="weekend-block__title">Foundation and Judgment &middot; 6 chapters</span>
+          </div>
+          <ul class="chapter-list">
+            <li><span class="ch-num">01</span>What Production Ready Means for an ML System</li>
+            <li><span class="ch-num">02</span>Reading The Terrain: The Three ML Contexts</li>
+            <li><span class="ch-num">03</span>The Data Behind The ML Decision</li>
+            <li><span class="ch-num">04</span>Economic Decisions First: The ML Cost Structure</li>
+            <li><span class="ch-num">05</span>The Human Transactions</li>
+            <li><span class="ch-num">06</span>The Turtles: Who Blocks ML Systems and Why</li>
+          </ul>
+        </div>
+
+        <!-- Weekend 2 -->
+        <div class="weekend-block">
+          <div class="weekend-block__header">
+            <span class="weekend-block__number">Weekend 2</span>
+            <span class="weekend-block__dot"></span>
+            <span class="weekend-block__title">Design and Decision &middot; 7 chapters</span>
+          </div>
+          <ul class="chapter-list">
+            <li><span class="ch-num">07</span>The ML System Stack: Layers, Ownership, Boundaries</li>
+            <li><span class="ch-num">08</span>ADRs For ML Engineers</li>
+            <li><span class="ch-num">09</span>Feature Engineering Under Data Governance Obligations</li>
+            <li><span class="ch-num">10</span>SHAP, XAI, and Compliance Artefacts</li>
+            <li><span class="ch-num">11</span>Model Selection as a Constraint Satisfaction Problem</li>
+            <li><span class="ch-num">12</span>MLOps for Regulated Environments</li>
+            <li><span class="ch-num">13</span>Drift Detection and Retraining as a Governed Process</li>
+          </ul>
+        </div>
+
+        <!-- Weekend 3 -->
+        <div class="weekend-block">
+          <div class="weekend-block__header">
+            <span class="weekend-block__number">Weekend 3</span>
+            <span class="weekend-block__dot"></span>
+            <span class="weekend-block__title">Defence and Handoff &middot; 5 chapters</span>
+          </div>
+          <ul class="chapter-list">
+            <li><span class="ch-num">14</span>Agile Value Flow: Getting ML Work Into The Sprint</li>
+            <li><span class="ch-num">15</span>The ML Failure Modes Taxonomy</li>
+            <li><span class="ch-num">16</span>The Unbuilt Model</li>
+            <li><span class="ch-num">17</span>The ML Handoff: Giving and Receiving</li>
+            <li><span class="ch-num">18</span>The Capstone: Build, Defend, and Hand Off</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Format + Pricing -->
+      <div class="meta-box">
+        <div class="meta-box__row">
+          <div class="meta-box__key">Format</div>
+          <div class="meta-box__val">Three weekends &middot; 7 hours per day &middot; 6 sessions &middot; 42 hours contact time &middot; Maximum 12 participants</div>
+        </div>
+        <div class="meta-box__row">
+          <div class="meta-box__key">Pricing</div>
+          <div class="meta-box__val"><strong>£1,800</strong> founder price &middot; £2,500 self-funded &middot; £3,500 employer-sponsored</div>
+        </div>
+        <div class="meta-box__row">
+          <div class="meta-box__key">Enrolment</div>
+          <div class="meta-box__val">hello@datadomine.com</div>
+        </div>
+      </div>
+
+    </div><!-- /col--right -->
+
+  </div><!-- /body -->
+
+  <!-- FOOTER BAND -->
+  <div class="footer-band">
+    <div class="footer-band__wordmark">
+      <span class="data">Data</span><span class="domine"><span class="d-amber">D</span>omine</span>
+    </div>
+    <div class="footer-band__tagline">Production-Ready. By Design.</div>
+    <div class="footer-band__contact">hello@datadomine.com</div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>

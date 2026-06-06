@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335 88" role="img" aria-label="DataDomine full logo lockup">
+  <title>DataDomine — Full Logo Lockup</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;700&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- The Domine Mark -->
+  <!-- Vertical rectangle: 3.6px wide, 36px tall, top at y=26, centred at x=21.8 -->
+  <rect
+    x="20"
+    y="26"
+    width="3.60"
+    height="36"
+    fill="#0D1117"/>
+
+  <!-- Amber dot: 9px diameter, centred horizontally on the vertical, centred vertically on the top edge -->
+  <circle
+    cx="21.80"
+    cy="26"
+    r="4.50"
+    fill="#D97706"/>
+
+  <!-- Wordmark -->
+
+  <!-- "Data" — IBM Plex Serif Light 300, Deep Ink, letter-spacing 0.02em -->
+  <text
+    x="39.60"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="300"
+    font-size="48"
+    letter-spacing="0.96"
+    fill="#0D1117"
+    xml:space="preserve">Data</text>
+
+  <!-- "D" — IBM Plex Serif Bold 700, Amber -->
+  <text
+    x="145.39"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#D97706"
+    xml:space="preserve">D</text>
+
+  <!-- "omine" — IBM Plex Serif Bold 700, Deep Ink -->
+  <text
+    x="180.05"
+    y="62"
+    font-family="'IBM Plex Serif', Georgia, serif"
+    font-weight="700"
+    font-size="48"
+    letter-spacing="0"
+    fill="#0D1117"
+    xml:space="preserve">omine</text>
+</svg>
