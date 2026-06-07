@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On-prem AI is not a cost decision. It's a sovereignty decision. | Siddharth Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero .meta {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.06em;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+  .article-wrap p {
+    font-size: 1.08rem;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+  .article-wrap p::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin-right: 0.1em;
+    margin-top: 0.08em;
+    color: var(--navy);
+  }
+  .article-wrap p + p::first-letter { all: unset; }
+  .article-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 3.2rem 0 1.2rem;
+    line-height: 1.25;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 2.4rem 0;
+    padding: 4px 0 4px 28px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.22rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  /* ── FORCING FUNCTION TABLE ── */
+  .forcing-list {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .fl-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .fl-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+  }
+  .fl-row:last-child { border-bottom: none; }
+  .fl-row:nth-child(even) { background: #fafafa; }
+  .fl-trigger {
+    padding: 20px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--navy);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .fl-consequence {
+    padding: 20px 28px;
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── CONTRAST FRAME ── */
+  .contrast-frame {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cf-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .cf-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .cf-col {
+    padding: 28px;
+    background: white;
+  }
+  .cf-col:first-child {
+    border-right: 1px solid var(--rule);
+    background: #fafafa;
+  }
+  .cf-col-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .cf-col:first-child .cf-col-label { color: #c0392b; }
+  .cf-col:last-child .cf-col-label { color: #27ae60; }
+  .cf-col-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .cf-col p {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 0;
+  }
+  .cf-col p::first-letter { all: unset; }
+  .cf-items {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cf-item {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 3px;
+    line-height: 1.45;
+  }
+  .cf-col:first-child .cf-item { background: #fdecea; color: #c0392b; }
+  .cf-col:last-child .cf-item { background: #eafaf1; color: #27ae60; }
+
+  /* ── FOOTNOTES ── */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* ── AUTHOR BIO ── */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .fl-row { grid-template-columns: 1fr; }
+    .fl-consequence { border-top: 1px solid var(--rule); }
+    .cf-cols { grid-template-columns: 1fr; }
+    .cf-col:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Rao</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Applied Machine Learning</span>
+  <h1>On-prem AI is not a cost decision.<br>It's a sovereignty decision.</h1>
+  <p class="deck">Every cloud versus on-premises AI debate I have watched starts in the wrong place. It starts with cost. The actual forcing functions — the ones that make the architecture non-negotiable — are legal, regulatory, and contractual. Cost is a consequence. It is not the cause.</p>
+  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 13 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>There is a version of the on-prem versus cloud conversation that I used to have a lot, and it always went the same way. Someone would propose building an AI system using a cloud API. Someone else would raise on-prem as an alternative, and the debate would immediately become a cost conversation — API costs at scale, GPU infrastructure costs, total cost of ownership models, break-even query volumes. The right numbers would get traded back and forth, and the team would eventually land on whichever option had the better spreadsheet.</p>
+
+  <p>What that conversation almost never included was the question that should have come first: is cloud even an option?</p>
+
+  <p>For a manufacturing firm operating under an aerospace supply chain contract with data sovereignty clauses, the answer is no. Not "no, it's expensive." Just no — the contract prohibits sending certain document categories to third-party APIs, and that prohibition does not have a price. It is not a preference to be weighed against per-query savings. It is a legal constraint that removes cloud from the decision table before the cost model is opened.</p>
+
+  <p>The same is true for organisations operating under GDPR or PDPA with personal data in queries, for financial institutions where model weight ownership is a regulatory requirement, for defence supply chain contractors under ITAR, and for healthcare organisations whose patient data classification makes cloud inference a compliance violation rather than a cost item. In every one of these cases, the architecture is not chosen. It is determined. The debate about cost comes later, if it comes at all.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What sovereignty actually means in practice</h2>
+
+  <p>Sovereignty, in the context of AI deployment, means control over three things: where your data goes, who can access your model weights, and whether your system's behaviour can be audited and demonstrated on demand. Each of these has a practical consequence for architecture, and each of them is determined by legal and contractual constraints rather than technical preference.</p>
+
+  <p>Data sovereignty is the most commonly understood of the three. When a user submits a query to an AI system, that query — along with any context it contains — travels to wherever the inference endpoint is hosted. For a cloud API, that means it leaves your network, passes through a third-party infrastructure provider's systems, and generates a response that is returned to you. If the query contains proprietary process documentation, personal data, or information subject to a contractual confidentiality clause, you have just sent that information outside your legal boundary. The question is not whether that is acceptable on a cost basis. The question is whether it is permitted at all.</p>
+
+  <p>Model weight sovereignty is less often discussed but equally important in regulated environments. The EU AI Act's high-risk provisions require operators to demonstrate weight ownership, training data lineage, and the ability to freeze and version the deployed model for audit purposes. A proprietary API satisfies none of these requirements. The weights are inaccessible. The training data went to a third-party server. The model version is controlled by the vendor, who may update it without notice. For a system that must be demonstrably compliant to a regulator, these are not inconveniences — they are disqualifying properties of the architecture.</p>
+
+  <blockquote>
+    <p>Regulatory defensibility is not a property you add to a system after it is built. It is a property the architecture either has or does not have from the first design decision.</p>
+  </blockquote>
+
+  <p>Audit sovereignty — the ability to explain, on demand, exactly what the system did and why — is the third dimension. In a cloud deployment, the inference process is a black box you do not control. You can log inputs and outputs. You cannot log the internal reasoning pathway, the version of the model that was active at the time of a specific decision, or the exact weights that produced a given output. For a system used in credit scoring, insurance risk assessment, or clinical decision support, the inability to reconstruct a specific inference for audit purposes is not an operational inconvenience. It is a legal exposure.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The three forcing functions — and what they actually force</h2>
+
+  <p>Across the systems I have designed, the forcing functions that mandate on-prem architecture fall into three categories. They are distinct in their mechanism, but they share the same property: they are not negotiable on cost grounds. No cost model makes them go away. The architecture must accommodate them before any other design decision is made.</p>
+
+  <div class="forcing-list">
+    <div class="fl-header">The three sovereignty forcing functions — what they are and what they eliminate</div>
+
+    <div class="fl-row">
+      <div class="fl-trigger">Contractual data classification</div>
+      <div class="fl-consequence">Supply chain contracts in aerospace, automotive, and defence routinely contain clauses that prohibit transmitting specified document categories — manufacturing procedures, process parameters, quality specifications — to third-party systems. These are not security preferences. They are contractual obligations with defined consequences for breach. When the documents that need to be indexed and queried fall into a prohibited category, cloud RAG services are not an option to be weighed. They are contractually excluded. The architecture is on-prem by definition, and the only design questions are about which on-prem components are viable given the available hardware and network constraints.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-trigger">Regulatory data residency</div>
+      <div class="fl-consequence">GDPR Article 44 restricts transfers of personal data to third countries without adequate protections. Singapore's PDPA Section 26 imposes similar restrictions on cross-border data transfers. When user queries contain personal data — names, account numbers, health identifiers, employment records — sending those queries to a cloud inference endpoint in a non-compliant jurisdiction is a regulatory violation. This is not resolved by choosing a cloud provider with a local data centre, because the data still passes through that provider's global infrastructure for processing. The only architecture that guarantees data residency with certainty is one where inference runs on hardware you control, in a network boundary you control, with data that never leaves it. On-prem is not the conservative choice in this context. It is the compliant one.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-trigger">Model weight ownership for high-risk AI</div>
+      <div class="fl-consequence">The EU AI Act classifies AI systems in credit scoring, insurance, healthcare decision support, and employment management as high-risk. High-risk systems require documented evidence of five obligations: data governance, technical documentation, transparency, human oversight, and accuracy verification. Every one of these requires access to the model weights — to demonstrate that the training data was appropriate, that the model version was frozen at a specific point, that the inference process can be reconstructed and explained. A proprietary API satisfies none of these requirements because the weights are inaccessible and vendor-controlled. The obligation is not to use a good AI system. It is to use one whose behaviour can be demonstrated on demand to a regulator. That property only exists in an architecture where you own and control the weights.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-trigger">Air-gap network requirements</div>
+      <div class="fl-consequence">Certain operational environments are physically isolated from external networks — not as a security preference but as an engineering requirement or a contractual mandate. A factory floor with classified production processes, a military logistics system, a nuclear facility's maintenance infrastructure. In these environments, cloud inference is not expensive or slow. It is physically impossible. The architecture must operate without any external network dependency, at inference time and at index update time. Every component — the embedding model, the vector store, the language model, the speech interface — must run locally. This constraint is binary: either the system runs entirely on-prem, or it does not run at all.</div>
+    </div>
+
+  </div>
+
+  <p>What these four forcing functions have in common is that they are discovered by asking the right questions at the start of a project — not by running a cost comparison. A team that opens with "cloud or on-prem?" and immediately goes to spreadsheets will miss them entirely until the architecture is already built and a legal or compliance review surfaces them. At that point, the architecture has to be rebuilt. That is the expensive version of the lesson.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>When cost does become the argument</h2>
+
+  <p>The forcing functions above establish when on-prem is mandatory. There is a separate class of situations where on-prem is not mandatory but is architecturally superior — and in those situations, cost is the legitimate argument. It is just not the only argument, and it is not the first one.</p>
+
+  <p>At sufficient query volume, the cost structure of on-prem inference becomes decisive. A fully-loaded total cost of ownership analysis across the projects I have worked on shows on-prem running at roughly a tenth of the cost of proprietary API inference at production scale — not because on-prem is cheap, but because cloud API pricing scales with query volume and on-prem pricing does not. The marginal cost of a query against a locally-running model is approximately zero. The marginal cost of a cloud API query is the per-token price multiplied by the query length, compounded across millions of daily queries and across the full planned lifespan of the system.</p>
+
+  <p>For a manufacturing facility running continuous queries across a production floor for five years, this arithmetic is not close. The on-prem architecture has a higher upfront cost and a far lower total cost over the deployment horizon. But that argument only lands when the sovereignty questions have been asked and answered first — because if on-prem is mandatory regardless, the cost comparison is academic. And if on-prem is not mandatory, the cost argument needs to be made against the full TCO of cloud, including the engineering labour to maintain the on-prem infrastructure, not just the GPU hardware cost.</p>
+
+  <div class="contrast-frame">
+    <div class="cf-header">Cloud vs. on-prem — the real decision framework, in order</div>
+    <div class="cf-cols">
+      <div class="cf-col">
+        <div class="cf-col-label">Start here — sovereignty questions</div>
+        <div class="cf-col-title">These are binary. They determine what is possible.</div>
+        <p>If any of these answers is yes, the architecture is on-prem regardless of cost. These questions must be asked before the cost model is opened.</p>
+        <div class="cf-items">
+          <div class="cf-item">Do contractual clauses prohibit sending these documents to a third party?</div>
+          <div class="cf-item">Does regulatory data residency apply to the queries this system will process?</div>
+          <div class="cf-item">Does the deployment context require model weight ownership for audit or compliance?</div>
+          <div class="cf-item">Is the network environment air-gapped or otherwise isolated from external APIs?</div>
+        </div>
+      </div>
+      <div class="cf-col">
+        <div class="cf-col-label">Only then — cost and capability questions</div>
+        <div class="cf-col-title">These are trade-offs. They determine what is optimal.</div>
+        <p>If all sovereignty questions are answered no, the architecture is a genuine choice. Cost, capability, and operational complexity are the legitimate variables.</p>
+        <div class="cf-items">
+          <div class="cf-item">What is the projected query volume over the deployment lifespan?</div>
+          <div class="cf-item">What is the fully-loaded TCO of on-prem including engineering labour?</div>
+          <div class="cf-item">Does the team have the infrastructure capability to maintain on-prem serving?</div>
+          <div class="cf-item">What latency budget does the application require, and can local hardware meet it?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>The reason this sequencing matters is practical. A team that treats the decision as primarily a cost question will often land on cloud for the right cost reasons — lower upfront investment, managed infrastructure, no GPU procurement cycle. That is a rational choice under the assumption that cloud is available. But the assumption is doing enormous work, and it is the assumption that most teams do not check explicitly.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What this looked like for VaultRAG and AlignR</h2>
+
+  <p>For VaultRAG — the local-first RAG system for manufacturing — the sovereignty question was settled in the first conversation. The target deployment environment was a manufacturing facility in an aerospace supply chain. The documents to be indexed were ISO-controlled SOPs, equipment procedures, and maintenance records — categories subject to contractual confidentiality provisions that prohibited transmission to third-party services. Cloud RAG was not a consideration. The architecture was on-prem before any component was selected.</p>
+
+  <p>What that constraint determined downstream was substantial. The embedding model had to run locally — which meant a smaller model than would be used in a cloud deployment, with the quality implications that entails. The vector store had to be embedded, with persistent local storage, no external dependencies at query time. The language model had to run on commodity hardware — a single facility server, not a GPU cluster — which meant the 3B parameter Llama variant rather than a 70B model. The speech-to-text had to run locally via Whisper rather than through a cloud STT API. Every component choice flowed from the original sovereignty constraint.</p>
+
+  <p>For AlignR — the alignment pipeline for regulated enterprise AI — the forcing function was different in mechanism but identical in effect. The EU AI Act's high-risk provisions require documented weight ownership and a frozen, versioned model that can be reconstructed for audit purposes. A proprietary API cannot satisfy those requirements. The architecture is open-weight, self-hosted, with all training and inference running inside a private VPC boundary. No model weights or preference data leave the enterprise network.</p>
+
+  <blockquote>
+    <p>In both cases the architecture was not chosen. It was determined. The sovereignty constraint was the first design decision, and every component choice that followed was downstream of it.</p>
+  </blockquote>
+
+  <p>The cost story, in both cases, is favourable — on-prem at production scale over a multi-year deployment is significantly cheaper than cloud API equivalents at the query volumes involved. But that is a consequence of the architecture, not the reason for it. If the cost arithmetic had run the other way, the architecture would have been the same. The sovereignty constraints do not have a price.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The question that changes the conversation</h2>
+
+  <p>Most cloud versus on-prem debates are resolved by the cost model. The better question, asked before the cost model is opened, is simpler: can the data leave the network?</p>
+
+  <p>Not should it. Not is it preferable that it doesn't. Can it, under the legal, contractual, and regulatory obligations that govern this organisation and this data? If the answer is no, the architecture is on-prem. If the answer is yes, the architecture is a genuine choice and cost is a legitimate primary variable.</p>
+
+  <p>The organisations that get this wrong are almost always the ones that assumed the answer was yes without checking. Not because they were careless — but because the question is easy to overlook when the technology conversation is moving quickly and the cloud options are genuinely good. The forcing functions are buried in contracts and regulatory frameworks that ML teams are not always close to, and they do not surface naturally in a project kickoff unless someone specifically goes and finds them.</p>
+
+  <div class="callout">
+    <div class="label">The sovereignty audit — four questions before the architecture is drawn</div>
+    <p><strong>What is the data classification of the documents and queries this system will process?</strong> Not a general description — the specific classification used by your legal or compliance team, with reference to the policies and contracts that define it. If the classification includes categories subject to confidentiality provisions, data residency requirements, or cross-border transfer restrictions, those provisions define the network boundary the architecture must operate within.</p>
+    <p><strong>Does any governing contract prohibit sending these data categories to a third-party service?</strong> This is a legal question, and it requires a legal answer — not an inference by the ML team. Supply chain contracts, NDAs, and data processing agreements are the primary sources. The answer is binary. If it is yes, the architecture is on-prem regardless of the cost model.</p>
+    <p><strong>Does the regulatory framework governing this deployment require model weight ownership or the ability to reconstruct a specific inference for audit?</strong> EU AI Act high-risk provisions, financial services model risk management frameworks, and clinical AI governance requirements all impose audit obligations that proprietary APIs cannot satisfy. If the deployment falls within scope of any of these frameworks, the architecture must support weight-level auditability.</p>
+    <p><strong>What is the network environment the system must operate in?</strong> Is external network access available at inference time? At index update time? At all? The answer to this question determines not just cloud versus on-prem, but which components can have external dependencies and which must be entirely self-contained. An air-gapped environment eliminates not just cloud APIs but any component that phones home for updates, licensing checks, or telemetry.</p>
+  </div>
+
+  <p>The cost model comes after all four questions. If the answers leave cloud as a viable option, the cost model is the right tool for the final decision. If they don't, the cost model is irrelevant — and building it first, before the sovereignty questions are asked, is how teams end up redesigning a system that was already built.</p>
+
+  <p>On-prem AI is not a conservative choice or a cost optimisation. In the environments where it is the right architecture, it is the only architecture. The question is not whether to build on-prem. The question is whether you discovered that early enough to design for it from the start.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>European Parliament and Council. (2024). <em>Regulation (EU) 2024/1689 — Artificial Intelligence Act.</em> Official Journal of the European Union. — The high-risk classification and conformity assessment obligations that make model weight ownership architecturally mandatory for certain deployment contexts. Articles 9–17 are the operative provisions.</p>
+    <p>Personal Data Protection Commission (Singapore). (2012, amended 2020). <em>Personal Data Protection Act 2012.</em> Section 26: Transfer Limitation Obligation. — The cross-border data transfer restrictions that create data residency requirements for systems processing personal data of Singapore residents.</p>
+    <p>U.S. Department of State. (2022). <em>International Traffic in Arms Regulations (ITAR), 22 CFR Parts 120–130.</em> — The export control framework that governs technical data in defence supply chains. The relevant constraint for on-prem AI is the prohibition on transferring controlled technical data to foreign nationals or foreign cloud infrastructure without a licence.</p>
+    <p>Nygard, M. (2011). <em>Documenting Architecture Decisions.</em> thinkrelevance.com. — The Architecture Decision Record format used across the projects referenced here. When the forcing function for an architectural decision is a legal constraint rather than a technical preference, documenting it as an ADR is the mechanism that makes the constraint traceable and auditable over the system's lifespan.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Rao</div>
+    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes about applied ML, system design, and what happens when the two have to meet a real business problem.</p>
+  </div>
+</div>
+
+</body>
+</html>

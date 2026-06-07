@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Intensives — DataDomine</title>
+  <meta name="description" content="Three hours. One decision. Real working time. DataDomine Live Intensives are single-topic sessions for practitioners who need to move on a specific decision or capability now.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       Tokens — mirror datadomine.css
+    ───────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────── */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Main
+    ───────────────────────────────────────────────────────── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--deep-ink);
+      padding: 80px 48px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle amber accent — one element rule */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .hero__inner {
+      max-width: 860px;
+    }
+
+    .hero__tier {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero__tier::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .hero__heading {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 52px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--arch-white);
+      margin-bottom: 28px;
+    }
+
+    .hero__body {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.75;
+      color: rgba(248, 246, 241, 0.72);
+      max-width: 680px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION WRAPPERS
+    ───────────────────────────────────────────────────────── */
+    .section {
+      padding: 72px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section__inner {
+      max-width: 860px;
+    }
+
+    .section__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 20px;
+    }
+
+    .section__heading {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--deep-ink);
+      margin-bottom: 20px;
+    }
+
+    .section__body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+    }
+
+    .section__body p + p {
+      margin-top: 16px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       WHAT A SESSION IS — structured steps
+    ───────────────────────────────────────────────────────── */
+    .session-structure {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid rgba(13, 17, 23, 0.10);
+    }
+
+    .session-step {
+      padding: 28px 32px;
+      border-right: 1px solid rgba(13, 17, 23, 0.10);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.10);
+    }
+
+    .session-step:nth-child(2n) {
+      border-right: none;
+    }
+
+    .session-step:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    /* Last step spans full width */
+    .session-step:last-child {
+      grid-column: 1 / -1;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .session-step__number {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--slate);
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .session-step__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      margin-bottom: 8px;
+    }
+
+    .session-step__desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--slate);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       TOPIC LIBRARY
+    ───────────────────────────────────────────────────────── */
+    .library-section {
+      padding: 72px 48px;
+      background: var(--deep-ink);
+      border-bottom: none;
+    }
+
+    .library-section .section__label {
+      color: rgba(248, 246, 241, 0.45);
+    }
+
+    .library-section .section__heading {
+      color: var(--arch-white);
+    }
+
+    .tracks {
+      margin-top: 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .track {
+      padding: 40px 0;
+      border-top: 1px solid rgba(248, 246, 241, 0.08);
+    }
+
+    .track:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .track__header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .track__id {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .track__name {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .track__sessions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(248, 246, 241, 0.07);
+    }
+
+    .session-card {
+      background: var(--deep-ink);
+      padding: 24px 28px;
+      transition: background 0.15s ease;
+    }
+
+    .session-card:hover {
+      background: rgba(248, 246, 241, 0.03);
+    }
+
+    .session-card__code {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+
+    .session-card__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.3;
+      color: var(--arch-white);
+      margin-bottom: 6px;
+    }
+
+    .session-card__decision {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--amber);
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .session-card__desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: rgba(248, 246, 241, 0.52);
+    }
+
+    /* Library scheduling note */
+    .library-note {
+      margin-top: 52px;
+      padding: 28px 32px;
+      border: 1px solid rgba(248, 246, 241, 0.10);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .library-note__mark {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .library-note__text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(248, 246, 241, 0.65);
+    }
+
+    .library-note__text a {
+      color: var(--arch-white);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: rgba(248, 246, 241, 0.3);
+      transition: text-decoration-color 0.15s ease;
+    }
+
+    .library-note__text a:hover {
+      text-decoration-color: var(--arch-white);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       PRICING
+    ───────────────────────────────────────────────────────── */
+    .pricing-section {
+      padding: 72px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .pricing-inner {
+      max-width: 860px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .pricing-block__amount {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+      margin-bottom: 4px;
+    }
+
+    .pricing-block__amount em {
+      font-style: normal;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--slate);
+    }
+
+    .pricing-block__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 20px;
+    }
+
+    .pricing-block__note {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--deep-ink);
+    }
+
+    .pricing-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--slate);
+    }
+
+    .pricing-copy p + p {
+      margin-top: 14px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       CTA — INTEREST LIST
+    ───────────────────────────────────────────────────────── */
+    .cta-section {
+      padding: 72px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .cta-inner {
+      max-width: 860px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .cta-copy .section__label {
+      margin-bottom: 16px;
+    }
+
+    .cta-copy .section__heading {
+      margin-bottom: 16px;
+    }
+
+    .cta-copy p {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--slate);
+    }
+
+    .cta-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--deep-ink);
+      color: var(--arch-white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      padding: 14px 28px;
+      text-decoration: none;
+      border: 1px solid var(--deep-ink);
+      transition: background 0.15s ease, color 0.15s ease;
+      line-height: 1;
+    }
+
+    .cta-button:hover {
+      background: transparent;
+      color: var(--deep-ink);
+    }
+
+    .cta-subject-note {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.02em;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RECORDED SESSIONS NOTE
+    ───────────────────────────────────────────────────────── */
+    .recorded-section {
+      padding: 56px 48px;
+      background: rgba(13, 17, 23, 0.03);
+      border-top: 1px solid rgba(13, 17, 23, 0.06);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .recorded-inner {
+      max-width: 860px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .recorded-rule {
+      flex-shrink: 0;
+      width: 3px;
+      height: 64px;
+      background: rgba(13, 17, 23, 0.10);
+      margin-top: 4px;
+    }
+
+    .recorded-content {}
+
+    .recorded-heading {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      margin-bottom: 10px;
+    }
+
+    .recorded-body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--slate);
+    }
+
+    .recorded-body a {
+      color: var(--deep-ink);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: rgba(13, 17, 23, 0.25);
+      transition: text-decoration-color 0.15s ease;
+    }
+
+    .recorded-body a:hover {
+      text-decoration-color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(100, 116, 139, 0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       Responsive
+    ───────────────────────────────────────────────────────── */
+    @media (max-width: 800px) {
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .hero {
+        padding: 56px 24px 48px;
+      }
+
+      .hero__heading {
+        font-size: 36px;
+      }
+
+      .hero__body {
+        font-size: 16px;
+      }
+
+      .section,
+      .pricing-section,
+      .cta-section {
+        padding: 52px 24px;
+      }
+
+      .library-section {
+        padding: 52px 24px;
+      }
+
+      .recorded-section {
+        padding: 40px 24px;
+      }
+
+      .session-structure {
+        grid-template-columns: 1fr;
+      }
+
+      .session-step:nth-child(2n) {
+        border-right: 1px solid rgba(13, 17, 23, 0.10);
+      }
+
+      .session-step:last-child {
+        grid-column: auto;
+        border-right: none;
+      }
+
+      .track__sessions {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-inner,
+      .cta-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .site-footer {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── 1. HERO ────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__inner">
+        <div class="hero__tier">Tier 3 · Open Enrolment</div>
+        <h1 class="hero__heading" id="hero-heading">Live Intensives.</h1>
+        <p class="hero__body">Three hours. One decision. Real working time. A Live Intensive is not a webinar — it is a structured session built around a single problem class, designed so that every participant leaves with something they can use. The topic is specific. The method is precise. The time is used. There is no padding, no motivational framing, and no content that could have been a document.</p>
+      </div>
+    </section>
+
+    <!-- ── 2. WHAT A SESSION IS ───────────────── -->
+    <section class="section" aria-labelledby="session-heading">
+      <div class="section__inner">
+        <div class="section__label">The Format</div>
+        <h2 class="section__heading" id="session-heading">What a session actually is.</h2>
+        <div class="section__body">
+          <p>Every Live Intensive is built around a single lens from the Clarity Point Framework, applied to a problem class that participants recognise from their own work. The format is consistent across every session: a defined opening, a working core, and a close that produces something tangible. What varies is the topic, the decision type, and the specific constraint being interrogated.</p>
+          <p>The difference between a Live Intensive and a lecture is structural. A lecture delivers information. An intensive uses it. Participants bring their own context — a real decision, a real constraint, a real review board — and work on it within the session. The facilitator does not present to the room. The facilitator holds the room to a method.</p>
+        </div>
+
+        <div class="session-structure" role="list" aria-label="Session structure">
+
+          <div class="session-step" role="listitem">
+            <div class="session-step__number">01</div>
+            <div class="session-step__title">Opening Problem Statement</div>
+            <div class="session-step__desc">The session opens not with a definition but with a problem. A real scenario, a real constraint, a decision that needs to be made. Participants engage before the concept is named.</div>
+          </div>
+
+          <div class="session-step" role="listitem">
+            <div class="session-step__number">02</div>
+            <div class="session-step__title">Concept and Story</div>
+            <div class="session-step__desc">The framework lens for the session is introduced through a case: a real organisation, a real challenge, a real outcome. The concept emerges from the story, not ahead of it.</div>
+          </div>
+
+          <div class="session-step" role="listitem">
+            <div class="session-step__number">03</div>
+            <div class="session-step__title">Core Working Session</div>
+            <div class="session-step__desc">The working core of the intensive. Participants apply the method to a defined problem — individually or in breakout — producing a tangible output before the session closes. This is not discussion. This is work.</div>
+          </div>
+
+          <div class="session-step" role="listitem">
+            <div class="session-step__number">04</div>
+            <div class="session-step__title">Q&amp;A and Application</div>
+            <div class="session-step__desc">Questions are handled inside the application exercise, not after it. Participants surface their own decisions, constraints, and blockers. The facilitator applies the method to each in real time.</div>
+          </div>
+
+          <div class="session-step" role="listitem">
+            <div class="session-step__number">05</div>
+            <div class="session-step__title">Close</div>
+            <div class="session-step__desc">The session closes with a defined output — a decision framed, a constraint mapped, an artefact drafted. Every participant leaves with something they did not have three hours earlier.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. TOPIC LIBRARY ───────────────────── -->
+    <section class="library-section" aria-labelledby="library-heading">
+      <div style="max-width: 860px;">
+        <div class="section__label" style="color: rgba(248,246,241,0.45);">The Topic Library</div>
+        <h2 class="section__heading" id="library-heading" style="color: var(--arch-white);">Twelve sessions across three tracks.</h2>
+
+        <div class="tracks">
+
+          <!-- TRACK 1: Architectural Judgment -->
+          <div class="track">
+            <div class="track__header">
+              <span class="track__id">Track 1</span>
+              <span class="track__name">Architectural Judgment</span>
+            </div>
+            <div class="track__sessions" role="list">
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">A1</div>
+                <div class="session-card__title">The Production Ready Standard</div>
+                <div class="session-card__decision">The decision: what does production-ready mean for this system, in this context, under these constraints?</div>
+                <div class="session-card__desc">Most practitioners inherit a vague standard or none at all. This session builds a negotiated, documented definition that the rest of the design work can be held against.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">A2</div>
+                <div class="session-card__title">Economic Decisions First</div>
+                <div class="session-card__decision">The decision: how to frame an architectural choice as an economic argument that wins rooms the technical argument loses.</div>
+                <div class="session-card__desc">Architectural decisions are economic decisions wearing a technical coat. This session teaches the translation — from constraint to cost, from option to trade-off, from recommendation to justification.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">A3</div>
+                <div class="session-card__title">ADRs That Survive Scrutiny</div>
+                <div class="session-card__decision">The decision: how to write an Architecture Decision Record that holds up under an ARB, a compliance review, and a change of team.</div>
+                <div class="session-card__desc">An ADR that does not survive a board review is not a decision — it is a draft. This session applies the constraint map and economic justification that turn a technical note into a defensible record.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">A4</div>
+                <div class="session-card__title">HITL as a Structural Constraint</div>
+                <div class="session-card__decision">The decision: where human oversight is a structural requirement, not a design option — and how to build that into the architecture from the beginning.</div>
+                <div class="session-card__desc">Human-in-the-loop is frequently treated as a feature. In regulated environments it is a constraint. This session determines where the boundary sits, what it costs, and how it is documented.</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TRACK 2: ML Engineering for Production -->
+          <div class="track">
+            <div class="track__header">
+              <span class="track__id">Track 2</span>
+              <span class="track__name">ML Engineering for Production</span>
+            </div>
+            <div class="track__sessions" role="list">
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">B1</div>
+                <div class="session-card__title">Model Selection as a Constraint Satisfaction Problem</div>
+                <div class="session-card__decision">The decision: how to choose a model not on benchmark performance but on the constraints the production environment actually imposes.</div>
+                <div class="session-card__desc">Latency, cost, explainability obligations, data governance, and retraining frequency are constraints, not preferences. This session maps them into a selection framework that a risk committee can read.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">B2</div>
+                <div class="session-card__title">SHAP as a Compliance Artefact</div>
+                <div class="session-card__decision">The decision: how to produce explainability output that satisfies a regulator, not just a data scientist.</div>
+                <div class="session-card__desc">Explainability is a compliance requirement in many regulated environments. This session moves SHAP from a diagnostic tool to a documented artefact — one that answers the questions a risk officer will actually ask.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">B3</div>
+                <div class="session-card__title">Drift Detection as a Governed Process</div>
+                <div class="session-card__decision">The decision: how to design drift detection and the retraining trigger as a governed, auditable process rather than an ad hoc operational response.</div>
+                <div class="session-card__desc">Detecting drift is a technical problem. Governing what happens next is an organisational one. This session produces the trigger policy, the ownership model, and the audit trail that makes a retraining decision defensible.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">B4</div>
+                <div class="session-card__title">The Unbuilt Model</div>
+                <div class="session-card__decision">The decision: how to identify when the right answer is not a model — and how to make that case with the same rigour as the argument for building one.</div>
+                <div class="session-card__desc">The most undervalued capability in ML engineering is knowing when not to build. This session applies the economic and constraint framework to the decision to stop — before the model is trained, after a review, or mid-deployment.</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TRACK 3: The Human Layer -->
+          <div class="track">
+            <div class="track__header">
+              <span class="track__id">Track 3</span>
+              <span class="track__name">The Human Layer</span>
+            </div>
+            <div class="track__sessions" role="list">
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">C1</div>
+                <div class="session-card__title">Getting the ARB to Yes</div>
+                <div class="session-card__decision">The decision: how to read the room, address the unstated objection, and move a technically correct proposal through an architecture review board.</div>
+                <div class="session-card__desc">Technically correct work fails at the ARB when the practitioner cannot read who is in the room or what they need to hear. This session maps the decision-makers, the blockers, and the language that moves the room.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">C2</div>
+                <div class="session-card__title">The Sprint Negotiation</div>
+                <div class="session-card__decision">The decision: how to get architectural work into a sprint and keep it there when it competes with delivery pressure.</div>
+                <div class="session-card__desc">Architecture does not automatically survive sprint planning. This session teaches the practitioner to frame architectural decisions in the language of delivery value — so that the work gets prioritised rather than deferred.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">C3</div>
+                <div class="session-card__title">The Handoff Standard</div>
+                <div class="session-card__decision">The decision: how to give or receive a handoff of a production system with the rigour that a regulated environment requires.</div>
+                <div class="session-card__desc">A system that cannot be handed off cleanly is not production-ready. This session produces the checklist, the verification protocol, and the acceptance criteria that make a handoff a documented transfer of ownership — not an assumption.</div>
+              </div>
+
+              <div class="session-card" role="listitem">
+                <div class="session-card__code">C4</div>
+                <div class="session-card__title">Reading the Turtles</div>
+                <div class="session-card__decision">The decision: how to identify who the real decision-makers are in an organisation — and what each one needs before they will say yes.</div>
+                <div class="session-card__desc">Every organisation has a layer of authority beneath the formal structure. This session maps the individuals who block, delay, or enable approval — and teaches the practitioner to address each one on their own terms.</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- /tracks -->
+
+        <!-- Scheduling note -->
+        <div class="library-note">
+          <div class="library-note__mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" fill="none" stroke="rgba(248,246,241,0.25)" stroke-width="1"/>
+              <circle cx="8" cy="8" r="2.5" fill="#D97706"/>
+            </svg>
+          </div>
+          <p class="library-note__text">Sessions are scheduled quarterly. Not every session from the library runs every quarter — the schedule is determined by demand and available dates. <a href="mailto:hello@datadomine.com?subject=Live%20Intensives%20Interest">Join the interest list</a> to be notified when the next session is announced and to indicate which topics matter most to you.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 4. PRICING ─────────────────────────── -->
+    <section class="pricing-section" aria-labelledby="pricing-heading">
+      <div class="pricing-inner">
+
+        <div class="pricing-block">
+          <div class="section__label" style="margin-bottom: 20px;">Pricing</div>
+          <div class="pricing-block__amount">£120<em> – £180</em></div>
+          <div class="pricing-block__label">Per session · Per participant</div>
+          <div class="pricing-block__note">Individual sessions. No subscription required. Pay for the session you need when you need it — no cohort commitment, no company approval required, no prerequisite.</div>
+        </div>
+
+        <div class="pricing-copy">
+          <p>The price varies by session length and topic. Every session sits within the £120–£180 range. The specific price for each session is confirmed when that session is announced.</p>
+          <p>Live Intensives are designed for the practitioner who needs to move on a specific decision or capability now — not at the next budget cycle. The format makes individual purchase straightforward. One person, one session, one payment.</p>
+          <p>Every live session is recorded. If you cannot attend the live date, the recording becomes available as an on-demand product shortly after the session runs.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 5. INTEREST LIST CTA ───────────────── -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-inner">
+
+        <div class="cta-copy">
+          <div class="section__label">Get Notified</div>
+          <h2 class="section__heading" id="cta-heading">Join the interest list.</h2>
+          <p>Sessions are announced to the interest list first. If you have a topic from the library that is particularly relevant to your current work, say so in your message — session scheduling takes demand into account.</p>
+        </div>
+
+        <div class="cta-action">
+          <a
+            href="mailto:hello@datadomine.com?subject=Live%20Intensives%20Interest"
+            class="cta-button"
+          >
+            hello@datadomine.com
+          </a>
+          <span class="cta-subject-note">Subject line: Live Intensives Interest</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 6. RECORDED SESSIONS NOTE ─────────── -->
+    <section class="recorded-section" aria-labelledby="recorded-heading">
+      <div class="recorded-inner">
+        <div class="recorded-rule" aria-hidden="true"></div>
+        <div class="recorded-content">
+          <h2 class="recorded-heading" id="recorded-heading">Every live session is recorded.</h2>
+          <p class="recorded-body">Recordings will be made available as on-demand products for practitioners who cannot attend the live date or who want to return to the material after the session. Recorded sessions will be listed on this page when they become available. <a href="mailto:hello@datadomine.com?subject=Live%20Intensives%20Interest">Join the interest list</a> to be notified when recordings go live.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

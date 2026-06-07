@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — DataDomine</title>
+  <meta name="description" content="Siddharth Rao — TOGAF EA, Google Certified Cloud Architect, Google Certified ML Engineer. 18 years of practitioner depth behind the DataDomine standard.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────────────── */
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a[aria-current="page"] {
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Main
+    ───────────────────────────────────────────────────────────────── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Section: Page Hero
+    ───────────────────────────────────────────────────────────────── */
+    .page-hero {
+      background: var(--deep-ink);
+      padding: 80px 48px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative amber vertical rule — the Domine mark scaled up */
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--amber);
+      opacity: 0.25;
+    }
+
+    .page-hero__inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding-left: 24px;
+    }
+
+    .page-hero__eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-hero__eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .page-hero__headline {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(32px, 4.5vw, 52px);
+      line-height: 1.08;
+      color: var(--arch-white);
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .page-hero__claim {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.65;
+      color: rgba(248, 246, 241, 0.72);
+      max-width: 640px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Amber divider rule
+    ───────────────────────────────────────────────────────────────── */
+    .amber-rule {
+      width: 100%;
+      height: 3px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Section: The Story
+    ───────────────────────────────────────────────────────────────── */
+    .section-story {
+      padding: 80px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .section-story__inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--slate);
+      padding-top: 6px;
+      line-height: 1.4;
+    }
+
+    .story-prose {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.78;
+      color: var(--deep-ink);
+    }
+
+    .story-prose p + p {
+      margin-top: 24px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Section: Credentials
+    ───────────────────────────────────────────────────────────────── */
+    .section-credentials {
+      padding: 80px 48px;
+      background: var(--deep-ink);
+      border-bottom: 1px solid rgba(248, 246, 241, 0.06);
+    }
+
+    .section-credentials__inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .section-label--light {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: rgba(248, 246, 241, 0.35);
+      padding-top: 6px;
+      line-height: 1.4;
+    }
+
+    .credentials-content {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    /* Certification marks */
+    .cert-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cert-group__heading {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(248, 246, 241, 0.35);
+      margin-bottom: 4px;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cert-item__mark {
+      width: 4px;
+      height: 28px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .cert-item__name {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .cert-item__body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.45);
+      margin-top: 2px;
+      letter-spacing: 0.01em;
+    }
+
+    /* Outcomes */
+    .outcomes-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .outcomes-group__heading {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(248, 246, 241, 0.35);
+      margin-bottom: 4px;
+    }
+
+    .outcome-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+      align-items: baseline;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(248, 246, 241, 0.06);
+    }
+
+    .outcome-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .outcome-item__client {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.55);
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+    }
+
+    .outcome-item__result {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--arch-white);
+      line-height: 1.55;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Section: What Working With DataDomine Looks Like
+    ───────────────────────────────────────────────────────────────── */
+    .section-working {
+      padding: 80px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .section-working__inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .working-prose {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.78;
+      color: var(--deep-ink);
+    }
+
+    .working-prose p + p {
+      margin-top: 24px;
+    }
+
+    .working-cta {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cta-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 2px;
+      transition: opacity 0.15s ease;
+    }
+
+    .cta-link:hover {
+      opacity: 0.7;
+    }
+
+    .cta-separator {
+      color: var(--slate);
+      font-size: 13px;
+      user-select: none;
+    }
+
+    .cta-link--secondary {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .cta-link--secondary:hover {
+      color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(100, 116, 139, 0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Responsive — narrow viewports
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 800px) {
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .page-hero {
+        padding: 60px 24px 56px;
+      }
+
+      .page-hero__inner {
+        padding-left: 0;
+      }
+
+      .section-story,
+      .section-working {
+        padding: 56px 24px;
+      }
+
+      .section-credentials {
+        padding: 56px 24px;
+      }
+
+      .section-story__inner,
+      .section-credentials__inner,
+      .section-working__inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .outcome-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .site-footer {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" aria-current="page">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── SECTION 1: Page Hero ──────────────────────────────────── -->
+    <section class="page-hero" aria-labelledby="hero-headline">
+      <div class="page-hero__inner">
+        <div class="page-hero__eyebrow">About</div>
+        <h1 class="page-hero__headline" id="hero-headline">The Practitioner<br>Behind The Standard.</h1>
+        <p class="page-hero__claim">Eighteen years of being inside the rooms where production decisions are made, defended, and sometimes quietly unmade — that is what DataDomine is built from. Not a framework assembled from other people's methodologies. A standard derived from what it actually takes to get technical decisions through architecture review boards, compliance audits, and the accumulated friction of regulated organisations.</p>
+      </div>
+    </section>
+
+    <div class="amber-rule" role="presentation"></div>
+
+    <!-- ── SECTION 2: The Story ──────────────────────────────────── -->
+    <section class="section-story" aria-labelledby="story-label">
+      <div class="section-story__inner">
+
+        <div class="section-label" id="story-label">The Story</div>
+
+        <div class="story-prose">
+          <p>What Siddharth Rao produces is a practitioner who can make consequential decisions under constraint and defend them. That capability is not taught in most technical programmes. It is built across years of being in environments where the gap between a technically correct answer and a defensible decision is where careers quietly stall.</p>
+
+          <p>The accumulation started in technical support — the layer of work where the gap between what a system is supposed to do and what it actually does under production conditions becomes visible before it is visible anywhere else. That grounding matters. It produces a different relationship with the word "production-ready" than any training programme can manufacture.</p>
+
+          <p>Technical writing followed — the discipline of translating architectural complexity into the precise language that sign-off authorities can act on. Then instructional design: the study of how adults actually acquire judgment, as distinct from how they acquire information. The discovery that what is told is forgotten and what is designed to be discovered is owned — a principle that now sits at the foundation of every DataDomine programme.</p>
+
+          <p>Solution architecture brought the economic layer. The practitioner who can present an architectural decision only in technical terms loses rooms that the practitioner who can present the economic argument wins. That observation is not theoretical. It is a pattern observed across engagements with global organisations — IBM Americas, GETAC, Mind Merchants — where the work required not just a correct answer but a defensible one, framed in the language of the people who had to approve it.</p>
+
+          <p>Enterprise AI architecture completed the picture. The disciplines that determine whether an AI system survives production — governance, explainability, drift management, regulatory obligation, the managed boundary between human judgment and automated decision — are not taught at the model level. They are architectural disciplines, and they require the same rigour as any other production system design.</p>
+
+          <p>DataDomine was founded because the gap was not being addressed. Technical practitioners were leaving programmes knowing how to build. They were not leaving knowing how to make the decision to build — or how to hold that decision under the scrutiny that regulated environments impose. The three certifications — TOGAF EA, Google Certified Cloud Architect, Google Certified ML Engineer — are not decorations. They are the formal record of the depth that every DataDomine programme is built from.</p>
+
+          <p>The Clarity Point Framework is the distillation of what that depth produces: ten lenses that design the moment when a complex decision resolves into something a practitioner can act on and defend. Not inspiration. Not a methodology borrowed from adjacent disciplines. A framework built from the inside of the problem, applied to the work the job actually demands.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SECTION 3: Credentials ─────────────────────────────────── -->
+    <section class="section-credentials" aria-labelledby="credentials-label">
+      <div class="section-credentials__inner">
+
+        <div class="section-label--light" id="credentials-label">Credentials<br>&amp; Outcomes</div>
+
+        <div class="credentials-content">
+
+          <!-- Certifications -->
+          <div class="cert-group">
+            <div class="cert-group__heading">Certifications</div>
+
+            <div class="cert-item">
+              <div class="cert-item__mark" role="presentation"></div>
+              <div>
+                <div class="cert-item__name">TOGAF Enterprise Architect</div>
+                <div class="cert-item__body">The Open Group Architecture Framework · EA Certification</div>
+              </div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-item__mark" role="presentation"></div>
+              <div>
+                <div class="cert-item__name">Google Certified Professional Cloud Architect</div>
+                <div class="cert-item__body">Google Cloud · Professional Certification</div>
+              </div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-item__mark" role="presentation"></div>
+              <div>
+                <div class="cert-item__name">Google Certified Professional ML Engineer</div>
+                <div class="cert-item__body">Google Cloud · Professional Certification</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outcomes -->
+          <div class="outcomes-group">
+            <div class="outcomes-group__heading">Selected Outcomes</div>
+
+            <div class="outcome-item">
+              <div class="outcome-item__client">IBM Americas</div>
+              <div class="outcome-item__result">Approximately 35% improvement in customer conversion following CPQ platform rollout for 300 users across the Americas region.</div>
+            </div>
+
+            <div class="outcome-item">
+              <div class="outcome-item__client">GETAC</div>
+              <div class="outcome-item__result">Product configuration cycle reduced from two weeks to under 24 hours for over 100 global sales users — a structural change to the commercial operation, not a training intervention.</div>
+            </div>
+
+            <div class="outcome-item">
+              <div class="outcome-item__client">Mind Merchants</div>
+              <div class="outcome-item__result">Contract agreement cycle time reduced by over 90% through process and system redesign.</div>
+            </div>
+          </div>
+
+          <!-- Scale note -->
+          <div style="border-top: 1px solid rgba(248,246,241,0.08); padding-top: 28px;">
+            <p style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px; line-height: 1.7; color: rgba(248,246,241,0.45);">1,000+ practitioners trained across five countries. Partner enablement delivered for Accenture, Wipro, TCS, Infosys, and Deloitte. 18 years of work in technical support, technical writing, instructional design, solution architecture, and enterprise AI architecture.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SECTION 4: What Working With DataDomine Looks Like ────── -->
+    <section class="section-working" aria-labelledby="working-label">
+      <div class="section-working__inner">
+
+        <div class="section-label" id="working-label">What Working<br>With DataDomine<br>Looks Like</div>
+
+        <div>
+          <div class="working-prose">
+            <p>DataDomine is not a platform. There is no content library to browse at your own pace, no certification to collect at the end of a self-directed course, no automated feedback loop. What there is: a senior practitioner who has designed the standard you are working toward, who knows precisely where that standard breaks down in practice, and who will not let you settle for work that would not survive the rooms it needs to survive.</p>
+
+            <p>Every programme is built around a real-world spine project. Every chapter produces a tangible artefact. The capstone is a defence — not a presentation, a defence — before a simulated review panel designed to apply the same pressure as the actual environments participants will return to. The output is not a certificate. It is an artefact that can be placed in front of an architecture review board, a compliance team, or a hiring manager on the day the programme ends.</p>
+
+            <p>The relationship is practitioner to practitioner. The work is specific, the method is precise, and the standard does not move. What the job demands is what the programme demands. Nothing less is production-ready, and production-ready is the only standard DataDomine recognises.</p>
+          </div>
+
+          <nav class="working-cta" aria-label="Next steps">
+            <a href="programmes.html" class="cta-link">View the programmes</a>
+            <span class="cta-separator" aria-hidden="true">·</span>
+            <a href="framework.html" class="cta-link--secondary">Read the framework</a>
+            <span class="cta-separator" aria-hidden="true">·</span>
+            <a href="contact.html" class="cta-link--secondary">Make an enquiry</a>
+          </nav>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

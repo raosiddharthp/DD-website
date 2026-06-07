@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Notes — DataDomine</title>
+  <meta name="description" content="Observations from practice. The decisions that worked, the ones that didn't, and the data that should have been consulted in both cases.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────────────── */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Main
+    ───────────────────────────────────────────────────────────────── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Page Hero
+    ───────────────────────────────────────────────────────────────── */
+    .page-hero {
+      padding: 72px 48px 56px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      max-width: 860px;
+    }
+
+    .page-hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .page-hero__eyebrow-rule {
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .page-hero__eyebrow-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .page-hero__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 52px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+      margin-bottom: 28px;
+    }
+
+    .page-hero__body {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--deep-ink);
+      max-width: 640px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Filter Bar
+    ───────────────────────────────────────────────────────────────── */
+    .filter-bar {
+      padding: 28px 48px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      background: none;
+      border: 1px solid rgba(13, 17, 23, 0.15);
+      border-radius: 2px;
+      padding: 7px 16px;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      color: var(--deep-ink);
+      border-color: rgba(13, 17, 23, 0.35);
+    }
+
+    .filter-btn.is-active {
+      color: var(--arch-white);
+      background: var(--deep-ink);
+      border-color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Article Grid
+    ───────────────────────────────────────────────────────────────── */
+    .article-grid-section {
+      padding: 56px 48px 72px;
+    }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(13, 17, 23, 0.08);
+      border: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .article-card {
+      background: var(--arch-white);
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s ease;
+      position: relative;
+    }
+
+    .article-card:hover {
+      background: #F0EDE6;
+    }
+
+    .article-card[data-hidden="true"] {
+      display: none;
+    }
+
+    .article-card__track {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+
+    .article-card__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .article-card__desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--slate);
+      margin-bottom: 20px;
+    }
+
+    .article-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .article-card__read-time {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 0.04em;
+    }
+
+    .article-card__arrow {
+      font-size: 14px;
+      color: rgba(13, 17, 23, 0.25);
+      transition: color 0.15s ease, transform 0.15s ease;
+      line-height: 1;
+    }
+
+    .article-card:hover .article-card__arrow {
+      color: var(--deep-ink);
+      transform: translateX(3px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Empty state (when filter has no results)
+    ───────────────────────────────────────────────────────────────── */
+    .grid-empty {
+      display: none;
+      padding: 64px 0;
+      text-align: center;
+      grid-column: 1 / -1;
+      background: var(--arch-white);
+    }
+
+    .grid-empty.is-visible {
+      display: block;
+    }
+
+    .grid-empty p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--slate);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Subscription Note
+    ───────────────────────────────────────────────────────────────── */
+    .subscription-section {
+      padding: 56px 48px;
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: 80px;
+    }
+
+    .subscription-section__left {
+      flex: 0 0 auto;
+    }
+
+    .subscription-section__eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 14px;
+    }
+
+    .subscription-section__heading {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .subscription-section__right {
+      flex: 1;
+      padding-top: 4px;
+    }
+
+    .subscription-section__body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--deep-ink);
+      margin-bottom: 20px;
+    }
+
+    .subscription-section__contact {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .subscription-section__contact-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+    }
+
+    .subscription-section__contact-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.25);
+      padding-bottom: 1px;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .subscription-section__contact-link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
+
+    .subscription-section__subject {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      margin-top: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(100, 116, 139, 0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Responsive
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .article-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .page-hero {
+        padding: 48px 24px 40px;
+      }
+
+      .page-hero__title {
+        font-size: 36px;
+      }
+
+      .page-hero__body {
+        font-size: 16px;
+      }
+
+      .filter-bar {
+        padding: 20px 24px;
+      }
+
+      .article-grid-section {
+        padding: 40px 24px 56px;
+      }
+
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subscription-section {
+        padding: 40px 24px;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .site-footer {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html">Programmes</a></li>
+      <li><a href="field-notes.html" class="active">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── Page Hero ── -->
+    <section class="page-hero" aria-labelledby="hero-title">
+      <div class="page-hero__eyebrow">
+        <span class="page-hero__eyebrow-rule" aria-hidden="true"></span>
+        <span class="page-hero__eyebrow-label">Writing from practice</span>
+      </div>
+      <h1 class="page-hero__title" id="hero-title">Field Notes.</h1>
+      <p class="page-hero__body">These are observations from practice. The decisions that worked, the ones that didn't, and the data that should have been consulted in both cases. Written for practitioners who are serious about the craft.</p>
+    </section>
+
+    <!-- ── Filter Bar ── -->
+    <div class="filter-bar" role="navigation" aria-label="Filter articles by topic">
+      <button class="filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="architecture" aria-pressed="false">Architecture</button>
+      <button class="filter-btn" data-filter="ml-engineering" aria-pressed="false">ML Engineering</button>
+      <button class="filter-btn" data-filter="practice-enablement" aria-pressed="false">Practice Enablement</button>
+      <button class="filter-btn" data-filter="eu-ai-act" aria-pressed="false">EU AI Act &amp; Compliance</button>
+    </div>
+
+    <!-- ── Article Grid ── -->
+    <section class="article-grid-section" aria-label="Field Notes articles">
+      <div class="article-grid" id="article-grid">
+
+        <!-- Architecture: Why Technical Training Fails -->
+        <a href="#"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: Why Technical Training Fails Before It Starts">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">Why Technical Training Fails Before It Starts</div>
+          <div class="article-card__desc">The curriculum is rarely the problem. The gap between what a programme teaches and what a production environment actually demands is structural — and it is almost always invisible to the people who design the programme.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">7 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Architecture: The Production Readiness Practicum -->
+        <a href="#"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: The Production Readiness Practicum">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">The Production Readiness Practicum</div>
+          <div class="article-card__desc">Production-ready is not a checklist state. It is a negotiated standard, agreed before a line of architecture is drawn, that the entire work is then held against. Most teams skip the negotiation and wonder why the review fails.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">9 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- EU AI Act: What It Actually Requires -->
+        <a href="#"
+           class="article-card"
+           data-track="eu-ai-act"
+           aria-label="Read: What The EU AI Act Actually Requires From Your Architecture">
+          <div class="article-card__track">EU AI Act &amp; Compliance</div>
+          <div class="article-card__title">What The EU AI Act Actually Requires From Your Architecture</div>
+          <div class="article-card__desc">Most compliance conversations start with the documentation. The EU AI Act starts earlier than that — with decisions about system classification, risk categorisation, and human oversight that are structural, not documentary.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">11 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Architecture: ADRs -->
+        <a href="#"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: ADRs: The Decision-Making Discipline Most Architects Skip">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">ADRs: The Decision-Making Discipline Most Architects Skip</div>
+          <div class="article-card__desc">Architecture Decision Records are not bureaucratic overhead. They are the audit trail that separates a decision that can be defended from one that can only be explained after the fact — once the damage is visible.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">8 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Architecture: HITL -->
+        <a href="#"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: HITL as a Structural Constraint, Not a UI Feature">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">HITL as a Structural Constraint, Not a UI Feature</div>
+          <div class="article-card__desc">Human-in-the-loop is not a screen. It is a set of decisions about where human judgement is required, what data it is given, and how that judgement is recorded — made before the system is designed, not retrofitted into it afterwards.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">10 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Architecture: Four-Layer Contract -->
+        <a href="#"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: The Four-Layer Architecture Contract">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">The Four-Layer Architecture Contract</div>
+          <div class="article-card__desc">Every enterprise AI system operates across four distinct layers, each with its own ownership boundary, its own failure mode, and its own set of stakeholders who can block it. Designing across all four simultaneously is the work. Designing across one at a time is the problem.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">12 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- ML: Fine-Tuning Is Not a Retrieval Fix -->
+        <a href="#"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: Fine-Tuning Is Not a Retrieval Fix">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">Fine-Tuning Is Not a Retrieval Fix</div>
+          <div class="article-card__desc">The decision to fine-tune is an economic and architectural decision, not a performance one. Getting it wrong is expensive in ways that do not show up until the model is already in production and the retraining cycle has begun.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">8 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- ML: When ML Is Not The Answer -->
+        <a href="#"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: The Question Problem: When ML Is Not The Answer">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">The Question Problem: When ML Is Not The Answer</div>
+          <div class="article-card__desc">The restraint layer is the most undervalued capability in a technical practitioner. Knowing when the problem does not require a model — and being able to make that case with the same rigour as the argument for building one — is a production discipline, not a philosophical position.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">7 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- ML: Model-Last -->
+        <a href="#"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: Model-Last: Why Architecture Comes Before Model Selection">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">Model-Last: Why Architecture Comes Before Model Selection</div>
+          <div class="article-card__desc">Model selection is a constraint satisfaction problem. The constraints — data governance obligations, latency requirements, explainability standards, retraining economics — must be defined before the model is chosen, not renegotiated to accommodate the one that was chosen first.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">10 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- ML: RAG -->
+        <a href="#"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: RAG as a Constraint Decision">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">RAG as a Constraint Decision</div>
+          <div class="article-card__desc">Retrieval-augmented generation is not a default pattern for knowledge-intensive systems. It is a constraint decision with a cost structure, a governance surface, and a set of failure modes that must be understood before the retrieval layer is designed.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">9 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Practice Enablement: Wipro -->
+        <a href="#"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: What Wipro Taught Me About Partner Enablement">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">What Wipro Taught Me About Partner Enablement</div>
+          <div class="article-card__desc">Enabling a partner practice at scale is not the same as training individuals. The unit of change is the team, and the measure of success is not what practitioners can recall at the end of the programme — it is what the practice can sustain six months after the facilitator has left.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">11 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Practice Enablement: Forgetting Curve -->
+        <a href="#"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: The Forgetting Curve Is Not Your Enemy">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">The Forgetting Curve Is Not Your Enemy</div>
+          <div class="article-card__desc">Ebbinghaus showed us that retention decays predictably. What he did not show us is that the decay is front-loaded — and that the design decision that defeats it is not repetition. It is the quality of the first encoding: what is discovered is owned, what is told is forgotten.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">6 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Empty state -->
+        <div class="grid-empty" id="grid-empty" aria-live="polite">
+          <p>No notes in this category yet. Check back soon, or read everything under All.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Subscription Note ── -->
+    <section class="subscription-section" aria-label="Subscribe to Field Notes">
+      <div class="subscription-section__left">
+        <div class="subscription-section__eyebrow">Stay informed</div>
+        <h2 class="subscription-section__heading">New Field Notes<br>by email.</h2>
+      </div>
+      <div class="subscription-section__right">
+        <p class="subscription-section__body">These notes are published when there is something worth saying — not to a schedule, not to fill a content calendar. If the observation is precise and the data supports it, it gets written. If it does not, it does not. To receive new Field Notes directly, send an email to the address below.</p>
+        <div class="subscription-section__contact">
+          <span class="subscription-section__contact-label">Write to</span>
+          <a href="mailto:hello@datadomine.com?subject=Field%20Notes" class="subscription-section__contact-link">hello@datadomine.com</a>
+        </div>
+        <span class="subscription-section__subject">Subject line: Field Notes</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+
+      /* ── Footer year ── */
+      var yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* ── Filter logic ── */
+      var filterBtns = document.querySelectorAll('.filter-btn');
+      var cards      = document.querySelectorAll('.article-card');
+      var gridEmpty  = document.getElementById('grid-empty');
+
+      function applyFilter(filter) {
+        var visibleCount = 0;
+
+        cards.forEach(function (card) {
+          var track = card.getAttribute('data-track');
+          var show  = filter === 'all' || track === filter;
+          card.setAttribute('data-hidden', show ? 'false' : 'true');
+          card.style.display = show ? '' : 'none';
+          if (show) visibleCount++;
+        });
+
+        if (gridEmpty) {
+          gridEmpty.classList.toggle('is-visible', visibleCount === 0);
+        }
+      }
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var filter = btn.getAttribute('data-filter');
+
+          filterBtns.forEach(function (b) {
+            b.classList.remove('is-active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-pressed', 'true');
+
+          applyFilter(filter);
+        });
+      });
+
+    }());
+  </script>
+
+</body>
+</html>

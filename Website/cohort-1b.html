@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML Engineering for Regulated Industries Cohort 1B — DataDomine</title>
+  <meta name="description" content="Three weekends. 42 hours. Maximum 12 participants. The ML Engineering for Regulated Industries Cohort trains ML engineers and data scientists to build the governance layer, audit trail, and retraining pipeline that make models viable in regulated production environments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="datadomine.css" />
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+
+      --serif: 'IBM Plex Serif', Georgia, serif;
+      --sans:  'Inter', system-ui, sans-serif;
+
+      --max-w: 1080px;
+      --pad-x: clamp(24px, 5vw, 64px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad-x);
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark .mark .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .nav-wordmark .mark .vert {
+      width: 3px;
+      height: 22px;
+      background: var(--deep-ink);
+      margin-top: -4px;
+    }
+
+    .nav-wordmark .text {
+      font-family: var(--serif);
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .text .word-data {
+      font-weight: 300;
+      color: var(--deep-ink);
+    }
+
+    .nav-wordmark .text .word-domine {
+      font-weight: 700;
+      color: var(--deep-ink);
+    }
+
+    .nav-wordmark .text .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a[aria-current="page"] {
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Page offset for fixed nav
+    ───────────────────────────────────────────────────────────────── */
+    .site-main {
+      margin-top: var(--nav-height);
+      flex: 1;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Shared layout helpers
+    ───────────────────────────────────────────────────────────────── */
+    .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--deep-ink);
+      padding: 80px var(--pad-x) 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .hero__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: end;
+    }
+
+    .hero__cohort-badge {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero__cohort-badge::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .hero__title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+      color: var(--arch-white);
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    .hero__descriptor {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(15px, 1.8vw, 19px);
+      line-height: 1.5;
+      color: rgba(248, 246, 241, 0.65);
+      max-width: 580px;
+    }
+
+    .hero__facts {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .hero__fact {
+      text-align: right;
+    }
+
+    .hero__fact-value {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--arch-white);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .hero__fact-label {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11px;
+      color: rgba(248, 246, 241, 0.45);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .hero__fact-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(248, 246, 241, 0.12);
+      margin-left: auto;
+    }
+
+    .hero__price-band {
+      max-width: var(--max-w);
+      margin: 52px auto 0;
+      padding-top: 28px;
+      border-top: 1px solid rgba(248, 246, 241, 0.08);
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .hero__price-founder {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--amber);
+      letter-spacing: -0.02em;
+    }
+
+    .hero__price-context {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.45);
+      letter-spacing: 0.04em;
+    }
+
+    .hero__price-cta {
+      margin-left: auto;
+      display: inline-block;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--amber);
+      text-decoration: none;
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      padding: 10px 20px;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .hero__price-cta:hover {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THE PROBLEM
+    ───────────────────────────────────────────────────────────────── */
+    .problem-section {
+      padding: 88px var(--pad-x);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .problem-section .inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .problem-section__left {
+      padding-top: 4px;
+    }
+
+    .problem-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.15;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+    }
+
+    .problem-section__prose {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+    }
+
+    .problem-section__prose p + p {
+      margin-top: 22px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       WHO THIS IS FOR
+    ───────────────────────────────────────────────────────────────── */
+    .audience-section {
+      padding: 88px var(--pad-x);
+      background: var(--deep-ink);
+      position: relative;
+    }
+
+    .audience-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .audience-section .section-label {
+      color: var(--amber);
+    }
+
+    .audience-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(24px, 2.8vw, 36px);
+      line-height: 1.15;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      margin-bottom: 56px;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .audience-card {
+      padding: 36px 32px;
+      border: 1px solid rgba(248, 246, 241, 0.06);
+      position: relative;
+    }
+
+    .audience-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 32px;
+      width: 32px;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    .audience-card__role {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--arch-white);
+      line-height: 1.25;
+      margin-bottom: 16px;
+      margin-top: 20px;
+    }
+
+    .audience-card__situation {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(248, 246, 241, 0.58);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THE JOURNEY
+    ───────────────────────────────────────────────────────────────── */
+    .journey-section {
+      padding: 88px var(--pad-x);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .journey-section .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .journey-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.15;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+      margin-top: 16px;
+    }
+
+    .weekend-block {
+      padding-bottom: 32px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.07);
+    }
+
+    .weekend-block:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .weekend-block__header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .weekend-block__number {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .weekend-block__name {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .weekend-block__prose {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--deep-ink);
+    }
+
+    /* Chapter list */
+    .journey-section__right {
+      padding-top: 16px;
+    }
+
+    .chapter-list-intro {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+      margin-top: 44px;
+    }
+
+    .chapter-list {
+      list-style: none;
+    }
+
+    .chapter-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .chapter-item:first-child {
+      border-top: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .chapter-item__num {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 10px;
+      color: rgba(100, 116, 139, 0.5);
+      min-width: 22px;
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+    }
+
+    .chapter-item__title {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--deep-ink);
+    }
+
+    .chapter-item__weekend-break {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 16px 0 8px;
+    }
+
+    .chapter-item__weekend-break .wk-label {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .chapter-item__weekend-break .wk-name {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       WHAT YOU LEAVE WITH
+    ───────────────────────────────────────────────────────────────── */
+    .artefact-section {
+      padding: 88px var(--pad-x);
+      background: rgba(13, 17, 23, 0.02);
+      border-top: 1px solid rgba(13, 17, 23, 0.06);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .artefact-section .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .artefact-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.15;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+      margin-top: 16px;
+    }
+
+    .artefact-section__sub {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--slate);
+    }
+
+    .artefact-section__prose {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.72;
+      color: var(--deep-ink);
+    }
+
+    .artefact-section__prose p + p {
+      margin-top: 18px;
+    }
+
+    .artefact-list {
+      list-style: none;
+      margin-top: 32px;
+      border-top: 2px solid var(--amber);
+      padding-top: 24px;
+    }
+
+    .artefact-list__item {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .artefact-list__item::before {
+      content: '—';
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      flex-shrink: 0;
+    }
+
+    .artefact-list__item-name {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13.5px;
+      color: var(--deep-ink);
+    }
+
+    .artefact-list__item-desc {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12.5px;
+      color: var(--slate);
+      margin-left: auto;
+      text-align: right;
+      max-width: 200px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THE SPINE PROJECT
+    ───────────────────────────────────────────────────────────────── */
+    .spine-section {
+      padding: 88px var(--pad-x);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .spine-section .inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .spine-section__left {
+      padding-top: 4px;
+    }
+
+    .spine-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+    }
+
+    .spine-section__prose {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+    }
+
+    .spine-section__prose p + p {
+      margin-top: 20px;
+    }
+
+    .spine-pullquote {
+      margin-top: 32px;
+      padding: 24px 28px;
+      border-left: 3px solid var(--amber);
+      background: rgba(217, 119, 6, 0.04);
+    }
+
+    .spine-pullquote p {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PRICING
+    ───────────────────────────────────────────────────────────────── */
+    .pricing-section {
+      padding: 88px var(--pad-x);
+      background: var(--deep-ink);
+      position: relative;
+    }
+
+    .pricing-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .pricing-section .section-label {
+      color: var(--amber);
+    }
+
+    .pricing-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(24px, 2.8vw, 36px);
+      line-height: 1.15;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      margin-bottom: 56px;
+      margin-top: 16px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+      margin-bottom: 56px;
+    }
+
+    .pricing-card {
+      padding: 36px 32px;
+      border: 1px solid rgba(248, 246, 241, 0.06);
+    }
+
+    .pricing-card--founder {
+      border-color: rgba(217, 119, 6, 0.3);
+      background: rgba(217, 119, 6, 0.04);
+    }
+
+    .pricing-card__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 16px;
+    }
+
+    .pricing-card--founder .pricing-card__label {
+      color: var(--amber);
+    }
+
+    .pricing-card__price {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 38px;
+      color: var(--arch-white);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .pricing-card--founder .pricing-card__price {
+      color: var(--amber);
+    }
+
+    .pricing-card__note {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.42);
+      line-height: 1.55;
+    }
+
+    .pricing-cta-area {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(248, 246, 241, 0.07);
+    }
+
+    .pricing-cta-area__next {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.4);
+      letter-spacing: 0.03em;
+    }
+
+    .pricing-cta-area__next strong {
+      font-weight: 500;
+      color: rgba(248, 246, 241, 0.65);
+    }
+
+    .enrol-btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: var(--deep-ink);
+      background: var(--amber);
+      text-decoration: none;
+      padding: 14px 32px;
+      transition: opacity 0.15s ease;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .enrol-btn:hover {
+      opacity: 0.88;
+    }
+
+    .pricing-note-block {
+      margin-top: 32px;
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(248, 246, 241, 0.28);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 40px var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .footer-wordmark .mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-wordmark .mark .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .footer-wordmark .mark .vert {
+      width: 3px;
+      height: 18px;
+      background: var(--deep-ink);
+      margin-top: -3px;
+    }
+
+    .footer-wordmark .text {
+      font-family: var(--serif);
+      font-size: 15px;
+    }
+
+    .footer-wordmark .text .word-data {
+      font-weight: 300;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .text .word-domine {
+      font-weight: 700;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .text .word-domine .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.02em;
+      padding-left: 28px;
+    }
+
+    .footer-centre {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .footer-centre a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+    }
+
+    .footer-centre a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-centre .footer-note {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11.5px;
+      color: rgba(100, 116, 139, 0.55);
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11.5px;
+      color: rgba(100, 116, 139, 0.5);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Responsive
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .hero__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__facts {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .hero__fact {
+        text-align: left;
+      }
+
+      .hero__fact-divider {
+        display: none;
+      }
+
+      .hero__price-band {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .hero__price-cta {
+        margin-left: 0;
+      }
+
+      .problem-section .inner,
+      .spine-section .inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .audience-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journey-section .inner,
+      .artefact-section .inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .chapter-list-intro {
+        margin-top: 0;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-cta-area {
+        flex-wrap: wrap;
+      }
+
+      .enrol-btn {
+        margin-left: 0;
+      }
+
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 18px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)):not(:nth-last-child(3)) {
+        display: none;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+
+      .footer-centre {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="mark" aria-hidden="true">
+        <span class="dot"></span>
+        <span class="vert"></span>
+      </span>
+      <span class="text">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html" aria-current="page">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── HERO ───────────────────────────────────────────────────── -->
+    <section class="hero" aria-label="Programme overview">
+      <div class="hero__inner">
+
+        <div class="hero__content">
+          <p class="hero__cohort-badge">Cohort 1B &nbsp;·&nbsp; Tier 1</p>
+          <h1 class="hero__title">ML Engineering<br>for Regulated<br>Industries</h1>
+          <p class="hero__descriptor">How to build the governance layer, the audit trail, and the retraining pipeline that make models viable in regulated production — not just technically correct, but organisationally and compliance-ready.</p>
+        </div>
+
+        <div class="hero__facts" aria-label="Key programme facts">
+          <div class="hero__fact">
+            <div class="hero__fact-value">3</div>
+            <div class="hero__fact-label">Weekends</div>
+          </div>
+          <div class="hero__fact-divider" aria-hidden="true"></div>
+          <div class="hero__fact">
+            <div class="hero__fact-value">42h</div>
+            <div class="hero__fact-label">Contact time</div>
+          </div>
+          <div class="hero__fact-divider" aria-hidden="true"></div>
+          <div class="hero__fact">
+            <div class="hero__fact-value">12</div>
+            <div class="hero__fact-label">Maximum participants</div>
+          </div>
+          <div class="hero__fact-divider" aria-hidden="true"></div>
+          <div class="hero__fact">
+            <div class="hero__fact-value">18</div>
+            <div class="hero__fact-label">Chapters</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hero__price-band">
+        <div class="hero__price-founder">£1,800</div>
+        <div class="hero__price-context">Founder price &nbsp;·&nbsp; Limited places at this rate</div>
+        <a href="mailto:hello@datadomine.com?subject=Cohort%201B%20Enquiry" class="hero__price-cta" aria-label="Enquire about Cohort 1B">Enquire now</a>
+      </div>
+    </section>
+
+    <!-- ── THE PROBLEM ─────────────────────────────────────────────── -->
+    <section class="problem-section" aria-labelledby="problem-heading">
+      <div class="inner">
+
+        <div class="problem-section__left">
+          <p class="section-label">The Problem</p>
+          <h2 class="problem-section__heading" id="problem-heading">Models are not systems. Building one is not the same as building the other.</h2>
+        </div>
+
+        <div class="problem-section__prose">
+          <p>Most ML programmes teach practitioners how to train models — how to engineer features, evaluate performance, tune hyperparameters, and iterate toward a benchmark. Almost none teach them how to build the system around the model: the governance layer that makes decisions explainable, the audit trail that satisfies a compliance officer, the drift detection process that catches silent failure before it reaches a risk committee, the retraining pipeline that is itself a governed process with documented ownership and a defined trigger.</p>
+          <p>The failure mode is not technical incompetence. It is a category error. The ML engineer who can produce a model with a strong validation score has answered the question the programme asked. The question regulated production asks is different: who approved this feature set? How does this prediction get explained under challenge? What happens when the data distribution shifts? Who owns the retraining decision, and how is that ownership documented? A model that cannot answer these questions does not reach production in a regulated environment, regardless of how well it performs on held-out data.</p>
+          <p>The gap is structural. Risk committees, compliance officers, and governance boards are not blocking ML systems because they do not understand the technology. They are blocking them because the practitioner presenting the system cannot answer the questions they are obligated to ask. A model card that does not document the feature register, a deployment that has no drift governance, an architecture that has no audit trail — these are not oversights. They are the visible surface of a training gap that most ML programmes have not addressed.</p>
+          <p>Cohort 1B is built for that gap. It takes the practitioner who can build the model and teaches them to build the system around it that a regulated environment will actually accept.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── WHO THIS IS FOR ─────────────────────────────────────────── -->
+    <section class="audience-section" aria-labelledby="audience-heading">
+      <div class="inner">
+        <p class="section-label">Who This Is For</p>
+        <h2 class="audience-section__heading" id="audience-heading">Three situations. One programme.</h2>
+
+        <div class="audience-grid">
+
+          <div class="audience-card">
+            <div class="audience-card__role">The ML Engineer whose models are not reaching production</div>
+            <p class="audience-card__situation">You can build the model. The validation metrics are good. But somewhere between the notebook and the production environment — at the risk review, in the compliance documentation stage, at the sign-off gate — the work stalls. The blockers are not technical. They are governance blockers: no explainability artefact, no drift plan, no documented ownership of the retraining trigger. You need the framework that turns a working model into a system a regulated organisation will deploy.</p>
+          </div>
+
+          <div class="audience-card">
+            <div class="audience-card__role">The Data Scientist moving into regulated environments</div>
+            <p class="audience-card__situation">You are technically credible in environments where the primary constraint is predictive performance. You are moving into — or already working in — a context where the constraints are different: financial regulation, healthcare governance, insurance oversight, supply chain compliance. The modelling skills are there. What is missing is the governance layer: the MLOps discipline, the compliance documentation, the audit trail, the language of risk committees and governance boards. This programme closes that gap directly.</p>
+          </div>
+
+          <div class="audience-card">
+            <div class="audience-card__role">The Senior Developer building ML systems in production</div>
+            <p class="audience-card__situation">You have shipped systems. You understand production conditions from the inside — reliability, observability, handoff, ownership. You are now working on ML-augmented systems in a regulated context, and the gap you are feeling is not the machine learning. It is the specific discipline that regulated ML production demands: feature governance, model cards that hold up under audit, drift detection as a governed process, compliance by design rather than by documentation after the fact. This programme is the framework you need to close that gap without starting from scratch.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── THE JOURNEY ─────────────────────────────────────────────── -->
+    <section class="journey-section" aria-labelledby="journey-heading">
+      <div class="inner">
+
+        <div class="journey-section__left">
+          <p class="section-label">The Programme</p>
+          <h2 class="journey-section__heading" id="journey-heading">Three weekends.<br>One system, built end to end.</h2>
+
+          <div class="weekend-block">
+            <div class="weekend-block__header">
+              <span class="weekend-block__number">Weekend 1</span>
+              <span class="weekend-block__name">Foundation and Judgment</span>
+            </div>
+            <p class="weekend-block__prose">The first weekend establishes the standard that the rest of the programme is built against. Not production-ready in the abstract — production-ready for an ML system in a regulated environment, with the specific compliance obligations, data governance constraints, and organisational approval structures that participants are actually working within. The economic lens is introduced here in its ML form: model selection is a constraint satisfaction problem with a cost structure, and the practitioner who cannot present that cost structure to a budget holder is fighting with one instrument missing. The human layer enters in the same weekend — who blocks ML systems in regulated organisations, why they block them, and what those blockers actually need before they will release an approval.</p>
+          </div>
+
+          <div class="weekend-block">
+            <div class="weekend-block__header">
+              <span class="weekend-block__number">Weekend 2</span>
+              <span class="weekend-block__name">Design and Decision</span>
+            </div>
+            <p class="weekend-block__prose">The second weekend is where the system is built. The ML system stack — layers, ownership boundaries, interface contracts between components. ADRs applied specifically to ML decisions: model selection, feature engineering choices, the explainability approach. Feature engineering under data governance obligations, not as a technical exercise but as a compliance-constrained design problem. SHAP and XAI not as interesting tools but as compliance artefacts — the evidence the risk committee will ask for. MLOps for regulated environments: how a governed retraining pipeline differs structurally from an ungoverned one. Drift detection as a governed process, with documented ownership, defined triggers, and an audit trail that survives a regulatory inquiry. Every chapter produces a component of the evolving spine project document.</p>
+          </div>
+
+          <div class="weekend-block">
+            <div class="weekend-block__header">
+              <span class="weekend-block__number">Weekend 3</span>
+              <span class="weekend-block__name">Defence and Handoff</span>
+            </div>
+            <p class="weekend-block__prose">The third weekend tests everything that was built. Agile value flow in the ML context: how to frame model work in sprint planning language that a product organisation can fund and schedule. The ML failure modes taxonomy: naming the specific failure modes of the specific system in the specific regulated context — silent drift, feature staleness, governance gaps, handoff failures — before they occur. The unbuilt model: the discipline of recognising when the right answer is not a model at all, and making that case with the same rigour as the argument for building. The ML handoff: what clean transfer of ownership requires when the system being handed over is a governed, audited, production ML system. The capstone is the defence of the complete system artefact before a simulated review panel. Participants leave with a portfolio piece, not a certificate.</p>
+          </div>
+        </div>
+
+        <!-- Chapter list -->
+        <div class="journey-section__right">
+          <p class="chapter-list-intro">18 chapters &nbsp;·&nbsp; 6 per weekend</p>
+          <ol class="chapter-list" aria-label="Programme chapters">
+
+            <li class="chapter-item__weekend-break">
+              <span class="wk-label">Weekend 1</span>
+              <span class="wk-name">Foundation and Judgment</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">01</span>
+              <span class="chapter-item__title">What Production Ready Means for an ML System</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">02</span>
+              <span class="chapter-item__title">Reading The Terrain: The Three ML Contexts</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">03</span>
+              <span class="chapter-item__title">The Data Behind The ML Decision</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">04</span>
+              <span class="chapter-item__title">Economic Decisions First: The ML Cost Structure</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">05</span>
+              <span class="chapter-item__title">The Human Transactions</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">06</span>
+              <span class="chapter-item__title">The Turtles: Who Blocks ML Systems and Why</span>
+            </li>
+
+            <li class="chapter-item__weekend-break">
+              <span class="wk-label">Weekend 2</span>
+              <span class="wk-name">Design and Decision</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">07</span>
+              <span class="chapter-item__title">The ML System Stack: Layers, Ownership, Boundaries</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">08</span>
+              <span class="chapter-item__title">ADRs For ML Engineers</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">09</span>
+              <span class="chapter-item__title">Feature Engineering Under Data Governance Obligations</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">10</span>
+              <span class="chapter-item__title">SHAP, XAI, and Compliance Artefacts</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">11</span>
+              <span class="chapter-item__title">Model Selection as a Constraint Satisfaction Problem</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">12</span>
+              <span class="chapter-item__title">MLOps for Regulated Environments</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">13</span>
+              <span class="chapter-item__title">Drift Detection and Retraining as a Governed Process</span>
+            </li>
+
+            <li class="chapter-item__weekend-break">
+              <span class="wk-label">Weekend 3</span>
+              <span class="wk-name">Defence and Handoff</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">14</span>
+              <span class="chapter-item__title">Agile Value Flow: Getting ML Work Into The Sprint</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">15</span>
+              <span class="chapter-item__title">The ML Failure Modes Taxonomy</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">16</span>
+              <span class="chapter-item__title">The Unbuilt Model</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">17</span>
+              <span class="chapter-item__title">The ML Handoff: Giving and Receiving</span>
+            </li>
+            <li class="chapter-item">
+              <span class="chapter-item__num">18</span>
+              <span class="chapter-item__title">The Capstone: Build, Defend, and Hand Off</span>
+            </li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── WHAT YOU LEAVE WITH ─────────────────────────────────────── -->
+    <section class="artefact-section" aria-labelledby="artefact-heading">
+      <div class="inner">
+
+        <div class="artefact-section__left">
+          <p class="section-label">What You Leave With</p>
+          <h2 class="artefact-section__heading" id="artefact-heading">Not a notebook.<br>A governed system artefact.</h2>
+          <p class="artefact-section__sub">A complete ML system document you can present to a governance board, a risk committee, or a hiring manager on the day you leave.</p>
+        </div>
+
+        <div class="artefact-section__right">
+          <div class="artefact-section__prose">
+            <p>Every chapter in Cohort 1B produces a tangible output. Those outputs are not exercises in isolation — they are components of a single, evolving ML system artefact built against a real-world spine project. By the capstone session, participants have a complete document that represents eighteen chapters of applied work against a governed, production-grade ML system specification.</p>
+            <p>The capstone is the defence of that artefact before a simulated review panel, with the facilitator in the role of the governance board chair and compliance sign-off authority. What participants leave with is something they can deploy immediately — not a course completion record, but a system document that can survive the scrutiny of the environments they are actually working in.</p>
+          </div>
+
+          <ul class="artefact-list" aria-label="Artefact components">
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Model card</span>
+              <span class="artefact-list__item-desc">Intended use, out-of-scope use, performance characteristics, known limitations — structured for regulatory audit</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Feature register</span>
+              <span class="artefact-list__item-desc">Every feature documented with its source, governance status, data lineage, and approval record</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Architecture Decision Record log</span>
+              <span class="artefact-list__item-desc">Every significant ML design decision — model selection, architecture choices, explainability approach — with the constraint map and economic justification that defends it</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Compliance mapping</span>
+              <span class="artefact-list__item-desc">Regulatory obligations satisfied structurally within the system design, not appended as documentation after the fact</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">MLOps architecture</span>
+              <span class="artefact-list__item-desc">The governed pipeline: training, evaluation, deployment, monitoring — with ownership defined at every stage</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Drift governance document</span>
+              <span class="artefact-list__item-desc">Detection methodology, threshold definitions, retraining trigger ownership, escalation path, and audit trail specification</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Failure modes register</span>
+              <span class="artefact-list__item-desc">Named ML failure modes specific to the system context — silent drift, feature staleness, feedback loop degradation — with detection instrumentation defined</span>
+            </li>
+            <li class="artefact-list__item">
+              <span class="artefact-list__item-name">Handoff checklist</span>
+              <span class="artefact-list__item-desc">The conditions that must be satisfied before ownership of a governed ML system transfers — and the evidence that they have been met</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── THE SPINE PROJECT ───────────────────────────────────────── -->
+    <section class="spine-section" aria-labelledby="spine-heading">
+      <div class="inner">
+
+        <div class="spine-section__left">
+          <p class="section-label">The Spine Project</p>
+          <h2 class="spine-section__heading" id="spine-heading">One problem. Eighteen chapters. One artefact.</h2>
+        </div>
+
+        <div class="spine-section__right">
+          <div class="spine-section__prose">
+            <p>Every Cohort 1B participant works on the same pre-designed spine project throughout all three weekends. The facilitator presents the problem — a real-world ML system challenge in a regulated production context — and plays the role of the business owner, the risk committee chair, and the sign-off authority throughout. This is not a pedagogical technique. It is a structural choice that changes the quality of what gets built.</p>
+            <p>When participants work on personal projects, they self-select problems they already know how to solve. They import their own assumptions, their own escape routes, and their own definitions of done. When every participant is working on the same problem — with the same facilitator in the room representing the governance authority they need to convince — the pressure is real. The challenge of explaining a drift detection threshold to a risk officer is not hypothetical. The difficulty of defending a feature engineering decision under data governance scrutiny is not simulated. The discomfort of being told that the compliance mapping is insufficient is the condition that produces the capability shift.</p>
+            <p>By the time the capstone arrives, participants have spent eighteen chapters building a governed ML system artefact against a problem they did not author, for an authority who is not going to make it straightforward. That is as close to the conditions of regulated production as a training environment can get — and it is the condition that Cohort 1B is built to create.</p>
+          </div>
+
+          <div class="spine-pullquote" role="note">
+            <p>A model that cannot be handed off cleanly to a governance process is not production-ready. The spine project exists to ensure that every participant has built — and defended — a system that can be.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PRICING ─────────────────────────────────────────────────── -->
+    <section class="pricing-section" aria-labelledby="pricing-heading">
+      <div class="inner">
+        <p class="section-label">Pricing and Enrolment</p>
+        <h2 class="pricing-section__heading" id="pricing-heading">Founder pricing.<br>Limited places.</h2>
+
+        <div class="pricing-grid">
+
+          <div class="pricing-card pricing-card--founder">
+            <div class="pricing-card__label">Founder price</div>
+            <div class="pricing-card__price">£1,800</div>
+            <p class="pricing-card__note">Available for the first cohort only. Self-funded or employer-sponsored. No difference in price at this tier.</p>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-card__label">Full price — self-funded</div>
+            <div class="pricing-card__price">£2,500</div>
+            <p class="pricing-card__note">Standard rate for individual participants funding their own enrolment after the founder cohort closes.</p>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-card__label">Full price — employer-sponsored</div>
+            <div class="pricing-card__price">£3,500</div>
+            <p class="pricing-card__note">Standard rate for participants whose enrolment is funded by an employer or practice. Includes a post-cohort briefing note for the sponsoring organisation.</p>
+          </div>
+
+        </div>
+
+        <div class="pricing-cta-area">
+          <div class="pricing-cta-area__next">
+            <strong>Next cohort —</strong> enquire for dates and current availability.
+          </div>
+          <a
+            href="mailto:hello@datadomine.com?subject=Cohort%201B%20Enquiry"
+            class="enrol-btn"
+            aria-label="Enquire about Cohort 1B enrolment"
+          >
+            Enquire about Cohort 1B
+          </a>
+        </div>
+
+        <p class="pricing-note-block">Maximum 12 participants per cohort. Places are confirmed by email following an introductory conversation. DataDomine reserves the right to decline enrolment where the programme is not the right fit for the participant's current context.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="mark" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="vert"></span>
+        </span>
+        <span class="text">
+          <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+        </span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-centre">
+      <a href="mailto:hello@datadomine.com">hello@datadomine.com</a>
+      <span class="footer-note">datadomine.com</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+
+/* ── Footer social icons ─────────────────────────────────── */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(13, 17, 23, 0.06);
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  color: var(--slate);
+  opacity: 0.6;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  opacity: 1;
+  color: var(--amber);
+}
+
+.footer-social svg {
+  display: block;
+}
+
+/* ── Footer social icons ─────────────────────────────────── */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(13, 17, 23, 0.06);
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  color: var(--slate);
+  opacity: 0.6;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  opacity: 1;
+  color: var(--amber);
+}
+
+.footer-social svg {
+  display: block;
+}

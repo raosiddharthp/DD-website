@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why most technical training fails before it starts | Siddharth Potukuchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+  .hero .meta {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    font-weight: 300;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  p {
+    font-size: 1.085rem;
+    margin-bottom: 1.65rem;
+    color: var(--ink);
+  }
+
+  p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin: 6px 12px 0 0;
+    color: var(--navy);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.55rem;
+    color: var(--navy);
+    margin: 3rem 0 1.1rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 2.5rem 0 0.6rem;
+  }
+
+  /* pull quote */
+  blockquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.8rem 0;
+    padding: 4px 0 4px 32px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+  blockquote cite {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: var(--mid);
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  /* callout box */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.8rem 0;
+    border-radius: 0 0 4px 4px;
+  }
+  .callout .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--mid);
+    margin: 0;
+    line-height: 1.7;
+  }
+  .callout p::first-letter { all: unset; }
+
+  /* section rule */
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  /* footnote area */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* author bio */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Potukuchi</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Curriculum Design</span>
+  <h1>Why most technical training fails before it starts</h1>
+  <p class="deck">The room isn't where it goes wrong. The room is just where you find out.</p>
+  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; June 2024 &nbsp;·&nbsp; 10 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>For years before I ever stood in front of a training room, I built the content that filled them. Curriculum after curriculum, product after product, company after company. I was good at it. I read release notes. I interviewed Dev and QA about feature readiness. I tested the last stable version. I built structured, thorough, professionally assembled learning content — and I handed it to trainers who delivered it to participants who were two full steps removed from the people who actually knew the technology.</p>
+
+  <p>I never thought of this as a problem. I was young, I was new, and I understood that people had roles. The developer built the feature. The QA team certified it. I documented it. The trainer delivered it. That was the chain. Everyone was doing their job. The machine was working.</p>
+
+  <p>What I didn't understand yet — what the structure actively prevented me from understanding — was that the machine was not designed to produce impact. It was designed to produce deliverables. And I had confused the two.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The question nobody was asking</h2>
+
+  <p>In every curriculum I built during those years, there was a question at the start of the design process. It wasn't written down anywhere. It didn't need to be. It was the only question the structure permitted: <em>what do we need to cover?</em></p>
+
+  <p>What's in scope for this release? Which features are ready? What does the trainer need to be able to explain? The SME gave us features. We built content around features. The trainer demoed the features. Participants replicated the steps in a sandbox environment. Training complete.</p>
+
+  <p>It looked like knowledge transfer. It had all the components of knowledge transfer. It produced learning metrics — completion rates, assessment scores, facilitator feedback forms that said the right things. And it was, I now understand, almost entirely disconnected from the question that actually mattered: <em>what does this participant need to be able to do when they leave?</em></p>
+
+  <blockquote>
+    <p>A curriculum built around coverage is a list of topics. A curriculum built around an exit state is a capability transfer program. They look similar on a slide deck. They produce entirely different results in a production environment.</p>
+  </blockquote>
+
+  <p>The silo wasn't anyone's fault. Nobody in that chain was negligent. Everyone was focused on their role — and "focused on your role" in a structure like that means you never look far enough up the chain to ask what the whole thing is actually for. The curriculum developer asks the SME what to cover. The SME tells them what's new. The trainer delivers what's written. The participant receives what's delivered. At no point does the participant's actual outcome enter the design process. It's not suppressed. It's just structurally invisible.</p>
+
+  <div class="callout">
+    <div class="label">The architecture of the problem</div>
+    <p>In most technical training organisations, the distance between the subject matter expert and the participant is not measured in rooms or buildings — it is measured in roles. Each role in the chain optimises for its own deliverable: the SME for completeness, the curriculum developer for coverage, the trainer for delivery. Nobody's deliverable is the participant's capability on day one back at work. That is the gap. It is not a people problem. It is a design problem.</p>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The room that proved it</h2>
+
+  <p>My first training delivery at Apttus was internal. Forty hours. New hire batch. I covered everything I was supposed to cover, participants completed their projects, and the feedback from their managers was positive. By every available measure, it worked.</p>
+
+  <p>I know now why it worked: new hires are a forgiving audience. They don't yet know what they don't know. They have no production environment waiting for them, no client expectations already set, no POC with a deadline attached to it. They receive the training on the training's own terms. The sandbox feels real because they have no other reference point yet.</p>
+
+  <p>Then I trained a batch of customers.</p>
+
+  <p>The difference was immediate and it was structural. These participants had arrived with a specific orientation — not toward the syllabus, not toward the feature set, not toward my carefully assembled content sequence. They had arrived toward their <em>deliverable</em>. They had a proof of concept to build. They had a go-live date. They had stakeholders who had expectations. They had, in short, a production environment — real, specific, already waiting for them — and they needed to know how this technology was going to work inside it.</p>
+
+  <p>Their questions went out of scope almost immediately. And I gave them the honest answer: we cover that in the advanced module. Which is a technically accurate and completely useless response. You can say it once. Maybe twice. By the third time, everyone in the room — including you — understands that something is wrong, and it isn't the question.</p>
+
+  <p>Over four days, several participants asked me a version of the same thing. The words varied. The shape of it didn't. <em>All that you are covering here — how does this help our project?</em></p>
+
+  <p>I was not just the trainer in that room. I was the person from Apttus. I was representing the company that had sold them the technology, made them promises about what it could do, and was now standing in front of them delivering a training program that couldn't answer their most basic question. Four days. The same question, in different forms, from different people. It had to land. Eventually it did.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What I went back and changed</h2>
+
+  <p>I went back to the design process and changed the first question. Not the content. Not the format. Not the delivery approach. The question.</p>
+
+  <p>Instead of starting with what the technology could do, I started talking to more than one expert — not just Dev and QA, but people who had implemented the product in real customer environments. I asked what the common use cases actually looked like. What broke. What customers tried to configure that the sandbox exercises never covered. What the gap was between "completed training" and "production ready." And I built a bank of real-world scenarios — specific, varied, drawn from actual implementations — so that for any given batch, I could select the ones that mapped to what that room was actually trying to do.</p>
+
+  <p>The training didn't change in length. The features covered were largely the same. What changed was the frame: every piece of content was now in service of a use case that the participant could recognise as their own. Coverage became context. The syllabus became a scaffold for something real.</p>
+
+  <p>That practice — designing from the participant's exit state backward, populating the curriculum with use cases drawn from the world they were returning to — became the foundation of how I think about curriculum design. Not as an innovation. As the correction of a mistake I had been making for years without knowing it.</p>
+
+  <blockquote>
+    <p>The question "what do we need to cover?" is not a design question. It is an inventory question. And you cannot build a capability transfer program out of an inventory.</p>
+  </blockquote>
+
+  <div class="section-rule"></div>
+
+  <h2>Where the failure actually lives</h2>
+
+  <p>When a technical training program fails, the diagnosis usually points at delivery. The trainer wasn't engaging enough. The content was too dense. The participants weren't motivated. The room was wrong.</p>
+
+  <p>Sometimes those things are true. But in my experience, the more common failure is upstream — baked into the design before the trainer ever walked in, before the slide deck was finalised, before the first participant registered. The failure is in the question that started the whole process. A question about coverage, asked by people who were structurally prevented from asking about outcomes instead.</p>
+
+  <p>The room is not where it goes wrong. The room is just where you find out.</p>
+
+  <p>And finding out — really sitting with the discomfort of a question you cannot answer four days in a row, in front of people you are supposed to be there to serve — is the beginning of designing differently. Not better content. A different starting point. A different question at the top of the process, before anything else is written.</p>
+
+  <p>What does production-ready look like for this learner, in this context, on day one after training ends?</p>
+
+  <p>Everything else follows from that. Or it should.</p>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Potukuchi</div>
+    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
+  </div>
+</div>
+
+</body>
+</html>

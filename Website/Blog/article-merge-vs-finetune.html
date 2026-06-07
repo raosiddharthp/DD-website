@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When a model merge beats a fine-tune — and how to know which problem you actually have. | Siddharth Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero .meta {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.06em;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+  .article-wrap p {
+    font-size: 1.08rem;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+  .article-wrap p::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin-right: 0.1em;
+    margin-top: 0.08em;
+    color: var(--navy);
+  }
+  .article-wrap p + p::first-letter { all: unset; }
+  .article-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 3.2rem 0 1.2rem;
+    line-height: 1.25;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 2.4rem 0;
+    padding: 4px 0 4px 28px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.22rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  /* ── CONDITIONS TABLE ── */
+  .conditions-list {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cl-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .cl-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+  }
+  .cl-row:last-child { border-bottom: none; }
+  .cl-row:nth-child(even) { background: #fafafa; }
+  .cl-condition {
+    padding: 20px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--navy);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .cl-why {
+    padding: 20px 28px;
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── COMPARISON FRAME ── */
+  .compare-frame {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cpf-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .cpf-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .cpf-col {
+    padding: 28px;
+    background: white;
+  }
+  .cpf-col:first-child {
+    border-right: 1px solid var(--rule);
+    background: #fafafa;
+  }
+  .cpf-col-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .cpf-col:first-child .cpf-col-label { color: #c0392b; }
+  .cpf-col:last-child .cpf-col-label { color: #27ae60; }
+  .cpf-col-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .cpf-col p {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 0;
+  }
+  .cpf-col p::first-letter { all: unset; }
+  .cpf-items {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cpf-item {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 3px;
+    line-height: 1.45;
+  }
+  .cpf-col:first-child .cpf-item { background: #fdecea; color: #c0392b; }
+  .cpf-col:last-child .cpf-item { background: #eafaf1; color: #27ae60; }
+
+  /* ── FOOTNOTES ── */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* ── AUTHOR BIO ── */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .cl-row { grid-template-columns: 1fr; }
+    .cl-why { border-top: 1px solid var(--rule); }
+    .cpf-cols { grid-template-columns: 1fr; }
+    .cpf-col:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Rao</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Applied Machine Learning</span>
+  <h1>When a model merge beats a fine-tune —<br>and how to know which problem you have.</h1>
+  <p class="deck">Fine-tuning is the default answer when you need a model to do more things. It is not always the right answer. If the capabilities you need already exist in separate models, merging their weights is faster, cheaper, and requires no training data. Knowing when those conditions hold is the whole job.</p>
+  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 14 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>The problem arrived as a deployment cost complaint, which is usually how the interesting architectural problems arrive. An enterprise finance team had two fine-tuned models in production: one trained on earnings transcripts, 10-Ks, and financial covenants — the quantitative reasoning workhorse — and one trained on client communication, meeting summaries, and investor-facing language. Both models were good at their respective jobs. Neither could do the other's job reliably.</p>
+
+  <p>The workflow that broke it was a simple one on paper: an analyst needed to draft a client memo that explained a DCF analysis. To do that well, you need quantitative precision and readable prose in the same output — the kind of thing that feels natural when a skilled analyst writes it, and falls apart when you pipeline two models through a string hand-off. The quant model produces precise numbers. The comms model receives a text string and generates fluent language around it. What it does not receive is the intermediate attention states and logits that encode the quantitative reasoning. The boundary between the two models destroys exactly the thing the output needed most.</p>
+
+  <p>The obvious answer was to fine-tune a single model that could do both. That answer came with a cost: curating a training dataset that covered both domains adequately, running a training job on a sufficiently large model, evaluating the result, iterating. Weeks of work and thousands of dollars in GPU compute — for a problem where both of the required capabilities already existed, in trained form, in two models that shared the same base architecture.</p>
+
+  <p>That is when the merge became worth examining seriously.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What weight merging actually is</h2>
+
+  <p>Model merging is the practice of combining the weights of two or more fine-tuned models into a single model — without any training, without any labelled data, and without any gradient updates. The result is a single model that, when the conditions are right, retains meaningful capability from each of its source models.</p>
+
+  <p>The intuition behind why this works starts with task vectors. When you fine-tune a model, the fine-tuning changes the weights relative to the base model. The difference between the fine-tuned weights and the base model weights — the task vector — encodes everything the fine-tuning taught the model. If two models were fine-tuned from the same base, you can represent each of them as a base model plus a task vector. Adding those task vectors together and applying the sum to the base model produces a merged model that, in principle, inherits both fine-tunings.</p>
+
+  <p>In practice, it is more complicated than addition. Task vectors interfere with each other. When two models disagree on the sign of a weight update for the same parameter — one pushes the weight up, the other pushes it down — naive averaging produces cancellation. Neither specialisation is preserved. The mid-to-late transformer layers, where domain-specific representations concentrate, show the highest conflict rates. Managing that interference is where the interesting engineering lives.</p>
+
+  <blockquote>
+    <p>Fine-tuning encodes new capabilities into a model. Merging combines capabilities that already exist. These are solutions to different problems — and confusing them is expensive.</p>
+  </blockquote>
+
+  <p>SLERP, TIES-Merging, and DARE are three techniques that address the interference problem with increasing sophistication. SLERP interpolates between two models geometrically, layer by layer, with no explicit interference handling — it is the simplest merge and establishes the quality floor. TIES-Merging adds sign conflict resolution: it trims low-magnitude delta parameters and elects a consensus sign for each parameter before merging, reducing the cancellation that naive averaging produces. DARE adds a prior sparsification step — randomly zeroing out a fraction of each model's delta parameters and rescaling the survivors, which reduces the number of parameters competing for the same weight slot before TIES resolves the conflicts. DARE-TIES — the combination — consistently outperforms either technique independently on domains with significant inter-model interference.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The four conditions that make merging viable</h2>
+
+  <p>Merging is not a universal substitute for fine-tuning. It works under a specific set of conditions, and when those conditions do not hold, it fails in predictable ways. The decision to merge rather than fine-tune should be an explicit check against these conditions, not a default or an optimisation shortcut.</p>
+
+  <div class="conditions-list">
+    <div class="cl-header">The four conditions for merge viability — check all four before committing</div>
+
+    <div class="cl-row">
+      <div class="cl-condition">Condition 1 — Shared base architecture</div>
+      <div class="cl-why">The source models must derive from the same base model — same architecture, same tokenizer, same weight tensor shapes. This is a hard requirement, not a quality guideline. Merging models from different base architectures produces malformed weight tensors that cannot be loaded. In practice this means both models must have been fine-tuned from the same checkpoint: both from Mistral-7B-v0.1, both from Llama-3-8B-Instruct, and so on. If your specialist models were fine-tuned from different base checkpoints, you are not in a position to merge. You are in a position to fine-tune jointly or to run them as a pipeline.</div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-condition">Condition 2 — Capabilities that already exist in trained form</div>
+      <div class="cl-why">Merging combines what already exists. It cannot add capabilities that neither source model has. If you need a model that is good at quantitative financial reasoning and fluent client communication, and you have two specialist models that are good at each of those things respectively, merging is viable. If you need a model that is good at domain X and neither of your source models has been trained on domain X, you need fine-tuning — not because merging is theoretically wrong but because there is nothing to merge. The merged model's quality ceiling in any domain is bounded by the best source model in that domain. You cannot merge your way above the quality that exists in your source models.</div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-condition">Condition 3 — Domains that are meaningfully orthogonal</div>
+      <div class="cl-why">Merging works best when the source models' specialisations are sufficiently different that they are not fighting for the same weight space. Quantitative financial reasoning and client communication prose represent genuinely different representations — the evidence for this is in the near-zero Spearman correlation between their task vectors across all transformer blocks. When two domains are similar — two models both trained on legal text, or two models both trained on similar code domains — their task vectors overlap heavily, conflict rates are high, and the merge either produces degradation on both tasks or reduces to whichever model has the louder task vector. The further apart the domains, the more merging has to work with.</div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-condition">Condition 4 — Acceptable quality ceiling below joint retraining</div>
+      <div class="cl-why">A merged model will not match the quality of a model jointly retrained on both domains. The upper bound for merging — the best result achievable without training — sits below what a well-executed joint fine-tune produces. For FusionLM, the DARE-TIES merge achieved 98.5% of the pipeline baseline on FinQA at half the serving cost. The joint retrain upper bound was 3% higher in absolute benchmark terms. Whether that 3% gap is acceptable depends entirely on the application. For many production deployments, 98.5% of the baseline at zero training cost and half the serving cost is the right trade-off. For applications where that remaining gap is materially consequential, joint retraining is the right answer, not a better merge configuration.</div>
+    </div>
+
+  </div>
+
+  <p>When all four conditions are met — shared base, existing capabilities, orthogonal domains, acceptable quality ceiling — merging is not just a viable alternative to fine-tuning. It is the faster, cheaper, and operationally simpler choice. The merge runs in roughly twenty minutes on a CPU. It produces a static model file that deploys identically to any other model. There is no training pipeline to maintain, no retraining cadence to manage, no GPU budget to allocate for future training runs.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The problem that merging actually solves</h2>
+
+  <p>The core problem that merging is designed to address is the multi-specialist deployment pattern — the situation where an organisation has invested in fine-tuning separate models for separate tasks, and now needs outputs that require both specialisations simultaneously.</p>
+
+  <p>This pattern is more common than it might seem. Between 2023 and 2025, the standard practice at AI-forward financial institutions was to fine-tune one model per workflow: one for quantitative analysis, one for client communication, one for regulatory language, one for internal reporting. Each model is good at its task. Real analyst work crosses all of them constantly. The pipeline that tries to chain these models together loses coherence at every hand-off, because a text string carries far less information than the intermediate attention states it replaced.</p>
+
+  <p>The alternative approaches to this problem — before merging is considered — each have significant costs. Running a logit-level ensemble, where both models decode simultaneously and their log-probabilities are combined, preserves the quality of both specialists but doubles the serving cost and requires synchronised decoding infrastructure. Running a task-routing classifier routes each query to the best specialist for that task, but produces no hybrid output and fails on queries that genuinely require both domains. Running multiple LoRA adapters on a shared base swaps adapters per query, but adds 80–200 milliseconds of adapter loading latency and requires stateful serving infrastructure.</p>
+
+  <div class="compare-frame">
+    <div class="cpf-header">Fine-tune vs. merge — the decision, made correctly</div>
+    <div class="cpf-cols">
+      <div class="cpf-col">
+        <div class="cpf-col-label">Fine-tune when</div>
+        <div class="cpf-col-title">The capability does not exist yet</div>
+        <p>Fine-tuning adds what a model does not have. It is the right tool when the domain knowledge, task format, or output style you need has not been trained into any model you can access.</p>
+        <div class="cpf-items">
+          <div class="cpf-item">The required capability does not exist in any available model</div>
+          <div class="cpf-item">Source models do not share a base architecture</div>
+          <div class="cpf-item">The quality gap between merge ceiling and joint retrain is unacceptable</div>
+          <div class="cpf-item">Domains are too similar — task vectors would produce heavy interference</div>
+        </div>
+      </div>
+      <div class="cpf-col">
+        <div class="cpf-col-label">Merge when</div>
+        <div class="cpf-col-title">The capability already exists, in parts</div>
+        <p>Merging combines what already exists. It is the right tool when the required capabilities are already trained, just distributed across models that share a common base.</p>
+        <div class="cpf-items">
+          <div class="cpf-item">Both capabilities exist in specialist models from the same base</div>
+          <div class="cpf-item">The domains are meaningfully different — low task vector conflict</div>
+          <div class="cpf-item">The quality ceiling of a merge is sufficient for the application</div>
+          <div class="cpf-item">Serving cost and operational simplicity matter more than the last few benchmark points</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Weight merging produces a single static model file. It deploys like any other model. It has no runtime dependency on a second model, no adapter swap latency, no synchronised decoding requirement. At the quality level FusionLM achieves — 98.5% of pipeline baseline at half the serving cost, with no training run — merging is not a compromise. For the specific conditions it was designed for, it is a better architecture than the alternatives it replaced.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The interference problem — and why layer position matters</h2>
+
+  <p>The reason DARE-TIES outperforms simpler merge techniques is not arbitrary. It is grounded in the structure of where interference occurs in a transformer model, and understanding that structure is what makes the technique selection principled rather than trial-and-error.</p>
+
+  <p>Early transformer layers — roughly the first quarter of the model's blocks — encode general-purpose representations that both specialists share. These layers are not fighting over the same weight space, because both models learned similar things there. The sign conflict rate in early layers is relatively low. Aggressive sparsification in these layers is unnecessary and potentially harmful, because you are pruning parameters that are not actually interfering.</p>
+
+  <p>Mid-to-late layers — roughly blocks 12 through 24 in a 32-block model — are where domain-specific representations concentrate. This is where the quant specialist learns that a particular attention pattern corresponds to a financial ratio calculation, and where the comms specialist learns that a different attention pattern corresponds to professional register. These representations are legitimately different. They compete for the same weight space. Sign conflict rates in these layers peak at 0.44 to 0.52 — nearly half the parameters in these blocks have task vectors pointing in opposite directions.</p>
+
+  <p>DARE addresses this by sparsifying before sign election: randomly zeroing out 40% of the delta parameters in each model (density=0.6), then rescaling the survivors. The zeroing is not targeted — it is random — but the rescaling preserves the expected magnitude of the surviving parameters. The effect is to reduce the number of parameters in active conflict before TIES resolves the remaining conflicts by sign election. Fewer conflicts going into TIES means less cancellation, and less cancellation means both specialisations survive the merge more intact.</p>
+
+  <blockquote>
+    <p>The interference profile across transformer layers is not uniform. A merge configuration that treats all layers identically is leaving quality on the table in the layers where interference is highest.</p>
+  </blockquote>
+
+  <p>The planned next step for FusionLM is per-layer density — applying a lower density (more aggressive sparsification) to the high-conflict mid-to-late blocks and a higher density to the early layers where interference is low. The current uniform density=0.6 is the parameter that a grid search identified as best across all layers simultaneously. Per-layer density would push the quality of the merge closer to the joint retraining upper bound without any training cost.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The decision audit — merge or fine-tune</h2>
+
+  <p>The question that organises this decision is not "which technique is better?" It is "what kind of problem do I actually have?" Fine-tuning solves a capability gap — something the model cannot do that it needs to learn. Merging solves a capability consolidation problem — something two models can do separately that needs to happen in a single model. Diagnosing which problem you have determines which tool is appropriate.</p>
+
+  <div class="callout">
+    <div class="label">The merge-or-fine-tune decision audit — four questions</div>
+    <p><strong>Do the capabilities you need already exist in models that share a base architecture?</strong> This is the entry condition. If yes, merging is worth evaluating. If no — if the required capability does not exist in any accessible model, or if the models that have it were fine-tuned from different bases — merging is not on the table. Fine-tuning is the only path.</p>
+    <p><strong>How different are the domains of the source models?</strong> Compute or estimate the task vector correlation between the models. Near-zero or negative correlation — like the ρ = −0.12 observed between the FusionLM source models — indicates largely orthogonal weight updates and low expected interference. High positive correlation indicates similar fine-tuning trajectories and high expected interference. The higher the correlation, the more the merge will converge toward whichever model has the stronger task vector rather than preserving both.</p>
+    <p><strong>What quality ceiling is acceptable for your application, and is the merge ceiling above it?</strong> Run a quick SLERP merge — the simplest technique, twenty minutes on a CPU — and evaluate it against your target benchmark. If the SLERP result is already within acceptable range of your quality requirement, you have your architecture. If it is not, either the gap can be closed by moving to TIES or DARE-TIES, or it cannot — in which case the conditions for merging are not met and fine-tuning is the appropriate response.</p>
+    <p><strong>What is the cost structure of the alternatives?</strong> Compare the one-time merge cost (CPU time, no GPU budget) against the fine-tuning cost (dataset curation, training run, evaluation, iteration). Compare the serving cost of a merged single model against the alternatives it would replace — a two-model pipeline at 2× serving cost, an adapter-swap setup with 80–200ms per-query overhead, or a logit ensemble requiring synchronised decoding. The merge has to be better on cost and operationally simpler than the alternatives, not just comparable on quality.</p>
+  </div>
+
+  <p>The result of this audit is a binary: either the merge is viable and worth building, or it is not and fine-tuning is the right path. The audit does not take long. The SLERP evaluation described above — the cheapest and fastest quality check — can be run and evaluated in under an hour. If it clears the bar, you have saved weeks. If it does not, you have spent an hour confirming that fine-tuning was the right answer, which is also a valuable result.</p>
+
+  <p>The thing that makes this decision genuinely interesting is that most teams never take the audit at all. Fine-tuning is the canonical answer to "we need the model to do more things," and it is a good answer — just not always the best one. When the capabilities already exist in models you can access, and when those models share a base, the question of whether to merge is worth thirty minutes and a SLERP run before the fine-tuning pipeline is opened. The upside is a working model at zero training cost. The downside is an hour spent confirming what you already suspected.</p>
+
+  <p>That asymmetry is worth acting on.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Yadav, P. et al. (2023). <em>TIES-Merging: Resolving Interference When Merging Models.</em> NeurIPS 2023. arXiv:2306.01708. — The foundational paper for the TIES technique. Introduces the task vector formulation, the trim-elect-merge procedure, and the sign conflict analysis that motivates non-uniform merging strategies.</p>
+    <p>Yu, L. et al. (2023). <em>Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch.</em> arXiv:2311.03099. — Introduces DARE. Reports stability up to 90% drop rate and documents the per-layer interference pattern that motivates DARE-TIES over TIES alone.</p>
+    <p>Ilharco, G. et al. (2023). <em>Editing Models with Task Arithmetic.</em> ICLR 2023. arXiv:2212.04089. — The task vector formulation that underlies all three merge techniques. Also provides representational similarity analysis of merged models that informs the layer-position argument.</p>
+    <p>Goddard, C. et al. (2024). <em>Arcee's MergeKit: A Toolkit for Merging Large Language Models.</em> EMNLP 2024 Industry Track. arXiv:2403.13257. — The open-source implementation used in FusionLM. Documents the practical constraints — shared base architecture requirement, density parameter sensitivity, tokenizer compatibility — that make the merge-or-fine-tune audit necessary.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Rao</div>
+    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes about applied ML, system design, and what happens when the two have to meet a real business problem.</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What happens in the brain during technical training | Siddharth Potukuchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+  .hero .meta {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    font-weight: 300;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  p {
+    font-size: 1.085rem;
+    margin-bottom: 1.65rem;
+    color: var(--ink);
+  }
+
+  p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin: 6px 12px 0 0;
+    color: var(--navy);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.55rem;
+    color: var(--navy);
+    margin: 3rem 0 1.1rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 2.5rem 0 0.6rem;
+  }
+
+  /* pull quote */
+  blockquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.8rem 0;
+    padding: 4px 0 4px 32px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: var(--navy);
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  /* callout box */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--navy);
+    padding: 28px 32px;
+    margin: 2.8rem 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    margin-bottom: 0.85rem;
+    color: var(--ink);
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3.5rem 0;
+  }
+
+  /* footnotes */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Potukuchi</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Learner Psychology</span>
+  <h1>What happens in the brain during technical training</h1>
+  <p class="deck">The brain is not a hard drive. After training over a thousand participants, I can tell you exactly what it is doing instead — and why most training programs design straight past it.</p>
+  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; October 2024 &nbsp;·&nbsp; 10 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>We tend to design training as if the learner's brain is a hard drive. You load the content in, it stores it, and the participant walks out the other side with a new capability installed. That is the operating assumption behind most training programs I have encountered — and delivered, early in my career. Cover the material. Demonstrate the steps. Run the exercise. Repeat. If you covered it, it's been taught. If it's been taught, it's been learned.</p>
+
+  <p>It has taken me over a thousand participants across five countries to understand how wrong that assumption is.</p>
+
+  <p>What I actually watch happen in technical training rooms is something quite different. People are not passively receiving information. They are doing four things, more or less simultaneously, most of which work against what I am trying to teach them. They are matching patterns against what they already know. They are making associations — some accurate, some not. They are compressing everything I give them into something shorter and simpler. And they are quietly discarding most of it.</p>
+
+  <p>None of this is conscious. None of it is deliberate. It is just what the brain does when you put it in a room and ask it to learn something new. Understanding these four things has changed how I design every program I now build. Not as theory — as observable behaviour that I have seen repeat across rooms, across roles, across countries.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>They are pattern-matching, not absorbing</h2>
+
+  <p>The first thing a learner does when they encounter new content is look for something they already know to attach it to. They are not starting from zero. Nobody in a technical training room is ever starting from zero. They have years of experience in adjacent systems, prior tools, former jobs, things they half-learned and forgot and half-remember. All of that is sitting underneath the surface of the room, and the brain is immediately checking: does this new thing look like something I already have?</p>
+
+  <p>When the match is good, learning accelerates. A developer who understands REST APIs picks up a new API framework faster than someone without that foundation — because the brain has somewhere to put it. The new information hooks onto an existing structure and the whole thing clicks together quickly.</p>
+
+  <p>When the match is wrong, you have a bigger problem than no prior knowledge at all.</p>
+
+  <p>I ran a program once for a cohort transitioning from one cloud platform to another. Senior people, technically strong, all with years of hands-on experience. They were the most dangerous room I have ever been in — not because they were difficult, but because they were confident. Every new concept arrived, and the brain immediately matched it to the equivalent thing in the old platform. Same name. Different behaviour. The match felt right, so nobody questioned it. They walked out of the program certain they understood the material, and they did — except in the places where their mental model was built on a comparison that didn't hold.</p>
+
+  <p>Those are the failures that only show up three weeks later, in production, when something breaks in a way the participant cannot explain.</p>
+
+  <blockquote>
+    <p>A wrong pattern match is more dangerous than no pattern at all. The learner who knows nothing proceeds carefully. The learner with a confident wrong assumption doesn't know to check.</p>
+  </blockquote>
+
+  <p>The design implication is direct: you cannot ignore what people already know. The first hour of any program should surface it. Not as a warm-up exercise — as a diagnostic. What they tell you about their prior experience tells you exactly where the dangerous matches are. Those are the places you need to name explicitly and address head-on, before the program moves forward. Left unaddressed, they run underneath everything you teach for the rest of the week.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>They compress everything</h2>
+
+  <p>The brain cannot hold everything you give it at the same time. So it summarises. Constantly, automatically, without asking permission. The five-step configuration process becomes "basically like the old system." The three-tier architecture you spent forty minutes on becomes "oh, it's just a proxy." The nuance you built carefully across two hours collapses, mid-session, into a two-word mental shorthand.</p>
+
+  <p>You can watch this happen if you know what to look for. There is a moment — usually somewhere in the second half of a module — where a participant starts answering questions slightly faster than they should, with slightly more confidence than the material warrants. The compression has happened. They have built a simplified version of the concept and filed it. They are now working from that version, not from what you taught them.</p>
+
+  <p>This is not laziness. It is not disengagement. It is the brain doing exactly what the brain does when it is given more than it can carry. It finds the pattern, builds a shortcut, and moves on.</p>
+
+  <div class="callout">
+    <div class="label">The shortcut problem</div>
+    <p>Compression becomes a problem specifically when the shortcut is wrong. A participant who summarises a complex workflow as "it's basically the same as X" will apply that shortcut in the job. Not the full understanding — the shortcut. If the shortcut is accurate enough, no harm done. If it misses a critical difference, the error will be precise and repeatable: they will make the same wrong call every time, because every time the brain reaches for the shortcut and finds the same answer.</p>
+    <p>The only way to find out which shortcuts your participants have built is to ask them to explain the concept back to you in their own words, mid-program — not at the end of the day, mid-module. What they say tells you what survived the compression. What got dropped tells you where the gap is.</p>
+  </div>
+
+  <p>The design implication: if you do not give people the right summary, they will build their own. And the summary they build will be whatever feels simplest, not whatever is most accurate. So the job of the facilitator is not just to teach the concept. It is to teach the right compression. To say, explicitly: if you are going to boil this down to one line, here is the one line that is actually true. Then the shortcut the brain files is the shortcut you intended, not the one it invented.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>They discard most of it</h2>
+
+  <p>After more than eighteen years in training rooms, this is still the one that is hardest to accept. Most of what I deliver does not survive the week.</p>
+
+  <p>Not because the participants are not trying. Not because the delivery was poor. But because the brain is continuously making a decision about what is worth keeping — and it makes that decision based on one thing above all others: how likely is this to matter to me?</p>
+
+  <p>If the content felt relevant — if the participant could see themselves using it, in their actual job, on a problem they actually face — the brain votes to keep it. If it felt theoretical, generic, or like something that might matter to someone in a different role, the brain votes it out. Quietly, without announcement, usually within 48 hours of the session ending.</p>
+
+  <p>I have watched this play out in follow-up conversations too many times to dismiss it. Participants who were engaged, who completed the exercises well, who scored fine on the end-of-program assessment — and who, three weeks later, could not recall a module that they had been present for and apparently active in. The content was delivered. The content was not retained. The gap between those two things is not about effort or attention. It is about whether the brain decided the material was relevant enough to hold onto.</p>
+
+  <blockquote>
+    <p>Relevance is not a nice-to-have that makes training feel good. It is the mechanism the brain uses to decide what survives the week.</p>
+  </blockquote>
+
+  <p>This is why real use cases are not optional in how I design programs. Not case studies from other companies, not hypothetical scenarios, not "imagine you are a solution architect who needs to..." The participant needs to see their own job in the problem. Their own constraints. Their own likely client or their own team. The moment the scenario feels close enough to be real, the brain reclassifies the content from "interesting" to "necessary." That reclassification changes what gets kept.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What this changes in the design</h2>
+
+  <p>These are not observations I hang on the wall. They are decisions I make differently now because of what I have seen.</p>
+
+  <p><strong>The first hour is a diagnostic, not an introduction.</strong> I no longer start programs with an overview of what we are going to cover. I start with a conversation about what the room already knows. What systems they have come from. What they have tried to do with the new platform and got stuck on. What they think they understand. That conversation tells me where the dangerous pattern matches are — the ones that feel right to the participant but will break in production. I cannot fix what I do not know is there. So I find it before the program moves forward.</p>
+
+  <p><strong>I teach the compression, not just the concept.</strong> At the end of every major module, I say: if you are going to remember one thing from this, here is what it should be. I give them the right shortcut explicitly, because I know they are going to compress the material regardless. Better that they compress it into something accurate. This sounds simple. Most facilitator guides I have reviewed do not do it. They end a module with a summary of everything covered — which is not the same as giving the room the right one-line version of the concept.</p>
+
+  <p><strong>Every scenario has to be close enough to matter.</strong> I build the use cases from the actual job. Not from the product documentation. Not from a generic customer story. From conversations with people who hold the role, about the specific problems they face in the first sixty days. If the participant can look at the scenario and think "that is my Tuesday," the brain has already decided the content is worth keeping. If they look at it and think "interesting but that is not really my situation," I have lost them — not visibly, not dramatically, but in the quiet way where the content does not survive the weekend.</p>
+
+  <p>None of this requires a psychology degree. It requires paying attention to what actually happens in the room, over enough rooms that the patterns become impossible to ignore. The brain is not against you. It is just doing what it does. Design for it, not past it.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Ambrose, S.A., Bridges, M.W., DiPietro, M., Lovett, M.C., & Norman, M.K. (2010). <em>How Learning Works: Seven Research-Based Principles for Smart Teaching.</em> Jossey-Bass. — Chapter 1 on prior knowledge and how it accelerates or disrupts new learning. The most practically useful research summary I have found on this topic.</p>
+    <p>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. — The original argument for why the volume and sequencing of new information matters as much as the content itself.</p>
+    <p>Roediger, H.L., & Karpicke, J.D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. <em>Psychological Science, 17</em>(3), 249–255. — On why asking people to recall mid-session, rather than re-presenting content, produces better outcomes.</p>
+    <p>Clark, R.C., & Mayer, R.E. (2011). <em>e-Learning and the Science of Instruction.</em> 3rd Edition. Pfeiffer. — On the role of prior knowledge in how new information is processed, and the design implications of that.</p>
+    <p>Broad, M.L., & Newstrom, J.W. (1992). <em>Transfer of Training: Action-Packed Strategies to Ensure High Payoff from Training Investments.</em> Addison-Wesley. — On the environmental conditions that determine whether what was learned in the room survives contact with the job.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Potukuchi</div>
+    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
+  </div>
+</div>
+
+</body>
+</html>

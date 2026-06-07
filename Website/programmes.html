@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programmes — DataDomine</title>
+  <meta name="description" content="DataDomine offers four distinct programme types for enterprise architects, solution architects, and ML engineers working in regulated production environments.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       DESIGN TOKENS — mirrors datadomine.css
+    ───────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:    #0D1117;
+      --arch-white:  #F8F6F1;
+      --slate:       #64748B;
+      --amber:       #D97706;
+      --nav-height:  64px;
+      --serif:       'IBM Plex Serif', Georgia, serif;
+      --sans:        'Inter', system-ui, sans-serif;
+      --page-gutter: 72px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────────────────────── */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--page-gutter);
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark__mark {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a[aria-current="page"] {
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       MAIN WRAPPER
+    ───────────────────────────────────────────────────────── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION: PAGE HERO
+    ───────────────────────────────────────────────────────── */
+    .hero {
+      padding: 80px var(--page-gutter) 72px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: end;
+    }
+
+    .hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero__eyebrow-rule {
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .hero__eyebrow-label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .hero__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 52px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+    }
+
+    .hero__body {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+      max-width: 520px;
+      align-self: end;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION: SELF-SELECTOR
+    ───────────────────────────────────────────────────────── */
+    .selector {
+      background: var(--deep-ink);
+      padding: 64px var(--page-gutter);
+    }
+
+    .selector__intro {
+      margin-bottom: 48px;
+    }
+
+    .selector__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+
+    .selector__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--arch-white);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .selector__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .selector__column {
+      background: rgba(248, 246, 241, 0.04);
+      padding: 32px 28px;
+      border: 1px solid rgba(248, 246, 241, 0.08);
+    }
+
+    .selector__question-num {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: rgba(248, 246, 241, 0.3);
+      margin-bottom: 8px;
+    }
+
+    .selector__question {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--arch-white);
+      line-height: 1.35;
+      margin-bottom: 24px;
+    }
+
+    .selector__options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .selector__option {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+    }
+
+    .selector__option a {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 0;
+      border-top: 1px solid rgba(248, 246, 241, 0.08);
+      text-decoration: none;
+      transition: border-color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .selector__option:last-child a {
+      border-bottom: 1px solid rgba(248, 246, 241, 0.08);
+    }
+
+    .selector__option a:hover .selector__option-label {
+      color: var(--arch-white);
+    }
+
+    .selector__option a:hover .selector__option-arrow {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+
+    .selector__option-bullet {
+      width: 4px;
+      height: 4px;
+      background: var(--amber);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .selector__option-label {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.65);
+      line-height: 1.45;
+      flex: 1;
+      transition: color 0.15s ease;
+    }
+
+    .selector__option-arrow {
+      font-size: 12px;
+      color: var(--amber);
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION: PROGRAMME CARDS
+    ───────────────────────────────────────────────────────── */
+    .programmes {
+      padding: 80px var(--page-gutter);
+    }
+
+    .programmes__intro {
+      margin-bottom: 56px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .programmes__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+
+    .programmes__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .programmes__note {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      line-height: 1.6;
+      max-width: 360px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .card {
+      background: var(--arch-white);
+      border: 1px solid rgba(13, 17, 23, 0.10);
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      transition: border-color 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      border-color: rgba(13, 17, 23, 0.25);
+    }
+
+    .card:hover .card__cta-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Amber top accent — one per composition rule satisfied by using it
+       only on the top border as a structural element */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      height: 2px;
+      background: transparent;
+      transition: background 0.2s ease;
+    }
+
+    .card:hover::before {
+      background: var(--amber);
+    }
+
+    .card__tier {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card__tier-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .card__name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--deep-ink);
+      margin-bottom: 16px;
+    }
+
+    .card__descriptor {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .card__rule {
+      width: 100%;
+      height: 1px;
+      background: rgba(13, 17, 23, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .card__meta-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .card__meta-key {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate);
+      min-width: 72px;
+      flex-shrink: 0;
+    }
+
+    .card__meta-val {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 12.5px;
+      color: var(--deep-ink);
+      line-height: 1.45;
+    }
+
+    .card__pricing {
+      margin-bottom: 28px;
+      padding: 16px 18px;
+      background: rgba(13, 17, 23, 0.04);
+      border-left: 2px solid rgba(13, 17, 23, 0.12);
+    }
+
+    .card__pricing-amount {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--deep-ink);
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .card__pricing-label {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--slate);
+      line-height: 1.4;
+    }
+
+    .card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--deep-ink);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+
+    .card__cta-arrow {
+      display: inline-block;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+    }
+
+    /* Audience tag */
+    .card__audience {
+      margin-bottom: 28px;
+    }
+
+    .card__audience-label {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+
+    .card__audience-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .card__tag {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--deep-ink);
+      border: 1px solid rgba(13, 17, 23, 0.15);
+      padding: 3px 9px;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+    }
+
+    /* Enquiry card variant */
+    .card--enquiry .card__pricing-amount {
+      font-size: 15px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION: FOOTER
+    ───────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 40px var(--page-gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--deep-ink);
+    }
+
+    .footer-wordmark .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+    }
+
+    .footer-centre {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .footer-centre a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-centre a:hover {
+      color: var(--amber);
+    }
+
+    .footer-centre span {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .footer-copy {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(100, 116, 139, 0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RESPONSIVE — narrow viewports
+    ───────────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      :root {
+        --page-gutter: 36px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .hero__body {
+        max-width: 100%;
+      }
+
+      .selector__grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .programmes__intro {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .programmes__note {
+        text-align: left;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --page-gutter: 24px;
+      }
+
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .hero__heading {
+        font-size: 36px;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+
+      .footer-centre {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="nav-wordmark__mark" aria-hidden="true">
+        <svg width="14" height="36" viewBox="0 0 24 64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="10" r="10" fill="#D97706"/>
+          <rect x="10" y="10" width="4" height="44" fill="#0D1117"/>
+        </svg>
+      </span>
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html" aria-current="page">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+
+      <div class="hero__left">
+        <div class="hero__eyebrow">
+          <div class="hero__eyebrow-rule" aria-hidden="true"></div>
+          <span class="hero__eyebrow-label">Programmes</span>
+        </div>
+        <h1 class="hero__heading" id="hero-heading">The&nbsp;Programmes.</h1>
+      </div>
+
+      <div class="hero__right">
+        <p class="hero__body">DataDomine offers four distinct engagement types. Each is designed for a specific problem, a specific audience, and a specific moment in a practitioner's career or an organisation's capability journey. Two cohort programmes built around a shared spine project and defended at a capstone. A facilitated workshop format for high-stakes decisions and stuck teams. And a library of single-session intensives for practitioners who need to move on a specific decision or capability now, without a cohort commitment and without waiting for the next budget cycle.</p>
+      </div>
+
+    </section>
+
+    <!-- ── SELF-SELECTOR ────────────────────────────────── -->
+    <section class="selector" aria-labelledby="selector-heading">
+
+      <div class="selector__intro">
+        <div class="selector__label">Find the right programme</div>
+        <h2 class="selector__heading" id="selector-heading">Three questions. One programme.</h2>
+      </div>
+
+      <div class="selector__grid" role="list">
+
+        <!-- Q1 -->
+        <div class="selector__column" role="listitem">
+          <div class="selector__question-num">01</div>
+          <p class="selector__question">Are you an individual practitioner, or are you enquiring on behalf of an organisation?</p>
+          <ul class="selector__options" role="list">
+            <li class="selector__option">
+              <a href="#programme-cards">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">I am an individual practitioner — I will self-fund or attend independently</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li class="selector__option">
+              <a href="contact.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">I am enquiring for a team or organisation — group enrolment or workshop</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Q2 -->
+        <div class="selector__column" role="listitem">
+          <div class="selector__question-num">02</div>
+          <p class="selector__question">What is your primary role?</p>
+          <ul class="selector__options" role="list">
+            <li class="selector__option">
+              <a href="cohort-1a.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">Solution Architect, Enterprise Architect, or Senior Developer moving into architecture</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li class="selector__option">
+              <a href="cohort-1b.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">ML Engineer or Data Scientist building systems in regulated production environments</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li class="selector__option">
+              <a href="workshop.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">Practice lead or decision maker with a specific organisational problem to resolve</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Q3 -->
+        <div class="selector__column" role="listitem">
+          <div class="selector__question-num">03</div>
+          <p class="selector__question">What kind of engagement do you need?</p>
+          <ul class="selector__options" role="list">
+            <li class="selector__option">
+              <a href="cohort-1a.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">A structured cohort — 42 hours across three weekends, with a defended capstone artefact</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li class="selector__option">
+              <a href="workshop.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">A facilitated workshop — one or two days, a specific problem, a documented output</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li class="selector__option">
+              <a href="intensives.html">
+                <span class="selector__option-bullet" aria-hidden="true"></span>
+                <span class="selector__option-label">A single-session intensive — three hours, one topic, open enrolment, no commitment required</span>
+                <span class="selector__option-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ── PROGRAMME CARDS ──────────────────────────────── -->
+    <section class="programmes" id="programme-cards" aria-labelledby="programmes-heading">
+
+      <div class="programmes__intro">
+        <div>
+          <div class="programmes__label">All programmes</div>
+          <h2 class="programmes__heading" id="programmes-heading">Four engagement types.</h2>
+        </div>
+        <p class="programmes__note">Every programme is built on the Clarity Point Framework and produces a tangible, defensible output. Select a card to view the full programme detail and tearsheet.</p>
+      </div>
+
+      <div class="cards">
+
+        <!-- Card 1: Cohort 1A -->
+        <a href="cohort-1a.html" class="card" aria-label="Enterprise AI Architecture Cohort — view programme details">
+
+          <div class="card__tier">
+            <span class="card__tier-dot" aria-hidden="true"></span>
+            Tier 1A · Cohort
+          </div>
+
+          <h3 class="card__name">Enterprise AI Architecture Cohort</h3>
+
+          <p class="card__descriptor">Most technical programmes teach practitioners what a system can do. This programme teaches how to make the architectural decisions that determine whether it survives production, passes a compliance audit, or holds up under a board review. Participants work across 18 chapters from a single spine project and defend the complete artefact at the capstone.</p>
+
+          <div class="card__audience">
+            <div class="card__audience-label">Audience</div>
+            <div class="card__audience-tags">
+              <span class="card__tag">Solution Architects</span>
+              <span class="card__tag">Enterprise Architects</span>
+              <span class="card__tag">Senior Developers into Architecture</span>
+            </div>
+          </div>
+
+          <div class="card__rule" aria-hidden="true"></div>
+
+          <div class="card__meta">
+            <div class="card__meta-row">
+              <span class="card__meta-key">Format</span>
+              <span class="card__meta-val">Three weekends · 7 hours per day · 42 hours contact time</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Capacity</span>
+              <span class="card__meta-val">Maximum 12 participants</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Output</span>
+              <span class="card__meta-val">ADR log · compliance mapping · economic justification · failure modes register · handoff checklist</span>
+            </div>
+          </div>
+
+          <div class="card__pricing">
+            <div class="card__pricing-amount">£1,800 per participant</div>
+            <div class="card__pricing-label">Founder price · Full price £2,500 self-funded · £3,500 employer-sponsored</div>
+          </div>
+
+          <span class="card__cta" aria-hidden="true">
+            View programme
+            <span class="card__cta-arrow">→</span>
+          </span>
+
+        </a>
+
+        <!-- Card 2: Cohort 1B -->
+        <a href="cohort-1b.html" class="card" aria-label="ML Engineering for Regulated Industries Cohort — view programme details">
+
+          <div class="card__tier">
+            <span class="card__tier-dot" aria-hidden="true"></span>
+            Tier 1B · Cohort
+          </div>
+
+          <h3 class="card__name">ML Engineering for Regulated Industries</h3>
+
+          <p class="card__descriptor">Models are not systems. This programme teaches how to build the governance layer, the audit trail, the retraining pipeline, and the compliance documentation that make ML models viable in a regulated production environment — finance, healthcare, insurance, supply chain. Not how to train a model. How to build the system that survives the governance board.</p>
+
+          <div class="card__audience">
+            <div class="card__audience-label">Audience</div>
+            <div class="card__audience-tags">
+              <span class="card__tag">ML Engineers</span>
+              <span class="card__tag">Data Scientists</span>
+              <span class="card__tag">Senior Developers in Regulated Environments</span>
+            </div>
+          </div>
+
+          <div class="card__rule" aria-hidden="true"></div>
+
+          <div class="card__meta">
+            <div class="card__meta-row">
+              <span class="card__meta-key">Format</span>
+              <span class="card__meta-val">Three weekends · 7 hours per day · 42 hours contact time</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Capacity</span>
+              <span class="card__meta-val">Maximum 12 participants</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Output</span>
+              <span class="card__meta-val">Model card · feature register · ADR log · MLOps architecture · drift governance document · handoff checklist</span>
+            </div>
+          </div>
+
+          <div class="card__pricing">
+            <div class="card__pricing-amount">£1,800 per participant</div>
+            <div class="card__pricing-label">Founder price · Full price £2,500 self-funded · £3,500 employer-sponsored</div>
+          </div>
+
+          <span class="card__cta" aria-hidden="true">
+            View programme
+            <span class="card__cta-arrow">→</span>
+          </span>
+
+        </a>
+
+        <!-- Card 3: Workshop -->
+        <a href="workshop.html" class="card card--enquiry" aria-label="Architecture Design Workshop — view workshop details">
+
+          <div class="card__tier">
+            <span class="card__tier-dot" aria-hidden="true"></span>
+            Tier 2 · Workshop
+          </div>
+
+          <h3 class="card__name">Architecture Design Workshop</h3>
+
+          <p class="card__descriptor">Not training. Facilitated design. A DataDomine workshop is built for a specific problem — a high-stakes architectural decision approaching fast, a cross-functional team that cannot reach alignment, or a practice that is scaling and needs to know where its capability gaps actually are. The facilitator brings structure and method. The participants bring the real problem. Three formats available depending on the trigger.</p>
+
+          <div class="card__audience">
+            <div class="card__audience-label">Audience</div>
+            <div class="card__audience-tags">
+              <span class="card__tag">Architecture teams</span>
+              <span class="card__tag">Cross-functional decision makers</span>
+              <span class="card__tag">Practice leads</span>
+            </div>
+          </div>
+
+          <div class="card__rule" aria-hidden="true"></div>
+
+          <div class="card__meta">
+            <div class="card__meta-row">
+              <span class="card__meta-key">Format</span>
+              <span class="card__meta-val">One or two days · on-site or remote</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Participants</span>
+              <span class="card__meta-val">4–12 depending on format</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Output</span>
+              <span class="card__meta-val">ADR + constraint map · conflict register · capability gap assessment — by format</span>
+            </div>
+          </div>
+
+          <div class="card__pricing">
+            <div class="card__pricing-amount">Pricing on enquiry</div>
+            <div class="card__pricing-label">Discovery conversation at no charge · Enquire at hello@datadomine.com</div>
+          </div>
+
+          <span class="card__cta" aria-hidden="true">
+            View formats
+            <span class="card__cta-arrow">→</span>
+          </span>
+
+        </a>
+
+        <!-- Card 4: Intensives -->
+        <a href="intensives.html" class="card" aria-label="Live Intensives — view session details">
+
+          <div class="card__tier">
+            <span class="card__tier-dot" aria-hidden="true"></span>
+            Tier 3 · Live Intensives
+          </div>
+
+          <h3 class="card__name">Live Intensives</h3>
+
+          <p class="card__descriptor">Three hours. One decision. Real working time. Not a webinar — a structured working session with a defined output that participants leave with. Single-topic, open enrolment. No company approval required, no cohort commitment, no prerequisite. Pay and attend. For the practitioner who needs to move on a specific decision or capability now, not at the next budget cycle. Sessions are recorded and made available on demand.</p>
+
+          <div class="card__audience">
+            <div class="card__audience-label">Audience</div>
+            <div class="card__audience-tags">
+              <span class="card__tag">Individual practitioners</span>
+              <span class="card__tag">Open enrolment</span>
+              <span class="card__tag">No prerequisite</span>
+            </div>
+          </div>
+
+          <div class="card__rule" aria-hidden="true"></div>
+
+          <div class="card__meta">
+            <div class="card__meta-row">
+              <span class="card__meta-key">Format</span>
+              <span class="card__meta-val">3 hours online · Q&amp;A and application built in</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Capacity</span>
+              <span class="card__meta-val">Maximum 20 participants per session</span>
+            </div>
+            <div class="card__meta-row">
+              <span class="card__meta-key">Topics</span>
+              <span class="card__meta-val">Architectural Judgment · ML Engineering for Production · The Human Layer — 12 sessions across 3 tracks</span>
+            </div>
+          </div>
+
+          <div class="card__pricing">
+            <div class="card__pricing-amount">£120–£180 per session</div>
+            <div class="card__pricing-label">Join the interest list to be notified when sessions are scheduled</div>
+          </div>
+
+          <span class="card__cta" aria-hidden="true">
+            View sessions
+            <span class="card__cta-arrow">→</span>
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <svg width="11" height="28" viewBox="0 0 24 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="10" r="10" fill="#D97706"/>
+          <rect x="10" y="10" width="4" height="44" fill="#0D1117"/>
+        </svg>
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-centre">
+      <a href="mailto:hello@datadomine.com">hello@datadomine.com</a>
+      <span>datadomine.com</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

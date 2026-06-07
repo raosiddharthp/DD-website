@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The token limit is not the bottleneck. Your memory architecture is. | Siddharth Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+    --danger-bg: #fef2f2;
+    --danger-border: #fca5a5;
+    --danger-text: #7f1d1d;
+    --success-bg: #f0fdf4;
+    --success-text: #14532d;
+    --amber-bg: #fffbeb;
+    --amber-text: #78350f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 660px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero .meta {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.06em;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+  .article-wrap p {
+    font-size: 1.08rem;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+  .article-wrap p::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin-right: 0.1em;
+    margin-top: 0.08em;
+    color: var(--navy);
+  }
+  .article-wrap p + p::first-letter { all: unset; }
+  .article-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 3.2rem 0 1.2rem;
+    line-height: 1.25;
+  }
+  .article-wrap h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--navy);
+    margin: 2.4rem 0 0.8rem;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 2.4rem 0;
+    padding: 4px 0 4px 28px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.22rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.88em;
+    background: #f0f0f0;
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--navy);
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  /* ── DIAGRAM WRAPPER ── */
+  .diagram-wrap {
+    margin: 2.8rem 0;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .diagram-label {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+  }
+  .diagram-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 28px 20px;
+  }
+  .diagram-caption {
+    padding: 12px 24px 16px;
+    font-size: 0.8rem;
+    color: var(--mid);
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+    line-height: 1.55;
+  }
+
+  /* ── MEMORY LAYER STACK ── */
+  .memory-stack {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .memory-stack-head {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+  }
+  .memory-layer {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--rule);
+  }
+  .memory-layer:last-child { border-bottom: none; }
+  .memory-layer-id {
+    padding: 20px 18px;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: white;
+  }
+  .memory-layer:nth-child(even) .memory-layer-id { background: #fafafa; }
+  .memory-layer:nth-child(even) .memory-layer-detail { background: #fafafa; }
+  .memory-layer-detail { background: white; padding: 20px 20px; }
+  .ml-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .ml-name {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.94rem;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .ml-analogy {
+    font-size: 0.78rem;
+    color: var(--mid);
+    font-style: italic;
+  }
+  .ml-desc {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+  .ml-impl {
+    font-size: 0.8rem;
+    color: var(--navy);
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .ml-constraint {
+    font-size: 0.8rem;
+    color: #c0392b;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* ── COST TABLE ── */
+  .cost-table-wrap {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  .cost-table-head {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+  }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 540px;
+  }
+  .cost-table thead tr { background: var(--light); }
+  .cost-table th {
+    padding: 9px 14px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.69rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+  }
+  .cost-table th:last-child { border-right: none; }
+  .cost-table td {
+    padding: 11px 14px;
+    color: var(--mid);
+    line-height: 1.5;
+    vertical-align: top;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cost-table td:last-child { border-right: none; }
+  .cost-table tr:last-child td { border-bottom: none; }
+  .cost-table tr:nth-child(even) td { background: #fafafa; }
+  .cost-table td strong { color: var(--navy); font-weight: 600; }
+  .cost-bad { color: #c0392b; font-weight: 600; }
+  .cost-good { color: #14532d; font-weight: 600; }
+
+  /* ── FOOTNOTES ── */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* ── AUTHOR BIO ── */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px; height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.4rem; color: white; flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.05rem; color: white; margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.65; margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .memory-layer { grid-template-columns: 1fr; }
+    .memory-layer-id { border-right: none; border-bottom: 1px solid var(--rule); }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Rao</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Agent Architecture · Memory Systems · ML Engineering</span>
+  <h1>The token limit is not the bottleneck.<br><em>Your memory architecture is.</em></h1>
+  <p class="deck">Bigger context windows are a distraction. The real problem in long-horizon agent deployments is not how much the model can hold — it is what gets evicted, what gets reinjected, and what the system does when it can no longer see its own history.</p>
+  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 16 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>Every vendor selling agent infrastructure in 2025 and 2026 has a slide about context windows. The numbers are impressive: 128K tokens, 1 million tokens, claims of 100 million with efficiency improvements that seem to defy the physics of attention mechanisms. The implicit argument is that if you just buy enough context, the memory problem goes away. It does not. It gets more expensive and more opaque.</p>
+
+  <p>The uncomfortable finding from Chroma's July 2025 evaluation of 18 leading models — including every major frontier model — is that performance degrades not gradually but catastrophically as context grows. The effect is measurable around 10,000 tokens, accelerates past 50,000, and becomes severe by 200,000. In controlled benchmarks, hallucination rates run at 12% with 200K tokens of optimised retrieval, against 28–31% at full 1-million-token capacity. The cost difference is a factor of roughly five. Researchers call the phenomenon context rot: the model's attention mechanism distributes so thinly across a long sequence that early information effectively disappears, even though it is technically present in the window.</p>
+
+  <p>This is not a failure of the models. It is a failure of the architectural assumption that context and memory are the same thing. They are not. Context is the active window. Memory is the governed system that decides what enters that window, in what form, at what moment. The context window is just one component of a memory architecture. Building an agent that treats context as memory is building an agent with no memory at all — one that knows everything that happened in the last twenty minutes and nothing that happened before.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The problem in concrete terms: what breaks and when</h2>
+
+  <p>To understand why this matters for production deployments, it helps to walk through what actually happens to an agent running a long-horizon task — say, an autonomous procurement agent managing a multi-vendor negotiation over several weeks. The agent starts with its original objective, constraints, and initial context. For the first dozen or so steps, everything works as designed. The context window is manageable, recent events are visible, and the agent's outputs are coherent.</p>
+
+  <p>Around step 20, the context window begins to fill. The agent framework — with no explicit memory architecture — handles this in the worst possible way: it stuffs everything into the prompt and hopes the model attends to all of it. The model does not. Attention dilutes. Research from the Journal of Machine Learning Research in 2024 documents a 40% performance drop beyond 50,000 tokens due to this attention dilution effect. The agent begins to exhibit a specific failure mode: it answers correctly for things that appeared recently in its context, and incorrectly or inconsistently for things that appeared earlier.</p>
+
+  <p>By step 35, the failure mode becomes operationally significant. The agent has forgotten constraints it learned in the first week. It is recommending options it already rejected. It has lost track of the original goal framing. None of this appears in the model's outputs as an error message. The outputs are fluent, confident, and wrong. The agent that placed a $2.4M order for parts it already had, in the anecdote that opens almost every conversation about this problem, was not hallucinating in the technical sense. It was operating on a context from which the relevant constraint had been evicted.</p>
+
+  <blockquote>
+    <p>Context rot is not a model problem. It is an architecture problem. The model is doing exactly what it was designed to do with the context it was given. The architecture failed to give it the right context.</p>
+  </blockquote>
+
+  <!-- DIAGRAM 1: Context rot failure timeline vs governed memory -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">Figure 1 — Context rot timeline: naive context stuffing versus governed memory architecture</div>
+    <svg viewBox="0 0 672 370" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>Context rot timeline comparison</title>
+      <desc>Two horizontal timelines showing agent behaviour across 50 steps. Top timeline shows context stuffing with degradation after step 15, goal drift after step 30, and critical failure after step 40. Bottom timeline shows governed memory architecture with stable performance throughout.</desc>
+      <defs>
+        <marker id="t1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#5a6478" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="t2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="t3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#27ae60" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- TOP ROW label -->
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#c0392b" x="14" y="22">Naive: context stuffing (no memory architecture)</text>
+
+      <!-- Step axis top -->
+      <line x1="14" y1="50" x2="658" y2="50" stroke="#d8dde8" stroke-width="0.8"/>
+      <!-- Step markers -->
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="14" y="46" text-anchor="middle">1</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="143" y="46" text-anchor="middle">10</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="272" y="46" text-anchor="middle">20</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="401" y="46" text-anchor="middle">30</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="530" y="46" text-anchor="middle">40</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="658" y="46" text-anchor="middle">50</text>
+
+      <!-- Performance line (degrading) -->
+      <polyline points="14,58 143,62 220,70 272,82 320,100 370,124 401,140 440,164 490,194 530,218 580,246 630,266 658,278"
+        fill="none" stroke="#c0392b" stroke-width="2"/>
+
+      <!-- Annotations on top line -->
+      <rect x="182" y="60" width="116" height="28" rx="3" fill="#FDF2F2" stroke="#fca5a5" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="240" y="73" text-anchor="middle">Context window filling.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="240" y="83" text-anchor="middle">Attention begins diluting.</text>
+      <line x1="240" y1="88" x2="240" y2="76" stroke="#c0392b" stroke-width="0.8"/>
+
+      <rect x="326" y="100" width="110" height="28" rx="3" fill="#FDF2F2" stroke="#fca5a5" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="381" y="113" text-anchor="middle">Early constraints evicted.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="381" y="123" text-anchor="middle">Goal drift begins.</text>
+      <line x1="381" y1="128" x2="381" y2="118" stroke="#c0392b" stroke-width="0.8"/>
+
+      <rect x="450" y="164" width="110" height="28" rx="3" fill="#FDF2F2" stroke="#fca5a5" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="505" y="177" text-anchor="middle">Re-recommends rejected</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="505" y="187" text-anchor="middle">options. Silent failures.</text>
+      <line x1="505" y1="192" x2="490" y2="185" stroke="#c0392b" stroke-width="0.8"/>
+
+      <rect x="530" y="230" width="120" height="28" rx="3" fill="#FDF2F2" stroke="#fca5a5" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="590" y="243" text-anchor="middle">Critical failure. Agent no</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#991b1b" x="590" y="253" text-anchor="middle">longer coherent. Costly.</text>
+      <line x1="590" y1="258" x2="580" y2="246" stroke="#c0392b" stroke-width="0.8"/>
+
+      <!-- divider -->
+      <line x1="14" y1="295" x2="658" y2="295" stroke="#d8dde8" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- BOTTOM ROW label -->
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#27ae60" x="14" y="315">Governed: four-layer memory architecture</text>
+
+      <!-- Step axis bottom -->
+      <line x1="14" y1="330" x2="658" y2="330" stroke="#d8dde8" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="14" y="326" text-anchor="middle">1</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="272" y="326" text-anchor="middle">20</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="530" y="326" text-anchor="middle">40</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#aab0be" x="658" y="326" text-anchor="middle">50</text>
+
+      <!-- Performance line (stable) -->
+      <polyline points="14,338 100,337 200,339 300,336 400,338 500,337 600,339 658,337"
+        fill="none" stroke="#27ae60" stroke-width="2"/>
+
+      <!-- Annotations on bottom line -->
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#14532d" x="80" y="355" text-anchor="middle">Goal anchor always injected.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#14532d" x="300" y="355" text-anchor="middle">Episodic store queried at each step.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#14532d" x="560" y="355" text-anchor="middle">Working memory capped. Stable.</text>
+    </svg>
+    <div class="diagram-caption">The top line shows what happens to agent coherence when context is treated as memory: degradation is gradual at first, then catastrophic as attention dilutes across a growing context. The bottom line shows a governed four-layer memory architecture: performance is stable across 50 steps because the working memory is actively managed, not passively accumulated.</div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The cost dimension that nobody puts in the pitch deck</h2>
+
+  <p>Context rot has a performance cost. It also has a financial cost that is structurally hidden in the way most teams budget for AI deployments. Token pricing is almost always evaluated at single-turn or short-session scale — the demo scope, the proof-of-concept scope. The numbers that emerge from that evaluation are then used to project production costs, which are multi-session, long-horizon, and potentially recursive. The projection is wrong by an order of magnitude.</p>
+
+  <p>The Databricks RAG benchmarks from 2025 quantified what teams discover empirically: naive long-prompt workarounds — stuffing context to avoid building a proper memory architecture — inflate costs by 300% while providing no improvement in recall accuracy. The Stevens Institute "Hidden Economics of AI Agents" study from early 2026 found that unconstrained agent tasks cost $5–8 each, with Reflexion-style loops consuming 50 times the token volume of a single-pass equivalent. At production volume, these numbers are not theoretical. They are line items.</p>
+
+  <p>The cost table below compares three approaches: naive context stuffing, RAG alone (misused as a memory substitute), and a proper four-layer memory architecture. The comparison is across the dimensions that matter in a production deployment: cost per task, recall accuracy, coherence at step 50, cross-session continuity, and audit tractability.</p>
+
+  <div class="cost-table-wrap">
+    <div class="cost-table-head">Figure 2 — Approach comparison: cost, recall, and coherence at production scale</div>
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Naive context stuffing</th>
+          <th>RAG only (no memory)</th>
+          <th>Four-layer memory architecture</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cost per long-horizon task</strong></td>
+          <td><span class="cost-bad">$5–8 unconstrained</span><br><span style="font-size:0.78rem">Grows quadratically with session length</span></td>
+          <td><span style="color:#78350f;font-weight:600">$1–3</span><br><span style="font-size:0.78rem">Controlled if retrieval is disciplined</span></td>
+          <td><span class="cost-good">$0.3–0.8</span><br><span style="font-size:0.78rem">Working memory capped; retrieval targeted</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hallucination rate at 200K token equivalent</strong></td>
+          <td><span class="cost-bad">28–31%</span><br><span style="font-size:0.78rem">Full-capacity attention dilution</span></td>
+          <td><span style="color:#78350f;font-weight:600">15–18%</span><br><span style="font-size:0.78rem">Better, but no episodic continuity</span></td>
+          <td><span class="cost-good">10–13%</span><br><span style="font-size:0.78rem">Optimised retrieval; goal anchor protected</span></td>
+        </tr>
+        <tr>
+          <td><strong>Goal coherence at step 50</strong></td>
+          <td><span class="cost-bad">Degraded</span><br><span style="font-size:0.78rem">Original objective evictable</span></td>
+          <td><span style="color:#78350f;font-weight:600">Partial</span><br><span style="font-size:0.78rem">Goal present if re-injected; often isn't</span></td>
+          <td><span class="cost-good">Maintained</span><br><span style="font-size:0.78rem">Goal anchor is structurally un-evictable</span></td>
+        </tr>
+        <tr>
+          <td><strong>Cross-session continuity</strong></td>
+          <td><span class="cost-bad">None</span><br><span style="font-size:0.78rem">Every session starts from zero</span></td>
+          <td><span class="cost-bad">None</span><br><span style="font-size:0.78rem">RAG retrieves knowledge, not history</span></td>
+          <td><span class="cost-good">Full</span><br><span style="font-size:0.78rem">Episodic store persists across sessions</span></td>
+        </tr>
+        <tr>
+          <td><strong>Auditability</strong></td>
+          <td><span class="cost-bad">None</span><br><span style="font-size:0.78rem">No record of what was in context at each step</span></td>
+          <td><span style="color:#78350f;font-weight:600">Partial</span><br><span style="font-size:0.78rem">Retrieval log exists; episodic context does not</span></td>
+          <td><span class="cost-good">Complete</span><br><span style="font-size:0.78rem">Every retrieval event logged; context reconstructable</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The auditability row deserves emphasis because it is the one that matters most in regulated environments. In financial services, healthcare, and legal applications — the domains where long-horizon agents create the most value — there is a compliance requirement that maps directly to memory architecture: the ability to reconstruct, for any decision the agent made, exactly what context it had access to at the moment it made it. A naive context-stuffing architecture cannot satisfy this requirement. An episodic memory store, with timestamped retrieval records, can. The memory architecture is not just a performance optimisation. In regulated deployments, it is a compliance requirement.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The four-layer memory architecture: a working specification</h2>
+
+  <p>The architectural pattern that solves the context rot problem is not new — it draws on decades of cognitive science research into how human memory operates. Human memory evolved as a layered system because holding everything in working memory is neurologically impossible. The same design principle, applied to agent systems, produces a four-layer architecture where each layer has a defined purpose, a defined capacity constraint, and a defined relationship to the others.</p>
+
+  <p>What follows is a working specification of each layer — not as an abstract framework, but as a set of engineering decisions with explicit constraints and implementation implications.</p>
+
+  <div class="memory-stack">
+    <div class="memory-stack-head">The four-layer agent memory architecture — specification</div>
+
+    <div class="memory-layer">
+      <div class="memory-layer-id">
+        <div class="ml-label">Layer 1</div>
+        <div class="ml-name">Working Memory</div>
+        <div class="ml-analogy">"The desk right now"</div>
+      </div>
+      <div class="memory-layer-detail">
+        <div class="ml-desc">The active context window. Contains: the immutable goal anchor (always injected first, never evictable), the retrieved episodic and semantic context for the current step, and the immediate tool results. The discipline is in what you <em>exclude</em>, not what you include. A working memory that grows with session length is not working memory — it is a context-stuffing strategy with a different name.</div>
+        <div class="ml-impl">Implementation: Firestore session state + structured context injection at each ReAct turn. Goal anchor stored separately with injection precedence enforced by the orchestrator.</div>
+        <div class="ml-constraint">Hard constraint: target under 20K tokens for most enterprise tasks. The turn limit (max 12 in the deal desk architecture) is a working memory constraint, not a performance parameter.</div>
+      </div>
+    </div>
+
+    <div class="memory-layer">
+      <div class="memory-layer-id">
+        <div class="ml-label">Layer 2</div>
+        <div class="ml-name">Episodic Memory</div>
+        <div class="ml-analogy">"The meeting notes"</div>
+      </div>
+      <div class="memory-layer-detail">
+        <div class="ml-desc">A time-stamped record of what the agent experienced at each step: what decision was made, what data was referenced, what was tried and rejected, what constraints were discovered. Stored externally and retrieved via semantic search when a current step requires historical context. This is how an agent at step 50 can "remember" that Option B was rejected at step 12 — without carrying all 50 steps in its active window.</div>
+        <div class="ml-impl">Implementation: AlloyDB pgvector or Vertex AI Vector Search. Step summaries written asynchronously by the orchestrator at each turn boundary. Retrieval: top-K semantic similarity against the current step's query embedding. Retention policy: task-scoped, expires on task completion unless flagged for long-term retention.</div>
+        <div class="ml-constraint">Critical: episodic memory is distinct from RAG. RAG retrieves knowledge; episodic memory retrieves history. Conflating them — using the same vector store for both — produces an agent that has no reliable sense of what it has already tried.</div>
+      </div>
+    </div>
+
+    <div class="memory-layer">
+      <div class="memory-layer-id">
+        <div class="ml-label">Layer 3</div>
+        <div class="ml-name">Semantic Memory</div>
+        <div class="ml-analogy">"The reference library"</div>
+      </div>
+      <div class="memory-layer-detail">
+        <div class="ml-desc">Stable domain knowledge: policy documents, product catalogues, regulatory requirements, contract precedents, customer profiles. Stored as vector embeddings. The agent queries this library at each step, retrieving only the 3–5 most relevant chunks for injection into working memory. This is where RAG belongs — not as a memory substitute, but as a knowledge retrieval mechanism for stable reference material.</div>
+        <div class="ml-impl">Implementation: this is the AlloyDB pgvector + HNSW corpus described in the deal desk architecture. DLP-redacted at ingestion. SHAP-tracked at retrieval for explainability. Refresh cadence: asynchronous, triggered by corpus update events.</div>
+        <div class="ml-constraint">The critical distinction from Layer 2: semantic memory does not change with the agent's task history. It is the stable background knowledge. Episodic memory is the task-specific, time-ordered record. Both require vector retrieval, but they must be stored and queried separately.</div>
+      </div>
+    </div>
+
+    <div class="memory-layer">
+      <div class="memory-layer-id">
+        <div class="ml-label">Layer 4</div>
+        <div class="ml-name">Procedural Memory</div>
+        <div class="ml-analogy">"The playbook"</div>
+      </div>
+      <div class="memory-layer-detail">
+        <div class="ml-desc">Encoded workflows, escalation rules, standard operating procedures, and autonomy boundaries. What the agent "knows how to do" independent of specific task content. In the deal desk architecture: the margin floor rule, the approval routing logic, the DLQ escalation procedure. These are not retrieved by semantic search — they are structurally enforced by the agent's tool manifest and the orchestrator's policy bindings.</div>
+        <div class="ml-impl">Implementation: the Vertex AI Agent SDK tool manifest, the OPA policy bundle, and the Firestore configuration document. Not a vector store — procedural memory is deterministic and must be exactly reproducible. It should not be embedded and retrieved; it should be executed.</div>
+        <div class="ml-constraint">The most commonly missed layer in early enterprise deployments. Its absence is why agents that behave correctly on scripted demos break down on production edge cases — the procedural knowledge was implicit in the demo's setup, not explicitly encoded in the agent's architecture.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The goal anchor: the architectural primitive nobody talks about</h2>
+
+  <p>Of the four layers, the one with the most direct impact on long-horizon task coherence is also the simplest: the goal anchor. An immutable record of the agent's original objective, injected into working memory at the start of every ReAct turn, with structural precedence over all other injected context. The goal anchor cannot be evicted. It is the first thing in the prompt, at every step, regardless of how full the working memory becomes.</p>
+
+  <p>This sounds almost trivially obvious. It is also violated in the majority of production agent deployments, for a reason that makes sense at development time and fails at production time: the goal is usually encoded in the system prompt, which is treated as static configuration. The system prompt is injected once. If it gets truncated — as prompts do when the context window fills — the goal goes with it. The model continues processing, now working from a context that contains the last twenty steps of tool results and no record of what it was supposed to accomplish. The outputs remain fluent. They are no longer goal-directed.</p>
+
+  <p>The architectural fix is to separate goal from system prompt. The goal anchor is a first-class data structure, stored in the agent's state, injected explicitly at the start of each turn's context construction, before the episodic and semantic retrievals, with a token budget reserved for it regardless of how much other material needs to fit in the window. It is not a string in a configuration file. It is a node in the orchestrator's state machine with protected injection semantics.</p>
+
+  <!-- DIAGRAM 2: Context assembly at each ReAct turn -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">Figure 3 — Working memory assembly at each ReAct turn: injection order and budget allocation</div>
+    <svg viewBox="0 0 672 360" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>Working memory assembly diagram</title>
+      <desc>Diagram showing how working memory is assembled at each ReAct turn. Goal anchor is injected first with protected budget. Then procedural constraints. Then top-K episodic memory retrieved by semantic search. Then top-K semantic knowledge from the RAG corpus. Then current tool results. Total is capped at the working memory budget.</desc>
+      <defs>
+        <marker id="w1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#5a6478" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Left column: sources -->
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="#5a6478" x="108" y="18" text-anchor="middle" letter-spacing="0.08em">SOURCE</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="#5a6478" x="410" y="18" text-anchor="middle" letter-spacing="0.08em">ASSEMBLED WORKING MEMORY (per turn)</text>
+
+      <!-- Source 1: Goal anchor -->
+      <rect x="14" y="28" width="188" height="40" rx="5" fill="#FDF2F2" stroke="#c0392b" stroke-width="1.5"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#991b1b" x="108" y="47" text-anchor="middle">Goal anchor</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#c0392b" x="108" y="61" text-anchor="middle">Firestore state — structurally protected</text>
+      <line x1="202" y1="48" x2="228" y2="48" stroke="#c0392b" stroke-width="1.2" marker-end="url(#w1)"/>
+
+      <!-- Source 2: Procedural -->
+      <rect x="14" y="80" width="188" height="40" rx="5" fill="#FEF9EC" stroke="#b8860b" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#78350f" x="108" y="99" text-anchor="middle">Procedural constraints</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#b8860b" x="108" y="113" text-anchor="middle">OPA policy + tool manifest</text>
+      <line x1="202" y1="100" x2="228" y2="100" stroke="#b8860b" stroke-width="1.2" marker-end="url(#w1)"/>
+
+      <!-- Source 3: Episodic -->
+      <rect x="14" y="132" width="188" height="40" rx="5" fill="#EBF2FB" stroke="#2E75B6" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#1B3A5C" x="108" y="151" text-anchor="middle">Episodic memory (top-K)</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#2E75B6" x="108" y="165" text-anchor="middle">Semantic search against step history</text>
+      <line x1="202" y1="152" x2="228" y2="152" stroke="#2E75B6" stroke-width="1.2" marker-end="url(#w1)"/>
+
+      <!-- Source 4: Semantic -->
+      <rect x="14" y="184" width="188" height="40" rx="5" fill="#EBF2FB" stroke="#2E75B6" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#1B3A5C" x="108" y="203" text-anchor="middle">Semantic knowledge (top-K)</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#2E75B6" x="108" y="217" text-anchor="middle">RAG corpus retrieval</text>
+      <line x1="202" y1="204" x2="228" y2="204" stroke="#2E75B6" stroke-width="1.2" marker-end="url(#w1)"/>
+
+      <!-- Source 5: Current tools -->
+      <rect x="14" y="236" width="188" height="40" rx="5" fill="#EDF7F2" stroke="#27ae60" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="10.5" font-weight="600" fill="#14532d" x="108" y="255" text-anchor="middle">Current tool results</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#27ae60" x="108" y="269" text-anchor="middle">Most recent step outputs</text>
+      <line x1="202" y1="256" x2="228" y2="256" stroke="#27ae60" stroke-width="1.2" marker-end="url(#w1)"/>
+
+      <!-- Assembled memory box -->
+      <rect x="230" y="28" width="226" height="270" rx="6" fill="#f7f8fa" stroke="#d8dde8" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="#5a6478" x="343" y="46" text-anchor="middle" letter-spacing="0.06em">ASSEMBLED WORKING MEMORY</text>
+
+      <!-- Bands inside assembled memory -->
+      <rect x="238" y="52" width="210" height="32" rx="3" fill="#FDF2F2" stroke="#c0392b" stroke-width="1.5"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="#991b1b" x="343" y="65" text-anchor="middle">Goal anchor (always first, protected)</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8" fill="#c0392b" x="343" y="78" text-anchor="middle">~500–1,000 tokens · cannot be truncated</text>
+
+      <rect x="238" y="90" width="210" height="32" rx="3" fill="#FEF9EC" stroke="#b8860b" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" fill="#78350f" x="343" y="103" text-anchor="middle">Procedural constraints</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8" fill="#b8860b" x="343" y="116" text-anchor="middle">~1,000–2,000 tokens</text>
+
+      <rect x="238" y="128" width="210" height="32" rx="3" fill="#EBF2FB" stroke="#2E75B6" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" fill="#1B3A5C" x="343" y="141" text-anchor="middle">Episodic memory (top-3 steps)</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8" fill="#2E75B6" x="343" y="154" text-anchor="middle">~2,000–4,000 tokens</text>
+
+      <rect x="238" y="166" width="210" height="32" rx="3" fill="#EBF2FB" stroke="#2E75B6" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" fill="#1B3A5C" x="343" y="179" text-anchor="middle">Semantic knowledge (top-5 chunks)</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8" fill="#2E75B6" x="343" y="192" text-anchor="middle">~3,000–6,000 tokens</text>
+
+      <rect x="238" y="204" width="210" height="32" rx="3" fill="#EDF7F2" stroke="#27ae60" stroke-width="1"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" fill="#14532d" x="343" y="217" text-anchor="middle">Current tool results</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8" fill="#27ae60" x="343" y="230" text-anchor="middle">~2,000–5,000 tokens (budget-capped)</text>
+
+      <!-- Total budget bar -->
+      <rect x="238" y="244" width="210" height="40" rx="3" fill="#1B3A5C"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="white" x="343" y="259" text-anchor="middle">Working memory budget</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9" fill="rgba(255,255,255,0.7)" x="343" y="274" text-anchor="middle">Hard cap: ~15,000–20,000 tokens per turn</text>
+
+      <!-- Key annotation -->
+      <rect x="466" y="28" width="192" height="270" rx="6" fill="white" stroke="#d8dde8" stroke-width="0.8"/>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="9.5" font-weight="600" fill="#1B3A5C" x="562" y="46" text-anchor="middle">Key design rules</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#c0392b" x="474" y="70">① Goal anchor is injected first</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="84">   and has a reserved token budget.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="98">   It is never truncated, regardless</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="112">   of other content pressure.</text>
+
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#2E75B6" x="474" y="136">② Episodic and semantic retrievals</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="150">   are separate queries against</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="164">   separate stores. Never combined.</text>
+
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#27ae60" x="474" y="188">③ Tool results are budget-capped.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="202">   If results exceed budget, they are</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="216">   summarised before injection.</text>
+
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#1B3A5C" x="474" y="240">④ Total is enforced by the</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="254">   orchestrator, not the model.</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="268">   The model does not decide what</text>
+      <text font-family="'Source Serif 4',Georgia,serif" font-size="8.5" fill="#5a6478" x="474" y="282">   it sees. The architecture does.</text>
+    </svg>
+    <div class="diagram-caption">Working memory is assembled by the orchestrator at the start of each ReAct turn, following a defined injection order and token budget allocation. The goal anchor occupies a reserved slot at the top of the assembled context and is never evictable. Episodic and semantic retrievals are separate operations against separate stores. Tool results are budget-capped and summarised if they exceed their allocation. The total is enforced by the orchestrator — not by hoping the model attends to what matters.</div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>Why bigger context windows do not solve this</h2>
+
+  <p>Meta's Llama 4 offers a 10-million-token context window. Magic's LTM-2-Mini claims 100 million tokens with efficiency improvements over traditional attention. These are genuinely impressive engineering achievements, and the research trajectory is real. They do not, however, solve the memory architecture problem.</p>
+
+  <p>The reason is structural. A larger context window reduces the frequency of eviction — the moment at which something falls out of the model's active attention. It does not eliminate the attention dilution problem: distributing attention across 10 million tokens produces a different curve, but the same fundamental degradation. The METR research finding from 2024–2025 — that AI task duration capability doubles approximately every seven months, but success rates fall below 10% for tasks exceeding four hours of equivalent human effort — is not primarily a context window limitation. It is a coherence limitation. Longer context just defers the point at which coherence breaks down.</p>
+
+  <p>More practically: a 10-million-token context window at current pricing costs approximately 50 times more per token than an optimised retrieval-based approach. At production volume, this is not a marginal difference. It is the difference between an economically viable system and one that is performing well in benchmarks while burning money in operation.</p>
+
+  <p>The organisations that will capture value from the agent capability curve over the next two to three years are not the ones that waited for context windows to get large enough to make memory architecture unnecessary. They are the ones that built the memory infrastructure now — the episodic store, the goal anchor mechanics, the retrieval pipelines — so that when the models become capable of managing week-long autonomous workflows, the system surrounding those models is already designed to hold and govern the context those workflows require.</p>
+
+  <blockquote>
+    <p>The model is the engine. The memory architecture is the chassis, the steering, and the brakes. You cannot build a vehicle from an engine alone, and you cannot build a production-grade agent from a model alone — regardless of how large its context window is.</p>
+  </blockquote>
+
+  <div class="section-rule"></div>
+
+  <h2>The four questions that reveal whether a system has been designed or just deployed</h2>
+
+  <p>In any architecture review of an agent system intended for long-horizon tasks, four questions will distinguish a system that has been properly designed from one that will fail quietly in production.</p>
+
+  <div class="callout">
+    <div class="label">Four questions for any long-horizon agent architecture review</div>
+    <p><strong>Where is the goal anchor, and how is it protected from eviction?</strong> If the team cannot immediately point to a specific data structure, a specific injection step in the orchestrator, and a specific token budget allocation with a non-eviction guarantee, the goal anchor has not been designed. It may exist in a system prompt. System prompts can be truncated. That is not the same thing.</p>
+    <p><strong>Where is the episodic memory store, and how is it separate from the semantic knowledge store?</strong> If both are in the same vector database with no logical separation, the agent has no reliable way to distinguish "what I tried last Tuesday" from "what the policy document says." These are fundamentally different retrieval problems, and conflating their stores produces retrieval results that are accurate for neither.</p>
+    <p><strong>What happens to this agent at step 50 if the session is interrupted and resumed?</strong> If the answer is "it starts over," there is no cross-session continuity. The episodic store is per-session and in-memory. Any task that cannot be completed in a single uninterrupted session — which is most enterprise tasks of meaningful scope — has a failure mode baked into the architecture.</p>
+    <p><strong>Can you reconstruct, for any decision this agent made, exactly what context it had at the moment of that decision?</strong> If the audit trail is the model's output, the answer is no. The model's output does not preserve what was in its context window. Only a governed episodic store with timestamped retrieval records can answer this question — and in any regulated environment, this is the question a compliance examination will ask.</p>
+  </div>
+
+  <p>None of these questions are about model quality. All of them are about architecture. The difference between a system that answers all four affirmatively and one that answers none is not the sophistication of the model it uses. It is the investment in the infrastructure that surrounds the model. That infrastructure is the memory architecture. And the memory architecture, not the context window, is the real bottleneck — and the real opportunity — in enterprise agent deployments.</p>
+
+  <div class="footnotes">
+    <h4>References &amp; Further Reading</h4>
+    <p>Chroma Technical Report, July 2025 — Performance degradation study across 18 leading models. Documents the context rot phenomenon and the measurable performance cliff past 50,000 tokens. The hallucination rate comparison (12% at 200K optimised vs. 28–31% at 1M full capacity) is sourced from this report.</p>
+    <p>Journal of Machine Learning Research, 2024 — Agent performance degradation study documenting the 40% performance drop beyond 50,000 tokens due to attention dilution. The foundational empirical basis for the context rot concept.</p>
+    <p>Stevens Institute of Technology, "Hidden Economics of AI Agents," January 2026 — Unconstrained agent cost quantification ($5–8 per software engineering task) and the 50× token consumption multiple for Reflexion-style loops relative to single-pass equivalents.</p>
+    <p>Databricks RAG Benchmarks, 2025 — The 300% cost inflation finding for naive long-prompt workarounds, with documented absence of recall improvement relative to optimised retrieval architectures.</p>
+    <p>METR Research, 2024–2025 — AI task duration capability doubling rate (~7 months) and the success rate drop below 10% for tasks exceeding four hours. The research framing the agent capability trajectory and the memory infrastructure gap it implies.</p>
+    <p>Oracle Developer Blog, February 2026 — The four-memory-type framework (working, episodic, semantic, procedural) for AI agents, referenced in the specification section. Customer service as the leading enterprise use case at 26.5% of deployments (LangChain 2025 survey data).</p>
+    <p>Augment Code, "Context Window Wars," October 2025 — Head-to-head cost comparison ($0.08 vs. $0.38–0.42 per query for optimised retrieval vs. full-capacity context window usage) and the hallucination rate differential at equivalent context loads.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Rao</div>
+    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. Formerly Senior Talent Development leader with 18+ years designing technical training across five countries. TOGAF EA, Google Certified Cloud Architect &amp; ML Engineer. Founder of Ekada and Data Domine.</p>
+  </div>
+</div>
+
+</body>
+</html>

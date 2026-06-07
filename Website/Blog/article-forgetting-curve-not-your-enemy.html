@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The forgetting curve is not your enemy | Siddharth Potukuchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif 4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+  .hero .meta {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    font-weight: 300;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  p {
+    font-size: 1.085rem;
+    margin-bottom: 1.65rem;
+    color: var(--ink);
+  }
+
+  p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin: 6px 12px 0 0;
+    color: var(--navy);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.55rem;
+    color: var(--navy);
+    margin: 3rem 0 1.1rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 2.5rem 0 0.6rem;
+  }
+
+  blockquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.8rem 0;
+    padding: 4px 0 4px 32px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+  blockquote cite {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: var(--mid);
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.8rem 0;
+    border-radius: 0 0 4px 4px;
+  }
+  .callout .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--mid);
+    margin: 0;
+    line-height: 1.7;
+  }
+  .callout p + p { margin-top: 0.9rem; }
+  .callout p::first-letter { all: unset; }
+
+  /* responsibility map */
+  .resp-map {
+    margin: 2.8rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .resp-map .map-header {
+    background: var(--navy);
+    padding: 14px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .resp-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+    align-items: start;
+  }
+  .resp-row:last-child { border-bottom: none; }
+  .resp-row:nth-child(even) { background: #fafbfd; }
+  .resp-row.ld-row { border-left: 3px solid var(--accent); background: #f0f5fb; }
+  .resp-row .col-phase {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .resp-row .col-who {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .resp-row.ld-row .col-who { color: var(--navy); }
+  .resp-row .col-note {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .resp-map .map-header,
+    .resp-row { grid-template-columns: 1fr; gap: 6px; }
+    .resp-map .map-header span:not(:first-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Potukuchi</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Learning Architecture</span>
+  <h1>The forgetting curve is not your enemy</h1>
+  <p class="deck">L&D cites Ebbinghaus to explain why training didn't stick. But if your evaluation was rigorous, it's someone else's problem. And if it wasn't — that's not the forgetting curve. That's a confession.</p>
+  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; October 2024 &nbsp;·&nbsp; 11 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>Hermann Ebbinghaus documented the forgetting curve in 1885. He memorised lists of nonsense syllables, tested his own recall at intervals, and plotted how fast the encoding decayed without reinforcement. The curve is steep. Within 24 hours, a significant portion of what was learned is gone. Within a week, most of it. Without active retrieval, the brain discards what it doesn't use.</p>
+
+  <p>One hundred and forty years later, L&D professionals cite this finding in post-program debriefs, in stakeholder presentations, in their own defence when training doesn't produce the outcomes it was supposed to produce. The curve is real. The neuroscience is not wrong. And in most cases where I have heard it cited as an explanation for poor outcomes, it is functioning as something else entirely: an excuse, dressed as a scientific finding.</p>
+
+  <p>I want to argue something that runs against the grain of most L&D thinking on this topic. The forgetting curve, in the context of a well-designed technical training program, is not L&D's problem. Not because retention doesn't matter — it does — but because the economics, the organisational structure, and the honest scope of what L&D can and should own make post-transfer retention someone else's remit. The question is not how to fight the curve. The question is whether you're citing the curve to explain a genuine retention problem, or to obscure a design problem that happened much earlier.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What the transaction actually is</h2>
+
+  <p>When a manager sponsors an employee for training, there is an implicit transaction being completed. The organisation is investing in a specific capability transfer. The participant's obligation, on the other side of that transfer, is to deploy the capability. That is the deal. It is finite by design. The training is not a subscription. It is an event with a defined output: a participant who can now do something they could not do before, to a standard the job will demand of them.</p>
+
+  <p>Once that transfer is verified — and I mean verified, not assumed, not inferred from a completion certificate — the upstream end of the transaction is done. L&D's obligation is fulfilled. What happens to that capability over the following months, as the participant uses it, deepens it, or fails to use it and watches it degrade, is not an L&D problem. It is a performance problem. A team problem. And in a functioning organisation, a problem with mechanisms already in place to address it.</p>
+
+  <p>Those mechanisms are not exotic. Knowledge transfer sessions between team members. Retrospectives that surface where people are struggling and why. Product documentation and internal wikis that answer configuration questions faster than any refresher training could. Support tickets that accumulate institutional knowledge about what breaks and how to fix it. Experienced colleagues whose job includes passing on what they know. This is what a learning organisation actually looks like — not a perpetual cycle of L&D-managed interventions, but a team that has the infrastructure to sustain and deepen capability once it has been transferred.</p>
+
+  <blockquote>
+    <p>The learning organisation is not L&D running forever. It is a team with the mechanisms to keep learning without L&D in the room.</p>
+  </blockquote>
+
+  <p>For L&D to try to own post-transfer retention is not just economically unworkable — it is a category error. L&D exists outside the context of the team's daily work, their specific goals, their actual use cases as they evolve on the ground. A refresher module designed six months after training, by someone who isn't embedded in that team's reality, is a blunt instrument applied to a precise problem. The team already has sharp instruments. The question is whether they're using them.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>Where the scope ends — and why that line is legitimate</h2>
+
+  <p>The scope of L&D has to be finite. That statement sounds obvious but it is resisted constantly, implicitly, by an L&D culture that has absorbed the retention narrative so deeply that it treats any post-training capability decay as evidence that the program failed. It didn't necessarily fail. Biology happened. The question is what the program was actually responsible for producing — and whether it produced it.</p>
+
+  <p>What L&D is responsible for is this: a participant who, at the point of evaluation, can solve a real problem in a real context without guidance. Not recall steps. Not replicate a walkthrough. Solve a novel problem. Apply judgment to a situation they haven't been shown. Demonstrate that the capability exists and is transferable to conditions they will actually face.</p>
+
+  <p>That evaluation — rigorous, contextual, assessed against the job's actual demands — is the line. When a participant passes it, the transfer is complete. What happens next is outside the scope, by economic necessity and structural logic. The team is the right environment for ongoing capability development. L&D is not. Pretending otherwise is not generosity toward the learner. It is scope creep that dilutes what L&D can actually do well.</p>
+
+  <div class="callout">
+    <div class="label">Where retention reinforcement actually lives</div>
+    <p>Retrieval practice works. The research on this is clear and has been since the early 20th century — pulling information out of memory rather than pushing it back in consolidates encoding more effectively than re-exposure. That finding is real and it is useful.</p>
+    <p>What it does not mean is that L&D should be designing and running retrieval interventions for weeks after a program ends. It means teams should be structured to create natural retrieval conditions: apply the skill on a real case within days of training, not weeks. Debrief the application in the next team retrospective. Encounter the same domain in a different context through the next knowledge transfer session. These are not L&D activities. They are the normal functioning of a team that takes capability seriously. The retrieval science supports building those conditions. It does not mandate that L&D build them.</p>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The two things the forgetting curve actually means</h2>
+
+  <p>When L&D cites the forgetting curve to explain an outcomes gap, one of two things is true. They are different problems and they require different responses.</p>
+
+  <p>The first possibility: the evaluation was rigorous. The capstone established, to a defensible standard, that the participant could solve problems in context at the point of transfer. The capability was real when L&D signed off on it. What happened after — a long delay before application, no team infrastructure for reinforcement, a production environment that looked nothing like the training environment — degraded it. In this case, the forgetting curve is genuinely the right explanation. And it is genuinely not L&D's problem. The transfer happened. The accountability for sustaining it lies with the team, the manager, and the organisation that built the post-training environment. L&D citing the curve here is not making an excuse. It is giving an accurate diagnosis of where the failure actually sits.</p>
+
+  <p>The second possibility: the evaluation was not rigorous. The assessment was a quiz. The capstone was a guided exercise with the answer nearby. The feedback form said participants felt confident. And six weeks later, nobody can do the thing. In this case, citing the forgetting curve is an error — or worse, a deflection. The capability was never fully there. It felt like it was, because the program produced a convincing performance of competence in a controlled environment. But performance of competence in a controlled environment is not the same as capability. When the controlled environment disappeared, so did the performance. That is not the forgetting curve. That is an evaluation that didn't test what it claimed to test, clearing a learner who wasn't ready, and blaming biology for a design failure.</p>
+
+  <blockquote>
+    <p>The forgetting curve is either someone else's problem — or it is a confession that your evaluation wasn't what you thought it was. It is not, under any economically honest model, L&D's ongoing liability.</p>
+  </blockquote>
+
+  <div class="section-rule"></div>
+
+  <h2>The responsibility map</h2>
+
+  <p>Here is how I think about where the line sits — and who owns what across the full arc from design to sustained performance.</p>
+
+  <div class="resp-map">
+    <div class="map-header">
+      <span>Phase</span>
+      <span>Owned by</span>
+      <span>What it requires</span>
+    </div>
+    <div class="resp-row ld-row">
+      <div class="col-phase">Needs analysis & learner profiling</div>
+      <div class="col-who">L&D</div>
+      <div class="col-note">Conversations with real participants before design begins. Not surveys. Not job task analyses written by managers. Actual interrogation of the gap.</div>
+    </div>
+    <div class="resp-row ld-row">
+      <div class="col-phase">Program design & use case architecture</div>
+      <div class="col-who">L&D</div>
+      <div class="col-note">Real-world scenarios drawn from actual implementations. Increasing complexity through the three stages. No default learner. No coverage masquerading as curriculum.</div>
+    </div>
+    <div class="resp-row ld-row">
+      <div class="col-phase">Delivery & facilitation</div>
+      <div class="col-who">L&D</div>
+      <div class="col-note">Not performance. Not coverage. Active reading of the room, adapting to what the cohort actually needs, protecting the stage sequence even under time pressure.</div>
+    </div>
+    <div class="resp-row ld-row">
+      <div class="col-phase">Evaluation & verified transfer</div>
+      <div class="col-who">L&D</div>
+      <div class="col-note">The line. A rigorous capstone that tests judgment under novel conditions, assessed by practitioners who can tell the difference between competence and its performance. This is where L&D's remit ends.</div>
+    </div>
+    <div class="resp-row">
+      <div class="col-phase">Early application on real cases</div>
+      <div class="col-who">Manager + participant</div>
+      <div class="col-note">The participant should be using the capability within days of training, not weeks. The manager's job is to make sure that happens. This is the most powerful retention mechanism available — and it costs L&D nothing.</div>
+    </div>
+    <div class="resp-row">
+      <div class="col-phase">Reinforcement through team infrastructure</div>
+      <div class="col-who">Team</div>
+      <div class="col-note">KTs, retrospectives, peer problem-solving, documentation, experienced colleagues. The learning organisation is not a metaphor. It is this — functioning without L&D in the room.</div>
+    </div>
+    <div class="resp-row">
+      <div class="col-phase">Ongoing capability development</div>
+      <div class="col-who">Employee</div>
+      <div class="col-note">The participant owns the deepening of their own capability. Maximising value delivery is their end of the deal. L&D gave them the foundation. What they build on it is theirs to own.</div>
+    </div>
+    <div class="resp-row">
+      <div class="col-phase">Upskilling as the domain evolves</div>
+      <div class="col-who">L&D + Organisation</div>
+      <div class="col-note">New releases, new platforms, new strategic requirements — these warrant new events. Organised by L&D when the gap is org-wide. Handled by the team when the gap is local. The distinction matters economically.</div>
+    </div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The honest version of the forgetting curve conversation</h2>
+
+  <p>Here is what I now say, when the conversation about post-training retention comes up — and it always does, usually from a stakeholder who has watched a program produce enthusiastic feedback forms and underwhelming business outcomes.</p>
+
+  <p>The forgetting curve is real. If a participant does not apply what they learned within a short window after training, and does not have team infrastructure that creates natural retrieval conditions, some of the encoding will degrade. That is biology. It is not the program failing. The program's job was to establish the capability. The team's job is to sustain it.</p>
+
+  <p>What I want to know — before we have a conversation about retention — is whether the capability was actually there when the participant left the room. Not whether they felt confident. Not whether they passed the assessment. Whether, at the capstone, they solved a novel problem without a template and a practitioner agreed the solution was sound. If that happened, retention is your problem now, in the most productive sense: it is yours to solve, and you have the tools to solve it. If that didn't happen — if the capstone was a quiz, if the evaluation was a confidence survey, if we called it complete before it was — then we are not talking about retention. We are talking about a transfer that was declared complete before the transfer happened.</p>
+
+  <p>Those are two different conversations. Only one of them involves the forgetting curve.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>Why this matters for how L&D scopes itself</h2>
+
+  <p>An L&D function that tries to own post-transfer retention is an L&D function making two mistakes simultaneously. It is over-scoping into a domain — ongoing team performance — where it lacks the context, the embed, and the economic justification to operate effectively. And it is under-scoping its actual job: rigorous needs analysis, honest curriculum design, and an evaluation process that genuinely establishes whether the transfer happened.</p>
+
+  <p>The functions that do the second thing well rarely need to worry about the first. When the transfer is real — when the capstone actually tested what the job demands, when the participant left the room genuinely capable and not just performing capability — the forgetting curve takes care of itself through normal team functioning. Real capability, applied quickly and reinforced through daily work, consolidates. It does not require L&D management. It requires a team that takes performance seriously.</p>
+
+  <p>The forgetting curve becomes L&D's recurring problem only when the evaluation was weak. Because then every post-training performance gap looks like a retention problem — and every retention problem looks like a reason to extend L&D's scope — when the actual answer is to fix the evaluation that was never rigorous enough to establish the transfer in the first place.</p>
+
+  <p>Ebbinghaus was not studying technical training programs. He was studying himself memorising nonsense. The curve describes what happens to meaningless encoding without reinforcement. A solution architect who spent five days solving real problems in a structured simulation, defended their design in front of a panel of practitioners, and walked out genuinely capable of doing the job — that is not a nonsense syllable. That is a different kind of encoding entirely.</p>
+
+  <p>Whether it sticks is, at that point, between them and their team.</p>
+
+  <p>L&D's job is done.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Ebbinghaus, H. (1885). <em>Über das Gedächtnis: Untersuchungen zur experimentellen Psychologie.</em> Duncker & Humblot. — The original forgetting curve research, conducted on himself using nonsense syllables. The conditions matter as much as the findings.</p>
+    <p>Roediger, H.L., & Karpicke, J.D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. <em>Psychological Science, 17</em>(3), 249–255. — On retrieval practice as the mechanism that actually consolidates encoding, distinct from re-study or re-exposure.</p>
+    <p>Brinkerhoff, R.O. (2006). <em>Telling Training's Story: Evaluation Made Simple, Credible, and Effective.</em> Berrett-Koehler. — On the gap between what training produces and what gets measured, and why most evaluation misses the question it should be asking.</p>
+    <p>Broad, M.L., & Newstrom, J.W. (1992). <em>Transfer of Training: Action-Packed Strategies to Ensure High Payoff from Training Investments.</em> Addison-Wesley. — On the environmental conditions, particularly manager behaviour in the days after training, that determine whether transfer consolidates or decays.</p>
+    <p>Senge, P.M. (1990). <em>The Fifth Discipline: The Art and Practice of the Learning Organization.</em> Doubleday. — On what an organisation that sustains its own capability development actually looks like — and why it does not depend on L&D to function.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Potukuchi</div>
+    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
+  </div>
+</div>
+
+</body>
+</html>

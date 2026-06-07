@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataDomine — Production-Ready. By Design.</title>
+  <meta name="description" content="DataDomine trains solution architects, enterprise architects, and ML engineers to make the decisions their roles actually demand — from data, under constraint, with the rigour that regulated production environments require.">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datadomine.css">
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+
+      --serif: 'IBM Plex Serif', Georgia, serif;
+      --sans:  'Inter', system-ui, sans-serif;
+
+      --section-pad-y: 96px;
+      --container-w: 1160px;
+      --pad-x: 48px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Base
+    ───────────────────────────────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--container-w);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad-x);
+      z-index: 100;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .site-nav.scrolled {
+      box-shadow: 0 1px 16px rgba(13, 17, 23, 0.08);
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-mark {
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark .word-data {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .word-domine {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .initial-d {
+      color: var(--amber);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--deep-ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--nav-height) + 80px) var(--pad-x) 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle grid texture */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(248,246,241,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248,246,241,0.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+    }
+
+    .hero__inner {
+      max-width: var(--container-w);
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__content {
+      max-width: 700px;
+    }
+
+    .hero__eyebrow {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero__eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .hero__headline {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(44px, 5.5vw, 72px);
+      line-height: 1.06;
+      color: var(--arch-white);
+      letter-spacing: -0.025em;
+      margin-bottom: 32px;
+    }
+
+    .hero__headline .accent {
+      color: var(--amber);
+    }
+
+    .hero__sub {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(16px, 1.6vw, 19px);
+      line-height: 1.7;
+      color: rgba(248, 246, 241, 0.62);
+      margin-bottom: 48px;
+      max-width: 580px;
+    }
+
+    .hero__ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--deep-ink);
+      background: var(--amber);
+      border: none;
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+    }
+
+    .btn-ghost {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: rgba(248, 246, 241, 0.7);
+      background: transparent;
+      border: 1px solid rgba(248, 246, 241, 0.18);
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(248, 246, 241, 0.42);
+      color: var(--arch-white);
+    }
+
+    /* Hero mark — right side */
+    .hero__mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      opacity: 0.18;
+      flex-shrink: 0;
+    }
+
+    /* Amber rule at bottom of hero */
+    .hero__rule {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PROBLEM SECTION
+    ───────────────────────────────────────────────────────────────── */
+    .section-problem {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .section-problem .container {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .section-problem__header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 1px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .section-heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1.15;
+      color: var(--deep-ink);
+      letter-spacing: -0.02em;
+      max-width: 640px;
+    }
+
+    .problem-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .problem-col {
+      padding: 40px 40px 40px 0;
+      border-right: 1px solid rgba(13, 17, 23, 0.08);
+    }
+
+    .problem-col:first-child {
+      padding-left: 0;
+    }
+
+    .problem-col:last-child {
+      border-right: none;
+      padding-right: 0;
+      padding-left: 40px;
+    }
+
+    .problem-col:nth-child(2) {
+      padding-left: 40px;
+    }
+
+    .problem-col__number {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 48px;
+      color: rgba(13, 17, 23, 0.06);
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: -0.04em;
+    }
+
+    .problem-col__title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      margin-bottom: 14px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .problem-col__body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--slate);
+    }
+
+    .problem-closing {
+      border-top: 2px solid var(--amber);
+      padding-top: 32px;
+      max-width: 680px;
+    }
+
+    .problem-closing p {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.55;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THREE AUDIENCES
+    ───────────────────────────────────────────────────────────────── */
+    .section-audiences {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: var(--deep-ink);
+    }
+
+    .section-audiences .container {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .section-audiences .section-label {
+      color: rgba(217, 119, 6, 0.9);
+    }
+
+    .section-audiences .section-heading {
+      color: var(--arch-white);
+    }
+
+    .audience-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(248, 246, 241, 0.08);
+    }
+
+    .audience-card {
+      background: var(--deep-ink);
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-decoration: none;
+      transition: background 0.18s ease;
+      position: relative;
+    }
+
+    .audience-card:hover {
+      background: rgba(248, 246, 241, 0.04);
+    }
+
+    .audience-card__label {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .audience-card__title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--arch-white);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .audience-card__body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: rgba(248, 246, 241, 0.52);
+      flex: 1;
+    }
+
+    .audience-card__link {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .audience-card__link svg {
+      transition: transform 0.15s ease;
+    }
+
+    .audience-card:hover .audience-card__link svg {
+      transform: translateX(4px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FRAMEWORK TEASE
+    ───────────────────────────────────────────────────────────────── */
+    .section-framework {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .section-framework .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: start;
+    }
+
+    .framework-left {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .framework-left .section-heading {
+      max-width: none;
+    }
+
+    .framework-intro {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--slate);
+      border-left: 2px solid var(--amber);
+      padding-left: 20px;
+    }
+
+    .framework-body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+    }
+
+    .framework-cta {
+      margin-top: 8px;
+    }
+
+    .btn-ink {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--arch-white);
+      background: var(--deep-ink);
+      border: none;
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-ink:hover {
+      background: #1a2230;
+    }
+
+    /* Lens list — right column */
+    .framework-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .lens-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.07);
+      align-items: baseline;
+    }
+
+    .lens-item:first-child {
+      border-top: 1px solid rgba(13, 17, 23, 0.07);
+    }
+
+    .lens-item__num {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 11px;
+      color: rgba(13, 17, 23, 0.2);
+      letter-spacing: 0.04em;
+    }
+
+    .lens-item__content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .lens-item__name {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--deep-ink);
+      line-height: 1.3;
+    }
+
+    .lens-item__desc {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FEATURED PROGRAMMES
+    ───────────────────────────────────────────────────────────────── */
+    .section-programmes {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: #F0EDE7;
+    }
+
+    .section-programmes .container {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .programmes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+    }
+
+    .programmes-header__left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .programmes-header__link {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: color 0.15s ease;
+    }
+
+    .programmes-header__link:hover {
+      color: var(--deep-ink);
+    }
+
+    .programme-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .programme-card {
+      background: var(--arch-white);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      border: 1px solid rgba(13, 17, 23, 0.08);
+      text-decoration: none;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .programme-card:hover {
+      box-shadow: 0 8px 32px rgba(13, 17, 23, 0.10);
+      transform: translateY(-2px);
+    }
+
+    .programme-card__tier {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .programme-card__name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--deep-ink);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .programme-card__for {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    .programme-card__desc {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--slate);
+      flex: 1;
+    }
+
+    .programme-card__divider {
+      height: 1px;
+      background: rgba(13, 17, 23, 0.08);
+    }
+
+    .programme-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .programme-card__format {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    .programme-card__price {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .programme-card__price-label {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--slate);
+      margin-top: 2px;
+    }
+
+    .programme-card__price-enquiry {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      font-style: italic;
+    }
+
+    .programme-card__cta {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .programme-card__cta svg {
+      transition: transform 0.15s ease;
+    }
+
+    .programme-card:hover .programme-card__cta svg {
+      transform: translateX(4px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FIELD NOTES PREVIEW
+    ───────────────────────────────────────────────────────────────── */
+    .section-field-notes {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: var(--arch-white);
+      border-top: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .section-field-notes .container {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .field-notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+    }
+
+    .field-notes-header__left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field-notes-header__link {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: color 0.15s ease;
+    }
+
+    .field-notes-header__link:hover {
+      color: var(--deep-ink);
+    }
+
+    .field-note-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .field-note-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 32px 28px;
+      border: 1px solid rgba(13, 17, 23, 0.08);
+      text-decoration: none;
+      background: var(--arch-white);
+      transition: border-color 0.15s ease;
+    }
+
+    .field-note-card:hover {
+      border-color: rgba(13, 17, 23, 0.18);
+    }
+
+    .field-note-card__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-note-card__tag {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .field-note-card__read-time {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--slate);
+    }
+
+    .field-note-card__title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .field-note-card__desc {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--slate);
+      flex: 1;
+    }
+
+    .field-note-card__link {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 12px;
+      color: var(--deep-ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+      border-top: 1px solid rgba(13, 17, 23, 0.07);
+      padding-top: 14px;
+    }
+
+    .field-note-card__link svg {
+      transition: transform 0.15s ease;
+    }
+
+    .field-note-card:hover .field-note-card__link svg {
+      transform: translateX(4px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CLOSING CTA
+    ───────────────────────────────────────────────────────────────── */
+    .section-closing {
+      padding: var(--section-pad-y) var(--pad-x);
+      background: var(--deep-ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-closing::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(248,246,241,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248,246,241,0.02) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+    }
+
+    .section-closing .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 40px;
+      max-width: 720px;
+    }
+
+    .closing-eyebrow {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .closing-headline {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1;
+      color: var(--arch-white);
+      letter-spacing: -0.025em;
+    }
+
+    .closing-body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(248, 246, 241, 0.55);
+      max-width: 560px;
+    }
+
+    .closing-ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .closing-scarcity {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.35);
+      letter-spacing: 0.01em;
+      border-top: 1px solid rgba(248, 246, 241, 0.08);
+      padding-top: 32px;
+      width: 100%;
+    }
+
+    .closing-amber-rule {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--deep-ink);
+      border-top: 1px solid rgba(248, 246, 241, 0.06);
+      padding: 48px var(--pad-x) 40px;
+    }
+
+    .footer-inner {
+      max-width: var(--container-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .footer-wordmark .word-data {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 16px;
+      color: rgba(248, 246, 241, 0.7);
+    }
+
+    .footer-wordmark .word-domine {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 16px;
+      color: rgba(248, 246, 241, 0.7);
+    }
+
+    .footer-wordmark .initial-d {
+      color: var(--amber);
+    }
+
+    .footer-tagline {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.35);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-links-heading {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248, 246, 241, 0.3);
+      margin-bottom: 4px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.52);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: rgba(248, 246, 241, 0.82);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-contact-heading {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248, 246, 241, 0.3);
+    }
+
+    .footer-contact-email {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(248, 246, 241, 0.6);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-contact-email:hover {
+      color: rgba(248, 246, 241, 0.9);
+    }
+
+    .footer-bottom {
+      max-width: var(--container-w);
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(248, 246, 241, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248, 246, 241, 0.28);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      :root {
+        --pad-x: 32px;
+        --section-pad-y: 72px;
+      }
+
+      .hero__mark {
+        display: none;
+      }
+
+      .hero__inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .problem-cols,
+      .audience-cards,
+      .programme-cards,
+      .field-note-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .problem-col {
+        padding: 28px 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      }
+
+      .problem-col:last-child {
+        border-bottom: none;
+        padding-left: 0;
+      }
+
+      .problem-col:nth-child(2) {
+        padding-left: 0;
+      }
+
+      .section-framework .container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .programmes-header,
+      .field-notes-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --pad-x: 24px;
+        --section-pad-y: 56px;
+      }
+
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+        display: none;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" id="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <svg class="nav-mark" width="14" height="36" viewBox="0 0 14 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="7" cy="7" r="7" fill="#D97706"/>
+        <rect x="5.5" y="7" width="3" height="26" fill="#0D1117"/>
+      </svg>
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="hero" aria-labelledby="hero-headline">
+
+      <div class="hero__inner">
+
+        <div class="hero__content">
+          <div class="hero__eyebrow">Technical Practitioner Education</div>
+          <h1 class="hero__headline" id="hero-headline">
+            Production-Ready.<br>By <span class="accent">Design.</span>
+          </h1>
+          <p class="hero__sub">
+            Most technical programmes teach practitioners what a system can do. DataDomine teaches them how to make the decisions that determine whether it survives production, passes a compliance audit, and holds up under a board review. There is a difference between knowing how to build and knowing what to build, when to build it, and how to defend that decision under economic and organisational scrutiny. That difference is what we train.
+          </p>
+          <div class="hero__ctas">
+            <a href="programmes.html" class="btn-primary">Explore Programmes</a>
+            <a href="framework.html" class="btn-ghost">Read The Framework</a>
+          </div>
+        </div>
+
+        <!-- Domine Mark — decorative -->
+        <div class="hero__mark" aria-hidden="true">
+          <svg width="48" height="160" viewBox="0 0 48 160" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="24" fill="#D97706"/>
+            <rect x="20" y="24" width="8" height="120" fill="#F8F6F1"/>
+          </svg>
+        </div>
+
+      </div>
+
+      <div class="hero__rule" aria-hidden="true"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         THE PROBLEM
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-problem" aria-labelledby="problem-heading">
+      <div class="container">
+
+        <div class="section-problem__header">
+          <div class="section-label" aria-hidden="true">The Problem</div>
+          <h2 class="section-heading" id="problem-heading">There are three gaps that practitioners are not being trained to close.</h2>
+        </div>
+
+        <div class="problem-cols">
+
+          <div class="problem-col">
+            <div class="problem-col__number" aria-hidden="true">01</div>
+            <h3 class="problem-col__title">The Certification Gap</h3>
+            <p class="problem-col__body">Practitioners accumulate certifications that attest to conceptual knowledge. A TOGAF badge, a cloud certification, an ML credential. What those programmes cannot certify is the capacity to make a defensible decision under constraint. Certification tests recall. It does not test judgement. The two are not the same thing, and regulated production environments do not care which one you have.</p>
+          </div>
+
+          <div class="problem-col">
+            <div class="problem-col__number" aria-hidden="true">02</div>
+            <h3 class="problem-col__title">The Production Gap</h3>
+            <p class="problem-col__body">A system is not production-ready because it works in a demonstration. It is production-ready when a compliance officer can audit it, a risk committee can approve it, and a team that did not build it can sustain it. Most technical training ends at the demonstration. The governance layer, the audit trail, the failure mode register, the handoff discipline — these are not taught, because they are not the interesting part. In regulated environments, they are the only part that matters.</p>
+          </div>
+
+          <div class="problem-col">
+            <div class="problem-col__number" aria-hidden="true">03</div>
+            <h3 class="problem-col__title">The Judgement Gap</h3>
+            <p class="problem-col__body">The practitioner who can present the economic argument for a design choice wins rooms that the practitioner who can only present the technical argument loses. Architectural decisions are economic decisions wearing a technical coat. They require the ability to read the organisation, negotiate the sprint, pass the ARB, and know when the right answer is not a technical solution at all. That capability is not developed by completing modules. It is developed through the kind of structured, applied practice that most programmes simply do not provide.</p>
+          </div>
+
+        </div>
+
+        <div class="problem-closing">
+          <p>DataDomine exists for the gap between capable and deployable.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         THREE AUDIENCES
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-audiences" aria-labelledby="audiences-heading">
+      <div class="container">
+
+        <div>
+          <div class="section-label" aria-hidden="true">Who We Train</div>
+          <h2 class="section-heading" id="audiences-heading" style="margin-top: 16px;">Three disciplines. One standard.</h2>
+        </div>
+
+        <div class="audience-cards">
+
+          <a href="programmes.html#cohort-1a" class="audience-card">
+            <div class="audience-card__label">Tier 1A</div>
+            <div class="audience-card__title">Architects</div>
+            <p class="audience-card__body">Solution architects, enterprise architects, and senior developers moving into architecture roles. If your work requires you to make architectural decisions and defend them under economic, regulatory, and organisational scrutiny, this is where you belong.</p>
+            <div class="audience-card__link">
+              Enterprise AI Architecture Cohort
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="programmes.html#cohort-1b" class="audience-card">
+            <div class="audience-card__label">Tier 1B</div>
+            <div class="audience-card__title">ML Engineers</div>
+            <p class="audience-card__body">ML engineers, data scientists, and senior developers building ML systems in finance, healthcare, supply chain, or insurance. If your models need to pass a compliance audit, survive a risk review, and sustain a governed production lifecycle, the programme is built for your context.</p>
+            <div class="audience-card__link">
+              ML Engineering for Regulated Industries
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="programmes.html#workshops" class="audience-card">
+            <div class="audience-card__label">Tier 2</div>
+            <div class="audience-card__title">Organisations</div>
+            <p class="audience-card__body">Teams facing a high-stakes architectural decision, a cross-functional misalignment, or a capability gap that is becoming visible as a practice scales. The workshop format brings a structured method to your real problem and produces a defensible output your team can act on.</p>
+            <div class="audience-card__link">
+              Architecture Design Workshop
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FRAMEWORK TEASE
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-framework" aria-labelledby="framework-heading">
+      <div class="container">
+
+        <div class="framework-left">
+          <div class="section-label" aria-hidden="true">The Clarity Point Framework</div>
+          <h2 class="section-heading" id="framework-heading">Every practitioner has experienced the moment when a complex decision resolves.</h2>
+          <p class="framework-intro">DataDomine is built around designing those moments deliberately, repeatedly, and at every level of the work.</p>
+          <p class="framework-body">The Clarity Point Framework is DataDomine's proprietary pedagogical method. It applies ten lenses to every programme — from economic judgement and behavioural discipline to the governance of failure and the restraint required to recognise when the right answer is not to build. Every chapter is structured so that the participant arrives at the insight themselves. Every insight produces a tangible output. Every output contributes to a complete artefact the participant can defend before a review panel on the day they leave.</p>
+          <div class="framework-cta">
+            <a href="framework.html" class="btn-ink">Read The Framework</a>
+          </div>
+        </div>
+
+        <div class="framework-right" aria-label="The ten lenses of the Clarity Point Framework">
+
+          <div class="lens-item">
+            <span class="lens-item__num">01</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">The Production Ready Standard</span>
+              <span class="lens-item__desc">The destination, defined first — for the specific system, in the specific context, under the specific constraints the participant will actually face.</span>
+            </div>
+          </div>
+
+          <div class="lens-item">
+            <span class="lens-item__num">02</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">The Three Contexts</span>
+              <span class="lens-item__desc">Greenfield, brownfield, and integration. Production-ready has three distinct shapes. Practitioners encounter all three.</span>
+            </div>
+          </div>
+
+          <div class="lens-item">
+            <span class="lens-item__num">03</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">Discovery Over Instruction</span>
+              <span class="lens-item__desc">What is discovered is owned. What is told is forgotten. Every chapter is structured so the practitioner arrives at the insight themselves.</span>
+            </div>
+          </div>
+
+          <div class="lens-item">
+            <span class="lens-item__num">04</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">The Behavioural Layer</span>
+              <span class="lens-item__desc">Whether a correct architectural decision gets built is determined by how the practitioner behaves in the rooms where approval is sought.</span>
+            </div>
+          </div>
+
+          <div class="lens-item">
+            <span class="lens-item__num">05</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">Economic Decisions First</span>
+              <span class="lens-item__desc">Architectural decisions are economic decisions wearing a technical coat. The practitioner who can make the economic case wins the rooms that matter.</span>
+            </div>
+          </div>
+
+          <div class="lens-item">
+            <span class="lens-item__num">06–10</span>
+            <div class="lens-item__content">
+              <span class="lens-item__name">And five more lenses</span>
+              <span class="lens-item__desc">Agile value flow, the data foundation, the failure modes taxonomy, the handoff discipline, and the restraint layer — the capability to know when not to build.</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FEATURED PROGRAMMES
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-programmes" aria-labelledby="programmes-heading">
+      <div class="container">
+
+        <div class="programmes-header">
+          <div class="programmes-header__left">
+            <div class="section-label" aria-hidden="true">The Programmes</div>
+            <h2 class="section-heading" id="programmes-heading">Structured. Applied. Artefact-driven.</h2>
+          </div>
+          <a href="programmes.html" class="programmes-header__link">
+            All programmes
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#64748B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="programme-cards">
+
+          <!-- Cohort 1A -->
+          <a href="programmes.html#cohort-1a" class="programme-card">
+            <div class="programme-card__tier">Tier 1A &nbsp;·&nbsp; Cohort</div>
+            <div class="programme-card__for">For solution &amp; enterprise architects</div>
+            <div class="programme-card__name">Enterprise AI Architecture</div>
+            <p class="programme-card__desc">Eighteen chapters. Three weekends. A complete architecture artefact — ADR log, compliance mapping, economic justification, failure modes register, and handoff checklist — built from a single spine project and defended before a simulated review panel at the capstone. Not a certificate. An artefact.</p>
+            <div class="programme-card__divider"></div>
+            <div class="programme-card__meta">
+              <div class="programme-card__format">Three weekends &nbsp;·&nbsp; 42 hours &nbsp;·&nbsp; Max 12 participants</div>
+              <div class="programme-card__price">£1,800</div>
+              <div class="programme-card__price-label">Founder price &nbsp;·&nbsp; Full price £2,500–£3,500</div>
+            </div>
+            <div class="programme-card__cta">
+              Programme details
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Cohort 1B -->
+          <a href="programmes.html#cohort-1b" class="programme-card">
+            <div class="programme-card__tier">Tier 1B &nbsp;·&nbsp; Cohort</div>
+            <div class="programme-card__for">For ML engineers &amp; data scientists</div>
+            <div class="programme-card__name">ML Engineering for Regulated Industries</div>
+            <p class="programme-card__desc">Eighteen chapters covering the governance layer, the audit trail, the retraining pipeline, and the compliance documentation that make models viable in regulated production. The capstone produces a complete ML system artefact presentable to a governance board, a risk committee, or a hiring manager.</p>
+            <div class="programme-card__divider"></div>
+            <div class="programme-card__meta">
+              <div class="programme-card__format">Three weekends &nbsp;·&nbsp; 42 hours &nbsp;·&nbsp; Max 12 participants</div>
+              <div class="programme-card__price">£1,800</div>
+              <div class="programme-card__price-label">Founder price &nbsp;·&nbsp; Full price £2,500–£3,500</div>
+            </div>
+            <div class="programme-card__cta">
+              Programme details
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Tier 2 -->
+          <a href="programmes.html#workshops" class="programme-card">
+            <div class="programme-card__tier">Tier 2 &nbsp;·&nbsp; Workshop</div>
+            <div class="programme-card__for">For teams &amp; organisations</div>
+            <div class="programme-card__name">Architecture Design Workshop</div>
+            <p class="programme-card__desc">Three formats — a high-stakes architectural decision, a stuck and misaligned team, or a practice capability gap that has become visible. The facilitator brings a structured method. The participants bring the real problem. The engagement produces a documented output the team can act on. Discovery conversation at no charge.</p>
+            <div class="programme-card__divider"></div>
+            <div class="programme-card__meta">
+              <div class="programme-card__format">One or two days &nbsp;·&nbsp; 4–12 participants</div>
+              <div class="programme-card__price-enquiry">Pricing on enquiry</div>
+            </div>
+            <div class="programme-card__cta">
+              Workshop details
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#D97706" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FIELD NOTES PREVIEW
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-field-notes" aria-labelledby="field-notes-heading">
+      <div class="container">
+
+        <div class="field-notes-header">
+          <div class="field-notes-header__left">
+            <div class="section-label" aria-hidden="true">Field Notes</div>
+            <h2 class="section-heading" id="field-notes-heading">Writing from practice, not from theory.</h2>
+          </div>
+          <a href="field-notes.html" class="field-notes-header__link">
+            All field notes
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#64748B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="field-note-cards">
+
+          <a href="field-notes/why-technical-training-fails.html" class="field-note-card">
+            <div class="field-note-card__meta">
+              <span class="field-note-card__tag">Practice</span>
+              <span class="field-note-card__read-time">6 min read</span>
+            </div>
+            <h3 class="field-note-card__title">Why Technical Training Fails Before It Starts</h3>
+            <p class="field-note-card__desc">The failure mode is not content quality or delivery format. It is the gap between what the programme teaches and what the role actually demands on the day the practitioner returns to work.</p>
+            <div class="field-note-card__link">
+              Read note
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#0D1117" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="field-notes/production-readiness-practicum.html" class="field-note-card">
+            <div class="field-note-card__meta">
+              <span class="field-note-card__tag">Architecture</span>
+              <span class="field-note-card__read-time">8 min read</span>
+            </div>
+            <h3 class="field-note-card__title">The Production Readiness Practicum</h3>
+            <p class="field-note-card__desc">What it means to make something production-ready across three dimensions — technical performance, organisational sustainability, and structural compliance — and why most practitioners only have one of the three.</p>
+            <div class="field-note-card__link">
+              Read note
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#0D1117" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="field-notes/eu-ai-act-architecture.html" class="field-note-card">
+            <div class="field-note-card__meta">
+              <span class="field-note-card__tag">Compliance</span>
+              <span class="field-note-card__read-time">11 min read</span>
+            </div>
+            <h3 class="field-note-card__title">What The EU AI Act Actually Requires From Your Architecture</h3>
+            <p class="field-note-card__desc">The obligations that practitioners in regulated environments need to understand — not as a legal summary, but as a set of architectural decisions that must be made structurally, not documentarily.</p>
+            <div class="field-note-card__link">
+              Read note
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#0D1117" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CLOSING CTA
+    ════════════════════════════════════════════════════════════════ -->
+    <section class="section-closing" aria-labelledby="closing-heading">
+      <div class="closing-amber-rule" aria-hidden="true"></div>
+      <div class="container">
+
+        <div class="closing-eyebrow">Ready to close the gap</div>
+
+        <h2 class="closing-headline" id="closing-heading">
+          If you are serious about the craft, we should talk.
+        </h2>
+
+        <p class="closing-body">
+          DataDomine programmes are built for practitioners who have outgrown what general technical training can offer. The work is applied, the cohorts are small, and the output is a production-ready artefact — not a certificate. If that is what you are looking for, the next step is to get in touch.
+        </p>
+
+        <div class="closing-ctas">
+          <a href="programmes.html" class="btn-primary">Explore Programmes</a>
+          <a href="mailto:hello@datadomine.com?subject=Programme%20Enquiry" class="btn-ghost">Send An Enquiry</a>
+        </div>
+
+        <div class="closing-scarcity">
+          Cohorts run every six to eight weeks. Places are limited to twelve participants.
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-left">
+        <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+          <svg width="12" height="30" viewBox="0 0 12 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="6" cy="6" r="6" fill="#D97706"/>
+            <rect x="4.5" y="6" width="3" height="22" fill="rgba(248,246,241,0.5)"/>
+          </svg>
+          <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+        </a>
+        <span class="footer-tagline">Production-Ready. By Design.</span>
+      </div>
+
+      <div class="footer-links-col">
+        <div class="footer-links-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="framework.html">The Framework</a></li>
+          <li><a href="programmes.html">Programmes</a></li>
+          <li><a href="field-notes.html">Field Notes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <div class="footer-contact-heading">Contact</div>
+        <a href="mailto:hello@datadomine.com" class="footer-contact-email">hello@datadomine.com</a>
+        <ul class="footer-links" style="margin-top: 4px;">
+          <li><a href="mailto:hello@datadomine.com?subject=Cohort%201A%20Enquiry">Cohort 1A Enquiry</a></li>
+          <li><a href="mailto:hello@datadomine.com?subject=Cohort%201B%20Enquiry">Cohort 1B Enquiry</a></li>
+          <li><a href="mailto:hello@datadomine.com?subject=Workshop%20Enquiry">Workshop Enquiry</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2025 DataDomine. All rights reserved.</span>
+    </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    // Nav scroll shadow
+    (function () {
+      var nav = document.getElementById('site-nav');
+      if (!nav) return;
+      var threshold = 24;
+      function onScroll() {
+        if (window.scrollY > threshold) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }());
+
+    // Footer year
+    (function () {
+      var el = document.querySelector('[data-year]');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

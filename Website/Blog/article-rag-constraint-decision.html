@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG is not a feature. It's a constraint decision. | Siddharth Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero .meta {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+
+  .article-wrap p {
+    font-size: 1.08rem;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+
+  .article-wrap p::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin-right: 0.1em;
+    margin-top: 0.08em;
+    color: var(--navy);
+  }
+
+  .article-wrap p + p::first-letter { all: unset; }
+
+  .article-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 3.2rem 0 1.2rem;
+    line-height: 1.25;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 2.4rem 0;
+    padding: 4px 0 4px 28px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.22rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  /* ── DECISION TABLE (mirrors demotivator-list) ── */
+  .decision-list {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .dl-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .dl-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+  }
+  .dl-row:last-child { border-bottom: none; }
+  .dl-row:nth-child(even) { background: #fafafa; }
+  .dl-label {
+    padding: 20px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--navy);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .dl-detail {
+    padding: 20px 28px;
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── TRADE-OFF FRAME (mirrors herzberg-frame) ── */
+  .tradeoff-frame {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .tf-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .tf-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .tf-col {
+    padding: 28px;
+    background: white;
+  }
+  .tf-col:first-child {
+    border-right: 1px solid var(--rule);
+    background: #fafafa;
+  }
+  .tf-col-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .tf-col:first-child .tf-col-label { color: #c0392b; }
+  .tf-col:last-child .tf-col-label { color: #27ae60; }
+  .tf-col-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .tf-col p {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 0;
+  }
+  .tf-col p::first-letter { all: unset; }
+  .tf-items {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tf-item {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 3px;
+    line-height: 1.45;
+  }
+  .tf-col:first-child .tf-item { background: #fdecea; color: #c0392b; }
+  .tf-col:last-child .tf-item { background: #eafaf1; color: #27ae60; }
+
+  /* ── FOOTNOTES ── */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* ── AUTHOR BIO ── */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .dl-row { grid-template-columns: 1fr; }
+    .dl-detail { border-top: 1px solid var(--rule); }
+    .tf-cols { grid-template-columns: 1fr; }
+    .tf-col:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Rao</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Applied Machine Learning</span>
+  <h1>RAG is not a feature.<br>It's a constraint decision.</h1>
+  <p class="deck">Everyone talks about RAG as something you add to a system. Nobody talks about the four architectural trade-offs you lock in the moment you choose it — usually without realising that's what you're doing.</p>
+  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 13 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>When I started designing VaultRAG — a retrieval system for factory floor use, running entirely on-prem — the first question I was asked was which embedding model to use. It was a reasonable question from someone who had read the right things. Embedding model quality has a real impact on retrieval performance. The benchmarks are published. The comparisons are legible. It felt like the right place to start.</p>
+
+  <p>It was not the right place to start.</p>
+
+  <p>Before the embedding model mattered, I had to decide whether the index could ever leave the facility network. Before that, I had to decide whether the system needed to answer questions about documents that were updated monthly, or weekly, or in real time as equipment status changed. Before that, I had to understand whether a query from a technician standing next to a machine with an alarm going off could afford a 4-second response, or whether 4 seconds was already too slow.</p>
+
+  <p>Each of those questions was a constraint. And each constraint eliminated certain architectures before any model comparison was relevant. By the time I got to embedding model selection, half the options were already off the table — not because they underperformed, but because the constraints had made them architecturally impossible.</p>
+
+  <p>That sequence — constraints first, components second — is the thing most RAG discussions skip. And skipping it is why so many RAG systems are built competently, deployed correctly, and still fail to do what the business needed.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What RAG actually is, before the marketing gets to it</h2>
+
+  <p>Retrieval-Augmented Generation is a pattern for grounding a language model's responses in a specific document corpus at inference time. Instead of relying on what the model learned during training, you retrieve relevant chunks from your own documents and pass them to the model as context. The model generates its answer from that context rather than from memory.</p>
+
+  <p>That is a genuinely useful capability. It solves a real problem: language models are trained at a point in time, on data that isn't yours, and they hallucinate when asked about things they don't know. RAG addresses all three of those limitations simultaneously.</p>
+
+  <p>The problem is the way RAG gets sold — as a capability you bolt on. A feature. You have a model, you add a vector store, you write some chunking logic, and now your model knows about your documents. This framing is technically accurate and practically misleading, because it presents RAG as a component decision when it is actually a systems decision. The moment you choose RAG, you have committed to a position on freshness, latency, data residency, and cost — whether you realised you were deciding those things or not.</p>
+
+  <blockquote>
+    <p>Choosing RAG is not a decision about retrieval. It is four decisions at once, made simultaneously, whether you intended to make them or not.</p>
+  </blockquote>
+
+  <p>The teams that build RAG systems well understand this going in. The teams that build RAG systems and then spend six months patching them usually discover it the other way around.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The four decisions you make when you choose RAG</h2>
+
+  <p>None of these are model decisions. They are architecture decisions — and they have to be made deliberately, because the defaults are almost never right for a production environment.</p>
+
+  <div class="decision-list">
+    <div class="dl-header">The four implicit decisions inside every RAG architecture choice</div>
+
+    <div class="dl-row">
+      <div class="dl-label">Decision 1 — Freshness</div>
+      <div class="dl-detail">RAG retrieves from an index. An index is a snapshot of your documents at a point in time. The moment a document changes, your index is stale — and it stays stale until you re-embed and re-index that document. For a manufacturing plant with equipment manuals that are revised quarterly, this is manageable. For a system that needs to answer questions about yesterday's inventory or today's machine status, a snapshot-based index is architecturally wrong. You have decided, implicitly, that your answers can be as stale as your last ingestion run. If that cadence doesn't match the business requirement, you will have built the right system for the wrong problem.</div>
+    </div>
+
+    <div class="dl-row">
+      <div class="dl-label">Decision 2 — Latency budget</div>
+      <div class="dl-detail">A RAG pipeline adds latency relative to a model call alone. You are embedding the query, running a similarity search, retrieving chunks, stuffing them into the context window, and then generating. On a well-tuned cloud setup, this can be fast. On a constrained on-prem server running a smaller model, each of those steps has a cost. For VaultRAG, the target was under eight seconds from voice query to cited response — a technician with a machine alarm going off cannot wait longer than that. That constraint shaped every component choice: the model size, the vector store, the chunk size, the number of retrieved documents. The latency budget is not a performance requirement you optimise for at the end. It is a constraint you design to from the start.</div>
+    </div>
+
+    <div class="dl-row">
+      <div class="dl-label">Decision 3 — Data residency</div>
+      <div class="dl-detail">To use a cloud RAG service, your documents leave your network. They go to an embedding API, they get stored in a managed vector store, they pass through a cloud inference endpoint. For most organisations, this is fine. For manufacturing firms in aerospace, automotive, and defence supply chains, it is often contractually prohibited. Proprietary process documentation, maintenance procedures, and equipment specifications are not documents that can be sent to a third-party API — not because of security anxiety, but because of legally binding data sovereignty requirements. This constraint does not make cloud RAG wrong. It makes it unavailable. The architecture has to be designed around what is actually permitted, not what is most convenient.</div>
+    </div>
+
+    <div class="dl-row">
+      <div class="dl-label">Decision 4 — Ongoing cost structure</div>
+      <div class="dl-detail">Cloud RAG services price on API calls, storage, and compute. At low volume this is negligible. At the volume of a facility with hundreds of machines, dozens of technicians, and queries being run continuously during production hours, the cost compounds quickly. More importantly, the cost is ongoing and variable — it scales with usage, which means a successful deployment costs more than a quiet one. On-prem inference changes the cost structure entirely: higher upfront capital cost, near-zero marginal cost per query. For a facility that plans to run this system for five years, the total cost of ownership calculation is completely different from the cloud version. That difference is not a preference. It is a financial constraint that determines which architecture is viable.</div>
+    </div>
+
+  </div>
+
+  <p>None of these decisions appear in the average RAG tutorial. The tutorials start at the embedding model, because that is where the interesting technical work begins. But the constraints above determine whether the system you build can ever be deployed — and whether, once deployed, it will last.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What happens when constraints are discovered late</h2>
+
+  <p>The most common version of this failure looks like this: a team builds a RAG proof of concept on cloud infrastructure, demonstrates it to stakeholders, gets approval to productionise, and then discovers that the documents it needs to index are classified under a data governance policy that prohibits sending them to an external API. The proof of concept is not a foundation to build on. It is a demonstration of something that cannot be deployed as built.</p>
+
+  <p>A less dramatic version — but more common — looks like this: a team builds a RAG system that works well in testing, deploys it, and then finds that users stop trusting it after a few weeks. The answers are technically grounded in real documents. They are just consistently a few weeks out of date. The index refresh cadence was set to weekly because nobody thought carefully about how frequently the underlying documents change. Users who discover that the system confidently cites a procedure that was updated four days ago do not go back and ask different questions. They stop using the system.</p>
+
+  <blockquote>
+    <p>A RAG system that users cannot trust is not a retrieval problem or a generation problem. It is a freshness contract that was never defined.</p>
+  </blockquote>
+
+  <p>In both cases, the failure is traceable to the same root: the constraint conversation happened after the architecture was chosen rather than before it. Once the architecture is chosen, the constraints either fit or they don't — and retrofitting an architecture to constraints it was not designed for is expensive work with uncertain results.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The constraint audit — before architecture is chosen</h2>
+
+  <p>The right time to surface these constraints is before any component is selected. Not in the design review. Not in the proof of concept. Before the whiteboard has anything on it. The questions below are not technical questions — they are business and operational questions, and they need to be answered by the people who own the documents, the infrastructure, the budget, and the user experience.</p>
+
+  <div class="callout">
+    <div class="label">The constraint audit — four questions before architecture is chosen</div>
+    <p><strong>How frequently does the information change, and how stale can an answer be before it causes a problem?</strong> This defines your freshness requirement. If the answer is "documents are updated quarterly and a week-old answer is fine," a standard RAG index with a scheduled refresh is appropriate. If the answer is "the data changes daily and a stale answer could cause a safety incident," you are not describing a RAG problem — you are describing a live data query problem, and the architecture is different.</p>
+    <p><strong>Can your documents leave your network?</strong> This is a yes or no question, and it should be asked of your legal and compliance teams, not inferred from your comfort level. If the answer is no, every architecture that involves a third-party embedding API, a managed vector store, or a cloud inference endpoint is eliminated. You are designing on-prem from the start, which means the component choices, the hardware requirements, and the cost model are all different.</p>
+    <p><strong>What is the maximum acceptable response time for the end user, under realistic conditions?</strong> Not in a benchmark. Not on a fast connection to a cloud endpoint. In the actual environment where the system will be used. A factory floor, a mobile device on a slow connection, a legacy terminal — the latency budget in those environments is different from a developer's laptop, and the architecture must be designed to that real budget, not the ideal one.</p>
+    <p><strong>What is the total cost this system can sustain over its intended lifespan?</strong> Cloud RAG services have low startup costs and ongoing variable costs. On-prem has high startup costs and low ongoing costs. Neither is universally better — the right answer depends on the volume of queries, the length of the deployment, and the organisation's budget structure. The cost model should be explicit before the architecture is chosen, because changing it later means rebuilding the system.</p>
+  </div>
+
+  <p>These questions do not require technical expertise to answer. They require operational knowledge of the environment the system will run in — knowledge that the ML team often does not have independently and must explicitly go and get. The failure mode is assuming the constraints are benign because nobody raised them. In most cases, nobody raised them because nobody asked.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>RAG vs. fine-tuning — the constraint lens</h2>
+
+  <p>One of the most common architecture questions in applied ML right now is whether to use RAG or fine-tune a model for a specific domain. The question gets framed as a performance question — which approach produces better answers? — when it is actually a constraint question.</p>
+
+  <p>Fine-tuning encodes knowledge into the model's weights at training time. The result is fast inference with no retrieval step, strong domain reasoning, and no dependency on a document index. The cost is a retraining cadence: every time the domain knowledge changes, the model needs to be retrained, evaluated, and redeployed. For a domain where knowledge is stable — product documentation that changes twice a year, HR policies that are updated quarterly — fine-tuning is often the right choice. The knowledge is not changing fast enough to justify the retrieval overhead.</p>
+
+  <p>RAG keeps knowledge in a document store and retrieves it at inference time. The result is real-time freshness and the ability to update knowledge by updating documents rather than retraining a model. The cost is retrieval latency, index maintenance, and the operational complexity of keeping the document store current. For a domain where knowledge changes frequently — inventory data, live equipment status, regulatory guidance that updates regularly — RAG is often the right choice. The freshness requirement cannot be met by a model trained at a fixed point in time.</p>
+
+  <div class="tradeoff-frame">
+    <div class="tf-header">RAG vs. Fine-Tuning — The Constraint-First Decision</div>
+    <div class="tf-cols">
+      <div class="tf-col">
+        <div class="tf-col-label">Choose Fine-Tuning when</div>
+        <div class="tf-col-title">Knowledge is stable, latency is tight</div>
+        <p>The domain does not change fast enough to justify the retrieval overhead. Speed at inference matters more than freshness.</p>
+        <div class="tf-items">
+          <div class="tf-item">Knowledge updates monthly or less frequently</div>
+          <div class="tf-item">Sub-100ms inference latency is required</div>
+          <div class="tf-item">Documents cannot leave the network and local models are underpowered</div>
+          <div class="tf-item">The question type is consistent enough to train on</div>
+        </div>
+      </div>
+      <div class="tf-col">
+        <div class="tf-col-label">Choose RAG when</div>
+        <div class="tf-col-title">Knowledge changes, freshness is load-bearing</div>
+        <p>The cost of a stale answer is high. The document base changes faster than a retraining cadence can follow.</p>
+        <div class="tf-items">
+          <div class="tf-item">Knowledge updates daily, weekly, or in real time</div>
+          <div class="tf-item">A stale answer causes a real operational problem</div>
+          <div class="tf-item">The corpus is large and heterogeneous across document types</div>
+          <div class="tf-item">The organisation can sustain the retrieval infrastructure</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>The reason this matters is that the wrong choice is not just a performance degradation. It is a structural failure. A fine-tuned model deployed in a domain where the underlying data changes weekly will give confident, fluent, wrong answers — with no mechanism to correct them between training runs. A RAG system deployed in a domain with a strict data sovereignty requirement will never make it to production at all. The constraint defines the viable solution space. The performance comparison happens inside that space.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What this looked like for VaultRAG</h2>
+
+  <p>When I ran the constraint audit for VaultRAG, the answers came back in sequence and each one closed a door.</p>
+
+  <p>Freshness: equipment manuals in a manufacturing facility are updated when procedures change — sometimes monthly, sometimes less frequently. A weekly index refresh was acceptable. The system was not being asked to answer questions about real-time machine state, only about documented procedures. That meant a standard RAG index was viable. If the requirement had included live sensor data, the architecture would have been different.</p>
+
+  <p>Data residency: aerospace and automotive supply chain manufacturers operate under contractual and regulatory requirements that prohibit sending proprietary process documentation to external APIs. This constraint eliminated every cloud-hosted embedding service and every managed vector store. The system had to run entirely on-prem — not as a preference, but as a hard requirement. That decision alone determined the model size (small enough to run on commodity hardware), the vector store (embedded, not managed), and the absence of any external API dependency at inference time.</p>
+
+  <p>Latency: a technician standing next to a machine with an alarm going off cannot wait. The target was under eight seconds from voice query to cited response — a number that had to hold on the actual hardware in an actual facility, not on a development machine with a fast internet connection. That constraint shaped the chunk size, the number of retrieved documents, the model quantisation strategy, and the guardrail design.</p>
+
+  <p>Cost: the facility was not going to pay per-query API costs for a system running continuously across a production floor over a multi-year deployment. On-prem inference with near-zero marginal cost per query was not an optimisation — it was the only cost structure that made the business case work.</p>
+
+  <p>By the time those four answers were on the table, the architecture was mostly determined. Not by benchmarks, not by model comparisons, but by the operational reality of the environment the system had to survive in. The embedding model question — the one I was asked first — was actually the last thing that needed deciding.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The thing you cannot optimise your way out of</h2>
+
+  <p>There is a version of this problem that no amount of architectural rigour fully addresses: the constraint that is not discovered until after deployment. A change in data governance policy. A new regulatory requirement that reclassifies a document category. A shift in the business requirement from monthly updates to daily ones. These things happen, and they can invalidate an architecture that was correctly designed for the constraints that existed at the time it was built.</p>
+
+  <p>The best available response to this is to make the constraint assumptions explicit in the design documentation — to record, in plain language, what the architecture was designed to handle and what it was not. An architecture that was built for weekly freshness, documented as such, can be assessed clearly when the freshness requirement changes. An architecture where the freshness assumption was implicit and unrecorded leaves the team trying to reverse-engineer a design decision that nobody remembers making.</p>
+
+  <p>The Architecture Decision Records in VaultRAG exist for exactly this reason. Not to prove the design was right, but to make the assumptions traceable — so that when a constraint changes, the impact on the design is visible and the response can be deliberate rather than reactive.</p>
+
+  <blockquote>
+    <p>The value of documenting your constraints is not that it prevents them from changing. It is that when they change, you know exactly what to rebuild and why.</p>
+  </blockquote>
+
+  <p>RAG is a powerful pattern. It solves real problems that were hard to solve before the tooling existed. But it is not a feature you install. It is a commitment to a specific position on freshness, latency, residency, and cost — and that commitment needs to be made consciously, against the actual constraints of the environment the system will run in, before any component is selected.</p>
+
+  <p>The embedding model can wait. The constraints cannot.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Lewis, P. et al. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.</em> NeurIPS 2020. arXiv:2005.11401. — The original RAG paper. Worth reading for what it actually claims rather than what the ecosystem has made of it since.</p>
+    <p>Thakur, N. et al. (2021). <em>BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models.</em> NeurIPS 2021. arXiv:2104.08663. — Demonstrates the domain generalisation gaps in dense retrievers that make hybrid retrieval necessary in heterogeneous enterprise corpora.</p>
+    <p>Hu, E. et al. (2022). <em>LoRA: Low-Rank Adaptation of Large Language Models.</em> ICLR 2022. arXiv:2106.09685. — On the cost structure of fine-tuning as an alternative to retrieval; relevant to the RAG vs. fine-tuning constraint comparison.</p>
+    <p>Nygard, M. (2011). <em>Documenting Architecture Decisions.</em> thinkrelevance.com. — The original ADR format. If you are not recording your constraint assumptions as ADRs, you are accumulating undocumented design debt that will surface at the worst moment.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Rao</div>
+    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes about applied ML, system design, and what happens when the two have to meet a real business problem.</p>
+  </div>
+</div>
+
+</body>
+</html>

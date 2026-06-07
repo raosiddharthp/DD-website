@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to measure training when nobody wants to measure training | Siddharth Potukuchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+  .hero .meta {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    font-weight: 300;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  p {
+    font-size: 1.085rem;
+    margin-bottom: 1.65rem;
+    color: var(--ink);
+  }
+
+  p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin: 6px 12px 0 0;
+    color: var(--navy);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.55rem;
+    color: var(--navy);
+    margin: 3rem 0 1.1rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 2.5rem 0 0.6rem;
+  }
+
+  /* pull quote */
+  blockquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.8rem 0;
+    padding: 4px 0 4px 32px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+  blockquote cite {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: var(--mid);
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  /* callout box */
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.8rem 0;
+    border-radius: 0 0 4px 4px;
+  }
+  .callout .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--mid);
+    margin: 0;
+    line-height: 1.7;
+  }
+  .callout p + p {
+    margin-top: 0.9rem;
+  }
+  .callout p::first-letter { all: unset; }
+
+  /* metrics grid — vanity vs utility */
+  .metrics-grid {
+    margin: 2.8rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .metrics-grid-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--navy);
+  }
+  .metrics-grid-header .col-head {
+    padding: 14px 24px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .metrics-grid-header .col-head.right {
+    border-left: 1px solid rgba(255,255,255,0.1);
+    color: var(--accent);
+  }
+  .metrics-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--rule);
+  }
+  .metrics-row:last-child { border-bottom: none; }
+  .metrics-cell {
+    padding: 20px 24px;
+    background: white;
+  }
+  .metrics-cell.right {
+    border-left: 1px solid var(--rule);
+    background: var(--warm);
+  }
+  .metrics-cell .metric-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--navy);
+    margin-bottom: 5px;
+  }
+  .metrics-cell .metric-verdict {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .metrics-cell .metric-verdict::first-letter { all: unset; }
+
+  /* section rule */
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  /* closing dark box */
+  .metrics-trail {
+    background: var(--navy);
+    padding: 36px 40px;
+    margin: 3.5rem 0 0;
+    border-radius: 4px;
+  }
+  .metrics-trail .trail-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .metrics-trail p {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .metrics-trail p:last-child { margin-bottom: 0; }
+  .metrics-trail p::first-letter { all: unset; }
+  .metrics-trail strong {
+    color: white;
+    font-weight: 600;
+  }
+
+  /* footnote area */
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  /* author bio */
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .metrics-grid-header,
+    .metrics-row { grid-template-columns: 1fr; }
+    .metrics-cell.right { border-left: none; border-top: 1px solid var(--rule); }
+    .metrics-trail { padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Potukuchi</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Learning Measurement</span>
+  <h1>How to measure training when nobody wants to measure training</h1>
+  <p class="deck">The frameworks exist. The methodology is not the problem. The problem is that measuring outcomes requires being accountable to them — and that is a different conversation entirely.</p>
+  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; January 2025 &nbsp;·&nbsp; 10 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>At the end of a partner enablement program I ran several years ago, a stakeholder asked me how it went. I told him: completion rate was 100%, assessment scores averaged 87%, and the post-program feedback was strong. He nodded. I nodded. We both understood that this conversation had ended. What neither of us said — what the structure of the conversation made it unnecessary to say — was that none of those numbers told us whether a single Wipro consultant could now handle a live client engagement without calling back to the product team. That question had no number attached to it. So it didn't get asked.</p>
+
+  <p>I have been thinking about that conversation for years. Not because it was unusual, but because it was completely normal. It is the default register of almost every training evaluation conversation I have been part of — an exchange of numbers that feel like evidence, between people who have quietly agreed not to examine what the numbers actually measure. The frameworks for doing better have existed for decades. Kirkpatrick published his four-level model in 1959. Brinkerhoff's Success Case Method has been in circulation since the early 2000s. Phillips built an entire ROI methodology on top of Kirkpatrick's Level 4. The methodology is not the problem. The problem is structural. And it is worth naming clearly before we get to what good measurement actually looks like.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>Why the wrong metrics won</h2>
+
+  <p>L&D functions did not gravitate to vanity metrics because they were lazy or incurious. They gravitated to them because the incentive structure made it rational. Completion rates are measurable, reportable, and defensible. Assessment scores are quantifiable and producible on a timeline that fits a quarterly report. Post-program NPS — that particular piece of borrowed consumer research methodology — gives you a single number that travels well in a slide deck. These metrics exist because they are reachable. They live inside the room. L&D controls them.</p>
+
+  <p>Business outcome metrics — the ones that would actually tell you whether training worked — live outside the room. They belong to line managers, to operations teams, to revenue functions. Getting access to them requires relationships, political capital, and a willingness to be held accountable to numbers you did not entirely control. Most L&D functions, in most organisations, have never been asked to build those relationships. So they built a reporting infrastructure around the numbers they could reach, and the organisation learned to accept those numbers as the story of training impact.</p>
+
+  <blockquote>
+    <p>A 100% completion rate on a useless program is a perfect score on the wrong test. The metric is not lying. It is just answering a question nobody needed answered.</p>
+  </blockquote>
+
+  <p>The deeper problem is that the wrong metrics do not just fail to measure impact — they actively obscure the absence of it. When a program produces a 4.6 out of 5 facilitator rating and an 84% post-test score, it looks like it worked. The report gets filed. The budget line gets justified. The next cohort gets scheduled. And somewhere, a practitioner who passed the assessment is quietly struggling in a production environment because the program that certified them was designed to produce scores, not capability.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The taxonomy of bad metrics</h2>
+
+  <p>Not all vanity metrics are equally harmful. Some are merely uninformative. Others are actively misleading in ways that damage both participants and the credibility of the L&D function over time. It is worth being precise about what each one actually measures — and what it does not.</p>
+
+  <div class="metrics-grid">
+    <div class="metrics-grid-header">
+      <div class="col-head">The metric</div>
+      <div class="col-head right">What it actually measures</div>
+    </div>
+    <div class="metrics-row">
+      <div class="metrics-cell">
+        <div class="metric-name">Completion rate</div>
+        <p class="metric-verdict">Measures attendance and administrative compliance. A 100% completion rate tells you everyone showed up and stayed. It tells you nothing about what happened while they were there.</p>
+      </div>
+      <div class="metrics-cell right">
+        <div class="metric-name">Participation, not capability</div>
+        <p class="metric-verdict">The honest version: this is a logistics metric, not a learning metric. Track it for scheduling. Do not include it in an impact report.</p>
+      </div>
+    </div>
+    <div class="metrics-row">
+      <div class="metrics-cell">
+        <div class="metric-name">Post-training assessment score</div>
+        <p class="metric-verdict">Measures performance on the assessment instrument, which is only as good as the assessment's fidelity to the actual job. Most technical assessments test recall and procedural replication under controlled conditions.</p>
+      </div>
+      <div class="metrics-cell right">
+        <div class="metric-name">Assessment performance, not job performance</div>
+        <p class="metric-verdict">Useful only if the assessment genuinely simulates the conditions and judgment demands of real work. Most don't. Passing a test about cloud architecture is not the same as designing one under client pressure.</p>
+      </div>
+    </div>
+    <div class="metrics-row">
+      <div class="metrics-cell">
+        <div class="metric-name">Post-program NPS / smile sheets</div>
+        <p class="metric-verdict">Measures whether the participant found the experience satisfying. Enjoyment, engagement, and perceived relevance at the moment of exit. Borrowed wholesale from consumer research methodology and applied to learning without examination.</p>
+      </div>
+      <div class="metrics-cell right">
+        <div class="metric-name">Experience satisfaction, not transfer</div>
+        <p class="metric-verdict">Enjoyment and capability are not the same variable. A participant can rate a program highly and transfer nothing. A participant can find a program demanding and uncomfortable and exit genuinely capable. NPS conflates the two.</p>
+      </div>
+    </div>
+    <div class="metrics-row">
+      <div class="metrics-cell">
+        <div class="metric-name">Hours of training delivered</div>
+        <p class="metric-verdict">Measures volume. How much content was delivered to how many people across how many hours. Frequently used as a proxy for programme output in L&D reporting.</p>
+      </div>
+      <div class="metrics-cell right">
+        <div class="metric-name">Volume, not value</div>
+        <p class="metric-verdict">This metric incentivises the wrong behaviour at a structural level. More hours delivered is not a better outcome — it is a bigger budget consumption. Optimising for this metric actively works against effective design.</p>
+      </div>
+    </div>
+    <div class="metrics-row">
+      <div class="metrics-cell">
+        <div class="metric-name">Cost per learner</div>
+        <p class="metric-verdict">Measures delivery efficiency. How much it cost to put one person through one program. Widely used in procurement conversations and vendor evaluations.</p>
+      </div>
+      <div class="metrics-cell right">
+        <div class="metric-name">Efficiency, not effectiveness</div>
+        <p class="metric-verdict">You can have a very low cost per learner for a program that produces no behaviour change. Cost per learner without a measure of what the learner can now do is a measure of how cheaply you ran something that may not have mattered.</p>
+      </div>
+    </div>
+  </div>
+
+  <p>The common thread across all of these is that they measure the training event itself — what happened inside the room, under L&D's control. The question they do not answer is what changed in the business. That question requires different data from different sources, and it requires L&D to go and get it.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The metrics that actually mean something</h2>
+
+  <p>Every useful training metric shares one characteristic: it exists outside the training room. It is a business observation about participant behaviour after the program, not a record of what happened during it. This is what makes these metrics harder to collect — and why most L&D functions never track them. But it is also what makes them worth tracking.</p>
+
+  <p><strong>Time-to-competence.</strong> How long from program exit to unsupported, consistent performance on the job? This is the most direct measure of whether a training program produced what it claimed to produce. It requires manager observation and a clear definition of what "competent" looks like — both of which most organisations fail to specify in advance. That failure is a design problem, not a measurement problem. If you have not defined the exit state before you designed the program, you cannot measure whether the participant reached it.</p>
+
+  <p><strong>Error rate on first independent tasks.</strong> After a participant returns to their role, how often do they produce work that needs to be corrected, escalated, or redone? How frequently do they call back to the facilitator or support team for help with problems the program was supposed to have equipped them for? This is measurable if you build the relationship with managers to get the data. Most L&D functions do not build that relationship. The data exists. It just belongs to someone else.</p>
+
+  <p><strong>Manager-observed behaviour change — structured, not anecdotal.</strong> Kirkpatrick Level 3, done properly, is not a checkbox survey sent three months after training asking managers whether they noticed any changes. It is a structured observation protocol built around specific, observable behaviours identified during the design phase. The behaviours the participant was trained to demonstrate. Whether they are demonstrating them. If you did not identify those behaviours during design, you cannot observe them during evaluation — which is another way of saying that measurement starts at the curriculum level, not at the reporting level.</p>
+
+  <p><strong>Escalation frequency.</strong> In any role that involves judgment — and most technical roles do — the frequency with which a trained practitioner escalates a decision they should be able to own is a signal. High escalation frequency after training means the program produced knowledge without confidence, or capability without enough scenario depth to handle real-world variability. It is a leading indicator of transfer failure before the failure becomes visible in output quality.</p>
+
+  <p><strong>First-attempt pass rate on real production tasks.</strong> Not on the assessment. On the actual work. The first client engagement. The first configuration that goes to production. The first time a new hire handles a case without supervision. Whether they get it right the first time, and how far off they are when they don't, is the closest thing to a ground truth that L&D has access to.</p>
+
+  <div class="callout">
+    <div class="label">The partner enablement version of this</div>
+    <p>For partner-facing programs specifically — which is where this question became unavoidable for me — the business metrics are even more precise. Time-to-first-deployment on a client engagement. Deal velocity for partner-led implementations. Escalation frequency back to the product team. Defect rate on partner-delivered configurations. These are measures of practice performance, and they exist in the business whether the L&D function tracks them or not. The question is whether L&D is willing to connect its work to them.</p>
+    <p>The moment you agree to be measured by those numbers, you have agreed to be accountable for a line of causality that extends well beyond what happened in the room. That is the right level of accountability. It is also why most organisations never get there.</p>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>The purpose of measuring — before the metrics</h2>
+
+  <p>There is a prior question that most measurement conversations skip over: what are you actually trying to learn by measuring? This sounds obvious. It is not.</p>
+
+  <p>If you are measuring to justify budget, you will select metrics that make the investment look defensible. Completion rates and cost-per-learner figures serve this purpose well. They are not lies. They are a curated truth assembled to support a conclusion already reached.</p>
+
+  <p>If you are measuring to improve design, you need different data entirely. You need to know where the capability gap persists after training, not how many people completed the program. You need to know which scenarios in the capstone predicted real-world performance, so you can weight them differently next time. You need early signals of transfer failure — not to assign blame, but to identify whether the failure originated in the design, the deployment conditions, or the participant's post-training environment.</p>
+
+  <p>If you are measuring to demonstrate business impact, you need the business metrics. Full stop. No training metric substitutes for a business outcome. And if you have not built the stakeholder relationships that give you access to those metrics — with operations, with line management, with the revenue or performance function that owns the numbers — that is the first problem to solve. Not the methodology.</p>
+
+  <blockquote>
+    <p>Measurement is not the last step of a training program. It is a design decision made at the beginning. You cannot retrospectively measure what you did not define in advance.</p>
+  </blockquote>
+
+  <div class="section-rule"></div>
+
+  <h2>Why the right metrics don't get used</h2>
+
+  <p>The frameworks have existed for decades. Kirkpatrick's four levels. Brinkerhoff's Success Case Method. Phillips' ROI chain. Every serious L&D function is aware of them. Very few use them beyond Level 1 and Level 2. The question is why — and the honest answer is not that the methodology is too complex or the data too hard to collect. The honest answer is accountability aversion.</p>
+
+  <p>Measuring to Level 3 — behaviour change back on the job — requires the L&D function to accept that its program is a contributing variable in a business outcome that it does not fully control. The manager's behaviour after training matters. The team environment matters. Whether the participant gets to apply what they learned within the first two weeks matters enormously. L&D can design for all of these things — it can brief managers, it can build application frameworks, it can create structured re-entry conditions — but it cannot guarantee them. And agreeing to be measured by an outcome you cannot fully control is a different risk posture than reporting a completion rate.</p>
+
+  <p>The deepest irony is that the L&D functions which resist outcome measurement are often the most sophisticated methodologically. They know the frameworks. They understand the distinction between Level 1 and Level 4. They could build the measurement architecture if asked. The barrier is not knowledge. It is that nobody upstream has required it, and the current reporting structure gives them perfectly adequate numbers to present in a review meeting without ever touching a business outcome. The incentive to stay in that lane is real.</p>
+
+  <p>It takes a stakeholder willing to ask a harder question — or an L&D leader willing to offer accountability before it is demanded — to break the pattern. In my experience, it is almost never the measurement methodology that changes first. It is the commissioning conversation. Someone, somewhere in the organisation, starts asking whether the training worked in the way that matters. And that question, when it arrives seriously, reorganises everything downstream of it.</p>
+
+  <div class="metrics-trail">
+    <div class="trail-label">The honest version of the metrics conversation</div>
+    <p>If your organisation is currently measuring training by completion rates, assessment scores, and post-program NPS, you are not measuring training impact. You are measuring training delivery. Those are different things, and conflating them is a choice — often an unconscious one — with real consequences for how programs get designed, funded, and evaluated.</p>
+    <p>The path forward is not to immediately replace your current metrics with a Level 4 ROI analysis. That conversation requires relationships and access that take time to build. The path forward is to be honest, in the next measurement conversation you have, about what your current numbers actually tell you. <strong>Completion rate: here is what it measures and what it doesn't. Assessment score: here is its fidelity to real-world performance. NPS: here is what satisfaction and capability have in common, and what they don't.</strong></p>
+    <p>Then ask the question that comes next: what would it take to know whether this actually worked? That question, asked seriously and followed to its conclusion, is where good measurement begins. It almost never begins with the metrics.</p>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <h2>Why I never got to implement this</h2>
+
+  <p>I have spent several hundred words explaining what good measurement looks like. I should be equally direct about this: outside of the partner enablement work at Apttus, I have not implemented it at scale. Not because the methodology was unclear. Because the clients were not interested.</p>
+
+  <p>The training organisations I worked with — and most training organisations, if they are honest — are not in the business of measuring outcomes. They are in the business of delivering training. The commercial model is built around coverage: how many topics, how many days, how many heads in seats. The commissioning conversation is almost always the same. What needs to be covered? What is the timeline? When can we start? The question of what a participant should be able to do independently at the end — and how we would know if they got there — does not appear on the agenda. It is not suppressed. It simply has no natural home in a transaction structured around delivery.</p>
+
+  <p>The consequence of that model is a ceiling. Bloom's taxonomy has six levels. The training industry, as currently structured, reliably delivers the first three — Remember, Understand, Apply — and leaves the rest to chance. Participants exit a program at the Apply level, equipped to replicate a demonstrated procedure in a controlled environment. Whether they get to Analyse, Evaluate, or Create is left to them and whatever happens to be in front of them when they return to the job. Most do not get there. The conditions are not created. The scaffolding is not built. And before the gap has time to show up as a visible performance problem, the participant has been reassigned to a different project, a different suite of applications, and the cycle repeats with a fresh cohort and another set of completion certificates.</p>
+
+  <blockquote>
+    <p>The training industry does not have a measurement problem. It has a business model problem. Measuring outcomes would require being accountable to them — and the current model is not structured around outcomes. It is structured around events.</p>
+  </blockquote>
+
+  <p>What I carry from the Apttus partner programs is the knowledge of what becomes possible when the business stakes are high enough to change that conversation. When a consulting practice's revenue depends on its consultants performing in client rooms, the commissioning conversation shifts. Outcome metrics stop being theoretical and become operationally necessary. The training function stops being a delivery service and starts being a capability infrastructure. The difference in what gets measured — and what gets designed — is significant.</p>
+
+  <p>That experience is also why I am clear about what I am looking for next. Not another organisation where the ceiling is completion rates and smile sheets. An organisation willing to have a different conversation about what training is actually for.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What a data-driven trainer looks like — and why it matters to the business</h2>
+
+  <p>The phrase gets used loosely. In most L&D contexts it means someone who can pull LMS reports with a degree of fluency and present completion data in a dashboard. That is not what I mean. A genuinely data-driven trainer is something structurally different — and the difference shows up not just in the metrics they track but in how they approach every stage of the work, from the first commissioning conversation to the last capstone assessment.</p>
+
+  <p><strong>They define the exit state before they design anything.</strong> The data-driven trainer's first question is not what needs to be covered. It is: describe the work this person will be doing in ninety days, in enough detail that I can build an assessment around it. That question forces a precision that most commissioning conversations never reach. It also creates the measurement anchor — because you cannot track time-to-competence if you have not defined what competence looks like, and you cannot observe behaviour change if you have not specified which behaviours you are watching for.</p>
+
+  <p><strong>They instrument the design, not just the delivery.</strong> Assessment is not an end-of-program event in a data-driven curriculum. It is distributed throughout. Every exercise, every simulation, every guided practice attempt generates a signal. Which problems trip participants consistently? Where does independent performance diverge from guided performance? Which scenarios in the capstone predict real-world performance and which do not? A data-driven trainer is collecting and reading those signals in real time, not waiting for a post-program survey to tell them something went wrong.</p>
+
+  <p><strong>They follow the participant out of the room.</strong> The conversation with line managers is not optional. Neither is access to the post-training performance data that tells you whether transfer actually happened. A data-driven trainer builds those relationships as part of the program design — not as a reporting afterthought. They define what managers need to observe, when, and how to report it. They establish what "good" looks like in the first independent tasks. They create the conditions for the data to exist before the program runs, because they know it will not materialise on its own afterwards.</p>
+
+  <p><strong>They use the data to improve the next cohort, not just report on the last one.</strong> This is where the compounding value lives. An organisation that runs the same onboarding program for three years without tracking post-training performance has no way of knowing whether the program improved, degraded, or stayed irrelevant. An organisation with a data-driven trainer has a longitudinal dataset: which design decisions predicted capability, which scenarios proved to be noise, which cohort characteristics correlated with faster time-to-competence. That dataset is an asset. It makes every subsequent program more precise and every budget conversation more defensible.</p>
+
+  <div class="callout">
+    <div class="label">What this means for the business unit — not just L&D</div>
+    <p>The impact of a data-driven training function is not confined to the L&D reporting line. When training is connected to business outcome metrics, it changes what is visible to the business units it serves. Managers stop receiving completion certificates and start receiving capability assessments. Operations teams get leading indicators of ramp time before new hires hit the floor. Revenue functions can trace the line between enablement investment and practitioner performance in client-facing roles. The training function stops being a cost centre that delivers events and starts being an intelligence function that tracks and accelerates capability development across the organisation.</p>
+    <p>That is a different kind of L&D. It requires a different kind of trust from the organisation — access to data, access to managers, access to the post-training environment. But it produces a different quality of result. Not just better-trained participants. A business that actually knows what its people can do.</p>
+  </div>
+
+  <p>I have described this in some detail because I want to be transparent about what I am offering and what I am looking for. The capability transfer philosophy, the curriculum design method, the assessment architecture — those I have developed and applied across eighteen years and five countries. The full measurement infrastructure, connected end-to-end from design through to business outcome data, is something I have built in part and theorised in full. What I have not found yet is an organisation with the appetite to build it completely.</p>
+
+  <p>That organisation exists. The business case for it is not complicated. Training that can demonstrate its own impact compounds over time — better design, faster ramp, lower error rates, more defensible investment decisions. The only thing required is a willingness to measure what actually matters, and to hold the training function accountable to it. I am looking for the organisation that is ready for that conversation. When I find it, the measurement architecture described in this article is where we start.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Kirkpatrick, D.L., & Kirkpatrick, J.D. (2006). <em>Evaluating Training Programs: The Four Levels.</em> 3rd Edition. Berrett-Koehler. — The foundational framework. The gap between what Kirkpatrick described and what most organisations actually implement at Level 3 and 4 is the central measurement problem in L&D.</p>
+    <p>Brinkerhoff, R.O. (2003). <em>The Success Case Method: Find Out Quickly What's Working and What's Not.</em> Berrett-Koehler. — An alternative to comprehensive evaluation: find the extreme cases (what worked best, what failed most) and interrogate them. More actionable than aggregate data for most design improvement purposes.</p>
+    <p>Brinkerhoff, R.O. (2006). <em>Telling Training's Story: Evaluation Made Simple, Credible, and Effective.</em> Berrett-Koehler. — On why most training measurement misses the question it should be asking, and how to frame impact in terms stakeholders outside L&D can actually use.</p>
+    <p>Phillips, J.J. (1997). <em>Return on Investment in Training and Performance Improvement Programs.</em> Butterworth-Heinemann. — On extending Kirkpatrick's framework to Level 5: isolating the effect of training from other variables and converting it to financial terms. Useful less for the arithmetic than for the discipline it requires at the design stage.</p>
+    <p>Anderson, L.W., & Krathwohl, D.R. (Eds.) (2001). <em>A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives.</em> Longman. — On the six levels of cognitive demand, and the structural gap between the Apply level most training reaches and the Analyse, Evaluate, and Create levels most participants need.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Potukuchi</div>
+    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
+  </div>
+</div>
+
+</body>
+</html>

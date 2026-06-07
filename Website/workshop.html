@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Design Workshop — DataDomine</title>
+  <meta name="description" content="Facilitated design work that produces a real artefact for a real decision. Three formats: Architecture Decision Workshop, Design Alignment Workshop, and Capability Gap Assessment. DataDomine." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="datadomine.css" />
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       CSS custom properties — mirrors datadomine.css tokens
+    ───────────────────────────────────────────────────────────────── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+
+      --serif: 'IBM Plex Serif', Georgia, serif;
+      --sans:  'Inter', system-ui, sans-serif;
+
+      --max-w: 1080px;
+      --pad-x: clamp(24px, 5vw, 64px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Reset
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Navigation
+    ───────────────────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad-x);
+      z-index: 100;
+    }
+
+    .nav-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-wordmark .mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark .mark .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .nav-wordmark .mark .vert {
+      width: 3px;
+      height: 22px;
+      background: var(--deep-ink);
+      margin-top: -4px;
+    }
+
+    .nav-wordmark .text {
+      font-family: var(--serif);
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark .text .word-data   { font-weight: 300; color: var(--deep-ink); }
+    .nav-wordmark .text .word-domine { font-weight: 700; color: var(--deep-ink); }
+    .nav-wordmark .text .word-domine .initial-d { color: var(--amber); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: var(--deep-ink);
+    }
+
+    .nav-links a[aria-current="page"] {
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Page offset
+    ───────────────────────────────────────────────────────────────── */
+    .site-main {
+      margin-top: var(--nav-height);
+      flex: 1;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Shared layout helpers
+    ───────────────────────────────────────────────────────────────── */
+    .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--deep-ink);
+      padding: 88px var(--pad-x) 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .hero .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+
+    .hero__badge {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero__badge::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .hero__title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1.05;
+      color: var(--arch-white);
+      letter-spacing: -0.02em;
+      margin-bottom: 0;
+    }
+
+    .hero__prose {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(15px, 1.7vw, 18px);
+      line-height: 1.72;
+      color: rgba(248, 246, 241, 0.68);
+      align-self: end;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THE THREE TRIGGERS
+    ───────────────────────────────────────────────────────────────── */
+    .triggers-section {
+      padding: 88px var(--pad-x);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .triggers-section .inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .triggers-section__left {
+      padding-top: 4px;
+    }
+
+    .triggers-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.15;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+    }
+
+    .triggers-section__intro {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--slate);
+      margin-top: 16px;
+    }
+
+    /* Trigger cards stacked vertically */
+    .trigger-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .trigger-card {
+      padding: 36px 0;
+      border-bottom: 1px solid rgba(13, 17, 23, 0.07);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .trigger-card:first-child {
+      border-top: 1px solid rgba(13, 17, 23, 0.07);
+    }
+
+    .trigger-card__left {}
+
+    .trigger-card__index {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(100, 116, 139, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .trigger-card__name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.2;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+
+    .trigger-card__format-ref {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.06em;
+      margin-top: 10px;
+    }
+
+    .trigger-card__prose {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14.5px;
+      line-height: 1.72;
+      color: var(--deep-ink);
+      padding-top: 4px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THE THREE FORMATS
+    ───────────────────────────────────────────────────────────────── */
+    .formats-section {
+      padding: 88px var(--pad-x);
+      background: var(--deep-ink);
+      position: relative;
+    }
+
+    .formats-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .formats-section .section-label {
+      color: var(--amber);
+    }
+
+    .formats-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(24px, 2.8vw, 36px);
+      line-height: 1.12;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      margin-bottom: 64px;
+      margin-top: 16px;
+    }
+
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .format-card {
+      padding: 40px 32px;
+      border: 1px solid rgba(248, 246, 241, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Amber top accent */
+    .format-card__accent {
+      width: 32px;
+      height: 2px;
+      background: var(--amber);
+      margin-bottom: 24px;
+    }
+
+    .format-card__letter {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+
+    .format-card__name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 1.2;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+
+    /* Meta rows */
+    .format-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 28px;
+      border-top: 1px solid rgba(248, 246, 241, 0.07);
+    }
+
+    .format-card__meta-row {
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(248, 246, 241, 0.05);
+    }
+
+    .format-card__meta-key {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(100, 116, 139, 0.7);
+      min-width: 72px;
+      flex-shrink: 0;
+    }
+
+    .format-card__meta-val {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(248, 246, 241, 0.72);
+    }
+
+    /* Day shape */
+    .format-card__day-shape {
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(248, 246, 241, 0.07);
+    }
+
+    .format-card__day-shape-label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(100, 116, 139, 0.6);
+      margin-bottom: 12px;
+    }
+
+    .format-card__day-shape-prose {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12.5px;
+      line-height: 1.68;
+      color: rgba(248, 246, 241, 0.45);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       WHAT EVERY ENGAGEMENT INCLUDES
+    ───────────────────────────────────────────────────────────────── */
+    .includes-section {
+      padding: 88px var(--pad-x);
+      border-bottom: 1px solid rgba(13, 17, 23, 0.06);
+    }
+
+    .includes-section .inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .includes-section__left {
+      padding-top: 4px;
+    }
+
+    .includes-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+    }
+
+    .includes-section__sub {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--slate);
+      margin-top: 12px;
+    }
+
+    /* Four includes in a 2×2 grid */
+    .includes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .include-item {
+      padding: 32px 28px;
+      border: 1px solid rgba(13, 17, 23, 0.07);
+      position: relative;
+    }
+
+    .include-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 28px;
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    .include-item__name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.25;
+      color: var(--deep-ink);
+      margin-bottom: 12px;
+      margin-top: 20px;
+    }
+
+    .include-item__desc {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13.5px;
+      line-height: 1.68;
+      color: var(--slate);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PRICING
+    ───────────────────────────────────────────────────────────────── */
+    .pricing-section {
+      padding: 88px var(--pad-x);
+      background: var(--deep-ink);
+      position: relative;
+    }
+
+    .pricing-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+    }
+
+    .pricing-section .section-label {
+      color: var(--amber);
+    }
+
+    .pricing-section .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .pricing-section__heading {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(24px, 2.8vw, 36px);
+      line-height: 1.15;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    .pricing-section__prose {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.72;
+      color: rgba(248, 246, 241, 0.55);
+    }
+
+    .pricing-section__prose p + p {
+      margin-top: 16px;
+    }
+
+    .pricing-section__right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .pricing-cta-block {
+      padding: 36px 32px;
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      background: rgba(217, 119, 6, 0.04);
+      width: 100%;
+    }
+
+    .pricing-cta-block__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+
+    .pricing-cta-block__statement {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--arch-white);
+      margin-bottom: 28px;
+    }
+
+    .enquire-btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: var(--deep-ink);
+      background: var(--amber);
+      text-decoration: none;
+      padding: 14px 32px;
+      transition: opacity 0.15s ease;
+    }
+
+    .enquire-btn:hover {
+      opacity: 0.88;
+    }
+
+    .pricing-note {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(248, 246, 241, 0.25);
+      width: 100%;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Footer
+    ───────────────────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      padding: 40px var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .footer-wordmark .mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-wordmark .mark .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .footer-wordmark .mark .vert {
+      width: 3px;
+      height: 18px;
+      background: var(--deep-ink);
+      margin-top: -3px;
+    }
+
+    .footer-wordmark .text {
+      font-family: var(--serif);
+      font-size: 15px;
+    }
+
+    .footer-wordmark .text .word-data   { font-weight: 300; color: var(--deep-ink); }
+    .footer-wordmark .text .word-domine { font-weight: 700; color: var(--deep-ink); }
+    .footer-wordmark .text .word-domine .initial-d { color: var(--amber); }
+
+    .footer-tagline {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.02em;
+      padding-left: 28px;
+    }
+
+    .footer-centre {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .footer-centre a {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+    }
+
+    .footer-centre a:hover { color: var(--deep-ink); }
+
+    .footer-note {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11.5px;
+      color: rgba(100, 116, 139, 0.55);
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover { color: var(--deep-ink); }
+
+    .footer-copy {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11.5px;
+      color: rgba(100, 116, 139, 0.5);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Responsive
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero .inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .triggers-section .inner,
+      .includes-section .inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .trigger-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .format-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .includes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-section .inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .site-nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        gap: 18px;
+      }
+
+      .nav-links li:not(:last-child):not(:nth-last-child(2)):not(:nth-last-child(3)) {
+        display: none;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right  { align-items: flex-start; }
+      .footer-centre { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <span class="mark" aria-hidden="true">
+        <span class="dot"></span>
+        <span class="vert"></span>
+      </span>
+      <span class="text">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="framework.html">The Framework</a></li>
+      <li><a href="programmes.html" aria-current="page">Programmes</a></li>
+      <li><a href="field-notes.html">Field Notes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════════════ -->
+  <main class="site-main">
+
+    <!-- ── HERO ───────────────────────────────────────────────────── -->
+    <section class="hero" aria-label="Workshop overview">
+      <div class="inner">
+
+        <div class="hero__left">
+          <p class="hero__badge">Tier 2</p>
+          <h1 class="hero__title">The Architecture<br>Design Workshop</h1>
+        </div>
+
+        <div class="hero__prose">
+          <p>This is not training. There is no curriculum, no cohort, and no fixed learning outcome. It is not consulting either — the facilitator does not arrive with answers. A DataDomine workshop is facilitated design work: a structured engagement in which the right people are brought into the same room, held to a rigorous method, and guided toward a decision or output that the organisation actually needs. The facilitator brings the process. The participants bring the problem. What the engagement produces is determined by what the work demands — a documented and defensible architectural decision, a resolved misalignment, or a written assessment of where a practice needs to go. The artefact is real. The decision it represents is real. The work is live from the first hour.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── THE THREE TRIGGERS ──────────────────────────────────────── -->
+    <section class="triggers-section" aria-labelledby="triggers-heading">
+      <div class="inner">
+
+        <div class="triggers-section__left">
+          <p class="section-label">When to Engage</p>
+          <h2 class="triggers-section__heading" id="triggers-heading">Three triggers.<br>One of them is yours.</h2>
+          <p class="triggers-section__intro">A workshop is the right format when the problem is not a knowledge gap but a decision gap — when the issue is not that the right people do not know enough, but that the right people have not been in the same room, working on the same problem, under the right kind of structured pressure.</p>
+        </div>
+
+        <div class="trigger-stack">
+
+          <div class="trigger-card" id="trigger-a">
+            <div class="trigger-card__left">
+              <p class="trigger-card__index">Trigger 01</p>
+              <h3 class="trigger-card__name">The High-Stakes Decision</h3>
+              <p class="trigger-card__format-ref">→ Format A</p>
+            </div>
+            <p class="trigger-card__prose">A consequential architectural decision is approaching and the team cannot afford to get it wrong. A platform choice with multi-year cost implications. A system boundary that will constrain everything built on top of it. A governance model that will either hold up under regulatory scrutiny or quietly undermine every system it governs. The issue is not that no one has a view — it is that the views have not been subjected to the kind of structured constraint analysis that produces a decision the organisation can actually stand behind. The workshop produces a documented architectural decision record with the constraint map and economic justification that defends it, written by the people who will be held to it.</p>
+          </div>
+
+          <div class="trigger-card" id="trigger-b">
+            <div class="trigger-card__left">
+              <p class="trigger-card__index">Trigger 02</p>
+              <h3 class="trigger-card__name">The Stuck Team</h3>
+              <p class="trigger-card__format-ref">→ Format B</p>
+            </div>
+            <p class="trigger-card__prose">A cross-functional team is misaligned — on direction, on priorities, or on the nature of the problem itself. The misalignment may be visible as conflict, or it may be invisible as politeness: meetings that produce no decisions, roadmaps that reflect negotiated compromise rather than structural reasoning, technical work that keeps being sent back because the approval conditions were never clearly defined. The workshop surfaces the real disagreement, structures it, and produces a shared set of decisions the team can move from. What changes is not that everyone agrees — it is that the conflict is made legible, the decision criteria are explicit, and the next steps are documented and owned.</p>
+          </div>
+
+          <div class="trigger-card" id="trigger-c">
+            <div class="trigger-card__left">
+              <p class="trigger-card__index">Trigger 03</p>
+              <h3 class="trigger-card__name">The Capability Gap</h3>
+              <p class="trigger-card__format-ref">→ Format C</p>
+            </div>
+            <p class="trigger-card__prose">A practice is scaling and the gap between where practitioners currently are and where the work requires them to be is becoming visible. The gap may be technical — practitioners who cannot make the economic case for their designs, or who cannot produce the governance artefacts that regulated production demands. It may be behavioural — a team that cannot hold its own in an architecture review board. It may be structural — a practice that has no shared definition of done, no consistent ADR methodology, no standard for what production-ready means in their specific context. The workshop produces a written capability gap assessment and a development path the practice lead can act on, not a generic training recommendation.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── THE THREE FORMATS ───────────────────────────────────────── -->
+    <section class="formats-section" aria-labelledby="formats-heading">
+      <div class="inner">
+        <p class="section-label">The Three Formats</p>
+        <h2 class="formats-section__heading" id="formats-heading">Each format is matched<br>to its trigger.</h2>
+
+        <div class="format-grid">
+
+          <!-- Format A -->
+          <div class="format-card" aria-labelledby="format-a-name">
+            <div class="format-card__accent" aria-hidden="true"></div>
+            <p class="format-card__letter">Format A</p>
+            <h3 class="format-card__name" id="format-a-name">Architecture Decision Workshop</h3>
+
+            <div class="format-card__meta" aria-label="Format A details">
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Trigger</span>
+                <span class="format-card__meta-val">High-stakes architectural decision</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Duration</span>
+                <span class="format-card__meta-val">One day</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">In the room</span>
+                <span class="format-card__meta-val">4–8 decision makers with direct authority over the outcome</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Output</span>
+                <span class="format-card__meta-val">Architecture Decision Record with constraint map and economic justification</span>
+              </div>
+            </div>
+
+            <div class="format-card__day-shape">
+              <p class="format-card__day-shape-label">How the day works</p>
+              <p class="format-card__day-shape-prose">The morning is spent establishing the constraint map: what is fixed, what is flexible, what is non-negotiable from a regulatory, economic, or organisational perspective. The afternoon applies those constraints to the decision at hand, works through the options with structured facilitation, and produces the decision record in the room. Participants leave with a signed-off document, not an action item to write one.</p>
+            </div>
+          </div>
+
+          <!-- Format B -->
+          <div class="format-card" aria-labelledby="format-b-name">
+            <div class="format-card__accent" aria-hidden="true"></div>
+            <p class="format-card__letter">Format B</p>
+            <h3 class="format-card__name" id="format-b-name">Design Alignment Workshop</h3>
+
+            <div class="format-card__meta" aria-label="Format B details">
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Trigger</span>
+                <span class="format-card__meta-val">Cross-functional team stuck on direction, priorities, or problem definition</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Duration</span>
+                <span class="format-card__meta-val">Two days</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">In the room</span>
+                <span class="format-card__meta-val">6–12 cross-functional participants including technical, product, and governance representation</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Output</span>
+                <span class="format-card__meta-val">ADR set, conflict register with resolution record, and next steps plan with named owners</span>
+              </div>
+            </div>
+
+            <div class="format-card__day-shape">
+              <p class="format-card__day-shape-label">How the two days work</p>
+              <p class="format-card__day-shape-prose">Day one surfaces the conflict: what each function believes the problem is, what each believes the constraints are, and where those beliefs diverge. The divergence is made explicit and documented before any attempt at resolution. Day two applies structured constraint analysis to the disagreements that matter — the ones that are blocking real work — and produces a set of decisions the team can act on, together with a documented register of unresolved conflicts and the conditions under which they would be resolved.</p>
+            </div>
+          </div>
+
+          <!-- Format C -->
+          <div class="format-card" aria-labelledby="format-c-name">
+            <div class="format-card__accent" aria-hidden="true"></div>
+            <p class="format-card__letter">Format C</p>
+            <h3 class="format-card__name" id="format-c-name">Capability Gap Assessment</h3>
+
+            <div class="format-card__meta" aria-label="Format C details">
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Trigger</span>
+                <span class="format-card__meta-val">Practice scaling faster than practitioner capability</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Duration</span>
+                <span class="format-card__meta-val">One day</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">In the room</span>
+                <span class="format-card__meta-val">4–6 representative practitioners plus the practice lead</span>
+              </div>
+              <div class="format-card__meta-row">
+                <span class="format-card__meta-key">Output</span>
+                <span class="format-card__meta-val">Written capability gap assessment and a development path the practice lead can act on immediately</span>
+              </div>
+            </div>
+
+            <div class="format-card__day-shape">
+              <p class="format-card__day-shape-label">How the day works</p>
+              <p class="format-card__day-shape-prose">The morning is spent in structured diagnostic: practitioners work through a set of representative decisions and design challenges drawn from their actual context, with the facilitator observing the gaps in reasoning, artefact quality, and stakeholder navigation. The afternoon is the assessment: what the practice currently produces versus what production in their specific context actually requires, and the specific development path — with format recommendations, sequencing, and a rationale — that closes the distance.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── WHAT EVERY ENGAGEMENT INCLUDES ─────────────────────────── -->
+    <section class="includes-section" aria-labelledby="includes-heading">
+      <div class="inner">
+
+        <div class="includes-section__left">
+          <p class="section-label">Every Engagement</p>
+          <h2 class="includes-section__heading" id="includes-heading">What is included as standard.</h2>
+          <p class="includes-section__sub">Regardless of format, every DataDomine workshop engagement includes the following. These are not add-ons. They are the conditions that allow the workshop itself to be effective.</p>
+        </div>
+
+        <div class="includes-grid">
+
+          <div class="include-item">
+            <h3 class="include-item__name">Discovery conversation</h3>
+            <p class="include-item__desc">A complimentary conversation before any commitment is made. The purpose is mutual: to establish whether the problem warrants a workshop, which format is the right fit, and whether DataDomine is the right facilitator for this particular engagement. If a workshop is not the right answer, that is said in the discovery conversation — not after a proposal has been accepted.</p>
+          </div>
+
+          <div class="include-item">
+            <h3 class="include-item__name">Written brief</h3>
+            <p class="include-item__desc">A document confirmed with the sponsor before the workshop date. The brief defines the problem, the decision or output the engagement is designed to produce, the participants and their roles, and the constraints — organisational, regulatory, economic — that are in scope. A workshop without a confirmed brief does not run. The brief is what makes the day productive rather than exploratory.</p>
+          </div>
+
+          <div class="include-item">
+            <h3 class="include-item__name">Post-workshop artefact</h3>
+            <p class="include-item__desc">A written document delivered within five working days of the engagement. The artefact records what was decided, what was not decided and why, the constraint map that governed the session, and — where applicable — the conflict register, the capability gap assessment, or the development path. This is not a summary of the day. It is the output the day was designed to produce, documented with the rigour that makes it usable.</p>
+          </div>
+
+          <div class="include-item">
+            <h3 class="include-item__name">Four-week follow-up</h3>
+            <p class="include-item__desc">A thirty-minute call at four weeks. The purpose is to establish whether the decisions made in the workshop are holding, whether the artefact is being used, and whether anything has emerged since the engagement that changes the picture. This is not a check-in. It is a structured review of whether the workshop produced lasting output — and, if not, what that tells us about what the organisation still needs.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRICING ─────────────────────────────────────────────────── -->
+    <section class="pricing-section" aria-labelledby="pricing-heading">
+      <div class="inner">
+
+        <div class="pricing-section__left">
+          <p class="section-label">Pricing and Enquiry</p>
+          <h2 class="pricing-section__heading" id="pricing-heading">Pricing is discussed<br>in the discovery<br>conversation.</h2>
+          <div class="pricing-section__prose">
+            <p>Workshop pricing depends on the format, the number of participants, the complexity of the problem, and whether the engagement requires preparation work beyond the standard brief — for example, a pre-workshop review of existing architecture documentation or a structured pre-read for participants.</p>
+            <p>The discovery conversation is complimentary. It is the right place to discuss the problem, establish the format, and understand what the engagement will cost. There is no obligation following the discovery conversation, and no proposal is sent until both parties are confident that a workshop is the right approach.</p>
+            <p>To start the conversation, send an email to hello@datadomine.com. Use the subject line below, or write whatever is easiest. The discovery conversation typically takes thirty minutes.</p>
+          </div>
+        </div>
+
+        <div class="pricing-section__right">
+
+          <div class="pricing-cta-block">
+            <p class="pricing-cta-block__label">Start the discovery conversation</p>
+            <p class="pricing-cta-block__statement">The discovery conversation is complimentary. No obligation. No proposal until the fit is confirmed.</p>
+            <a
+              href="mailto:hello@datadomine.com?subject=Workshop%20Enquiry"
+              class="enquire-btn"
+              aria-label="Email DataDomine to enquire about a workshop"
+            >
+              Enquire about a workshop
+            </a>
+          </div>
+
+          <p class="pricing-note">hello@datadomine.com &nbsp;·&nbsp; Subject: Workshop Enquiry. All three workshop formats are available. If you are not certain which format fits your situation, describe the problem in your email — that is what the discovery conversation is for.</p>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <div class="footer-left">
+      <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="mark" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="vert"></span>
+        </span>
+        <span class="text">
+          <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+        </span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+
+    <div class="footer-centre">
+      <a href="mailto:hello@datadomine.com">hello@datadomine.com</a>
+      <span class="footer-note">datadomine.com</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="framework.html">The Framework</a></li>
+        <li><a href="programmes.html">Programmes</a></li>
+        <li><a href="field-notes.html">Field Notes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
+        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+
+  </footer>
+
+  <script src="datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
+
+</body>
+</html>

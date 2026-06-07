@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fine-tuning is not the answer to a bad retrieval system. | Siddharth Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --accent: #2E75B6;
+    --ink: #1a1a2e;
+    --mid: #5a6478;
+    --light: #f7f8fa;
+    --rule: #d8dde8;
+    --warm: #f9f6f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.85;
+  }
+
+  nav {
+    background: var(--navy);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  nav .back {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav .back:hover { color: white; }
+
+  .hero {
+    background: var(--navy);
+    padding: 80px 48px 72px;
+    text-align: center;
+  }
+  .hero .category {
+    display: inline-block;
+    color: var(--accent);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.18;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero .deck {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero .meta {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 0.06em;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+  .article-wrap p {
+    font-size: 1.08rem;
+    margin-bottom: 1.6rem;
+    color: var(--ink);
+  }
+  .article-wrap p::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.82;
+    margin-right: 0.1em;
+    margin-top: 0.08em;
+    color: var(--navy);
+  }
+  .article-wrap p + p::first-letter { all: unset; }
+  .article-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 3.2rem 0 1.2rem;
+    line-height: 1.25;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 2.4rem 0;
+    padding: 4px 0 4px 28px;
+  }
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.22rem;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 0;
+  }
+  blockquote p::first-letter { all: unset; }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 3rem auto;
+  }
+
+  .callout {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 2.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .callout p {
+    font-size: 0.97rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p::first-letter { all: unset; }
+
+  /* ── FAILURE TABLE ── */
+  .failure-list {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .fl-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .fl-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+  }
+  .fl-row:last-child { border-bottom: none; }
+  .fl-row:nth-child(even) { background: #fafafa; }
+  .fl-cause {
+    padding: 20px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--navy);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .fl-effect {
+    padding: 20px 28px;
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── DIAGNOSIS FRAME ── */
+  .diagnosis-frame {
+    margin: 2.4rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .df-header {
+    background: var(--navy);
+    padding: 16px 28px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .df-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .df-col {
+    padding: 28px;
+    background: white;
+  }
+  .df-col:first-child {
+    border-right: 1px solid var(--rule);
+    background: #fafafa;
+  }
+  .df-col-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .df-col:first-child .df-col-label { color: #c0392b; }
+  .df-col:last-child .df-col-label { color: #27ae60; }
+  .df-col-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .df-col p {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 0;
+  }
+  .df-col p::first-letter { all: unset; }
+  .df-items {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .df-item {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 3px;
+    line-height: 1.45;
+  }
+  .df-col:first-child .df-item { background: #fdecea; color: #c0392b; }
+  .df-col:last-child .df-item { background: #eafaf1; color: #27ae60; }
+
+  .footnotes {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+  .footnotes h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .footnotes p {
+    font-size: 0.83rem;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .footnotes p::first-letter { all: unset; }
+
+  .author-bio {
+    background: var(--navy);
+    color: white;
+    padding: 48px;
+    margin-top: 80px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+  }
+  .author-bio .bio-initial {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .author-bio .bio-text .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .author-bio .bio-text p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .author-bio .bio-text p::first-letter { all: unset; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--navy); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 52px 20px 48px; }
+    .article-wrap { padding: 48px 20px 80px; }
+    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
+    .fl-row { grid-template-columns: 1fr; }
+    .fl-effect { border-top: 1px solid var(--rule); }
+    .df-cols { grid-template-columns: 1fr; }
+    .df-col:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Siddharth Rao</a>
+  <a href="writing.html" class="back">← All Writing</a>
+</nav>
+
+<div class="hero">
+  <span class="category">Applied Machine Learning</span>
+  <h1>Fine-tuning is not the answer<br>to a bad retrieval system.</h1>
+  <p class="deck">When a RAG system gives wrong answers, the instinct is to reach for the model. Almost every time, the problem is somewhere upstream — in how the documents were chunked, how the query was routed, or what the retrieval layer was actually asked to find.</p>
+  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 13 min read</span>
+</div>
+
+<div class="article-wrap">
+
+  <p>The failure mode arrives quietly. A RAG system goes live. The early demos looked good — clean, confident answers with cited sources. Two months in, the support tickets start. Users report that the system is getting things wrong. Not obviously wrong — the answers are fluent and well-structured and they cite a real document. They are just not quite right. Missing a clause. Conflating two policies. Giving the procedure for the wrong machine model.</p>
+
+  <p>The team looks at the model. They try a larger one, or a fine-tuned variant, or a different prompt template that adds more instruction about accuracy. Some of these changes move the numbers slightly. None of them fix the problem sustainably, because the problem was never in the model.</p>
+
+  <p>It was in the retrieval layer — specifically, in what got passed to the model in the first place. A model can only generate from what it receives. If the context it receives contains the wrong chunk, a truncated procedure, or a fragment that happens to be semantically close to the query but is missing the critical clause, the model will produce a confident, fluent, wrong answer. It will do so regardless of its size, its fine-tuning history, or how carefully you wrote the system prompt.</p>
+
+  <p>Fine-tuning a model on top of broken retrieval does not fix the retrieval. It teaches the model to be more articulate about the wrong information.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>Why retrieval fails silently</h2>
+
+  <p>The most dangerous property of retrieval failure is that it looks like success. When a dense retrieval system returns the wrong chunk, it does not return an error. It returns a similarity score — typically somewhere between 0.7 and 0.9 — that the generation layer treats as a confidence signal. A score of 0.84 means "this is probably relevant." It does not mean "this is the correct chunk for this query." The generation layer does not know the difference. It receives context and generates from it.</p>
+
+  <p>This is what makes retrieval failures so insidious in production. A system that errors out visibly can be debugged. A system that returns fluent, cited, wrong answers erodes trust gradually — users stop relying on it not because they saw an obvious failure, but because they stopped trusting the answers after two or three quiet misses they only noticed later.</p>
+
+  <blockquote>
+    <p>A similarity score near 0.84 is not a confidence signal. It is a proximity signal. The two are not the same thing, and the generation layer treats them as if they are.</p>
+  </blockquote>
+
+  <p>The research is unambiguous on the scale of this problem. Dense retrievers underperform BM25 on out-of-domain corpora by 11.7 NDCG points on average across the BEIR benchmark. Single-vector retrieval surfaces all the evidence needed to answer a multi-hop question only 44% of the time on HotpotQA. These are not edge cases — they are the normal operating conditions of most enterprise RAG deployments, which run on heterogeneous corpora with specialised terminology that the embedding model was not trained on, and where a significant share of real user queries require evidence from more than one document.</p>
+
+  <p>A model fine-tuned under these conditions learns one thing: how to produce fluent outputs when the context is incomplete. That is not a capability. It is a liability.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>Where retrieval actually breaks — and what to look at first</h2>
+
+  <p>Retrieval failures in production RAG systems are not random. They cluster around a small set of structural causes, and each cause has a diagnostic signature that is visible if you look at the right layer. The instinct to jump to fine-tuning usually happens because teams are looking at the model's output — the thing that is wrong — rather than the retrieval layer that produced the input the model was given.</p>
+
+  <p>The causes below are ordered by how frequently they appear in the systems I have worked on. They are also ordered, roughly, by how easily they are fixed — which makes the last one on the list the most important to check first, because it is both the most common root cause and the one most often overlooked.</p>
+
+  <div class="failure-list">
+    <div class="fl-header">Where RAG systems actually fail — causes, signatures, and what they are not</div>
+
+    <div class="fl-row">
+      <div class="fl-cause">Chunking strategy mismatched to document structure</div>
+      <div class="fl-effect">Uniform token splitting is the default in most RAG implementations. It is also wrong for most enterprise document types. A policy document split on 512-token boundaries will routinely cut a numbered clause in half — the first chunk contains the condition, the second contains the consequence. Neither chunk retrieves well for a query about the rule, because neither chunk contains the complete logical unit. The retrieval system returns the best available fragment. The model generates from it. The answer is incomplete. This is not a model problem. It is a chunking problem, and the fix is a content-aware chunking strategy: section-aware splits for policy documents, step-preserving splits for procedures, QA-pair preservation for knowledge base articles. The chunk is the unit of retrieval. Its boundaries must respect the unit of meaning in the source document.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-cause">Dense-only retrieval on entity-heavy queries</div>
+      <div class="fl-effect">Dense retrievers are trained to capture semantic similarity. They are not trained to capture exact term overlap. When a user asks about a specific contract clause number, a machine model identifier, or a named regulation — "what does section 4.2 of the vendor SLA require?" — dense retrieval looks for semantically similar content rather than exact matches. It finds something close. Close is wrong. BM25, which operates on term frequency, handles exact entity queries precisely and quickly. A retrieval system that routes all queries through a single dense encoder is systematically failing on a class of queries that constitutes a significant fraction of real enterprise traffic. The fix is a hybrid retrieval layer — dense for semantic queries, BM25 for entity and exact-term queries, with a weighted fusion that lets each strategy contribute where it is strong.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-cause">Single-vector retrieval on multi-hop questions</div>
+      <div class="fl-effect">Some questions require evidence from more than one document. "What are the approval thresholds for vendor contracts that involve data processing?" requires the procurement policy, the data governance framework, and possibly the legal addendum that overrides both. No single chunk contains that answer. A single query vector finds the most similar chunk — probably the procurement policy — and the model generates an answer that omits the data governance requirements entirely. The answer sounds complete. It is not. The fix is query decomposition: breaking the multi-hop question into atomic sub-queries, running retrieval independently on each, and fusing the candidate sets before generation. This is architecturally more complex than single-vector retrieval. It is also the only approach that reliably handles multi-hop queries, which constitute roughly 40% of enterprise knowledge-base traffic.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-cause">Stale or missing metadata on indexed documents</div>
+      <div class="fl-effect">When a policy is updated, the old version frequently remains in the index alongside the new one. Without date metadata, version tags, or supersession signals on the chunks, the retrieval system has no way to prefer the current version. Both chunks compete on semantic similarity, and the older version often wins because it has been in the index longer and its language is more stable. The model generates from the outdated policy. The answer was sourced from a real document. It was the wrong document. The fix is not a model fix. It is an indexing pipeline fix: mandatory date metadata on every chunk, version-aware retrieval that boosts recency, and an ingestion workflow that marks superseded documents as deprecated rather than simply adding the new version alongside them.</div>
+    </div>
+
+    <div class="fl-row">
+      <div class="fl-cause">No query complexity classification before routing</div>
+      <div class="fl-effect">Not all queries need the same retrieval strategy. A factual lookup — "what is the PTO entitlement for full-time employees?" — needs a single dense retrieval call. Running query decomposition on it adds latency and produces redundant sub-queries that retrieve the same chunk multiple times. A multi-hop comparative query needs decomposition, hybrid retrieval, and reranking. Running only dense retrieval on it produces an incomplete answer. A retrieval system that applies the same strategy to every query is simultaneously over-engineering simple lookups and under-engineering complex ones. The fix is a query classifier — lightweight, deterministic, operating before any retrieval call — that reads the structural signals in the query and routes it to the appropriate retrieval strategy. This is the architectural decision that makes everything else scalable.</div>
+    </div>
+
+  </div>
+
+  <p>What all five of these have in common is that they are invisible at the model output layer. The model receives bad context and generates a fluent, confident response from it. An engineer looking only at the output sees a wrong answer and reaches for the model. An engineer who looks at what the retrieval layer returned before the model saw it sees a chunking failure, a routing failure, or a metadata failure — and fixes the right thing.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The diagnostic audit — where to look before you touch the model</h2>
+
+  <p>The retrieval diagnostic is not a sophisticated process. It requires logging the full context that was passed to the model on failed queries — the actual chunks, their source documents, their similarity scores, and the query that retrieved them — and then reading that context with the question in mind. This is tedious. It is the work. Every retrieval failure I have investigated was visible in this log if you looked at it with the right question: is the answer to this query present in the context the model was given?</p>
+
+  <p>If the answer is no, the problem is retrieval. No amount of model tuning will fix a problem that is not caused by the model.</p>
+
+  <div class="callout">
+    <div class="label">The retrieval diagnostic — five checks before the model is touched</div>
+    <p><strong>Is the correct information present anywhere in the index?</strong> This is the baseline check. Search the index directly for the answer to the failed query, bypassing the retrieval pipeline. If the answer is not in the index at all, the problem is ingestion — a document that was not indexed, a chunk that was too large and drowned out the relevant sentence, or a file format that the ingestion pipeline failed to parse. The model cannot generate from information it was never given.</p>
+    <p><strong>If the information is indexed, is it being retrieved?</strong> Retrieve the top-10 chunks for the failed query and read them. Is the correct chunk in the top 10? If not, is it in the top 50? The position tells you which retrieval failure you are looking at. Not in top 10 but in top 50 suggests a reranking problem. Not in top 50 at all suggests a strategy mismatch — the query type and the retrieval strategy are incompatible.</p>
+    <p><strong>If the correct chunk is being retrieved, is it intact?</strong> Read the retrieved chunk in isolation, without the document it came from. Does it contain a complete logical unit — a full policy clause, a complete procedure step, a self-contained QA pair? Or does it cut off at an arbitrary token boundary, leaving the critical part of the rule in the adjacent chunk that was not retrieved? If the chunk is a fragment, the problem is chunking strategy.</p>
+    <p><strong>Is the retrieved chunk current?</strong> Check the metadata on the retrieved chunk — the document date, the version, the ingestion timestamp. If the answer was sourced from a document that has been superseded, the problem is index freshness. The correct information exists in the index. The wrong version of it was ranked higher.</p>
+    <p><strong>Is the query type matched to the retrieval strategy?</strong> Log the retrieval strategy that was applied to the failed query — dense only, hybrid, decomposed. Was the query a multi-hop question that was routed to dense-only retrieval? Was it an entity lookup that was sent through a semantic encoder? A mismatch between query type and retrieval strategy will produce systematic failures on a class of queries, not random ones. Systematic failures are the diagnostic signal. They tell you exactly which part of the routing logic to fix.</p>
+  </div>
+
+  <p>None of these checks require model expertise. They require reading logs and thinking about what the retrieval layer was asked to do and whether it was capable of doing it. The model question comes after all five checks come back clean — which means the context was correct, complete, and current, and the model still produced a wrong answer. That is a narrow failure mode. It happens. But it is not the usual case in a system that has not had its retrieval layer audited.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>What QueryForge is actually solving</h2>
+
+  <p>When I designed QueryForge, the starting observation was straightforward: the majority of enterprise RAG deployments between 2023 and 2024 used a single retrieval strategy — embed the query, find the nearest chunks, pass them to the model. That pattern works well for simple factual lookups, which make up about 58% of enterprise query traffic. It fails on the other 42%: comparative queries, multi-hop questions, temporal queries, and entity lookups that require exact term matching rather than semantic approximation.</p>
+
+  <p>The failure is silent. Dense retrieval returns something. The model generates from it. The answer looks right until the user checks it against the source.</p>
+
+  <div class="diagnosis-frame">
+    <div class="df-header">The retrieval diagnosis — what to fix vs. what to ignore</div>
+    <div class="df-cols">
+      <div class="df-col">
+        <div class="df-col-label">Retrieval problems — fix upstream</div>
+        <div class="df-col-title">The context was wrong before the model saw it</div>
+        <p>These failures are invisible at the output layer. They require log inspection at the retrieval layer. No model change will fix them.</p>
+        <div class="df-items">
+          <div class="df-item">Wrong chunk retrieved — similarity ≠ relevance</div>
+          <div class="df-item">Incomplete chunk — token boundary cuts a logical unit</div>
+          <div class="df-item">Stale chunk — outdated version ranked above current one</div>
+          <div class="df-item">Missing evidence — multi-hop answer needs more than one document</div>
+          <div class="df-item">Strategy mismatch — entity query sent through semantic encoder</div>
+        </div>
+      </div>
+      <div class="df-col">
+        <div class="df-col-label">Model problems — fix the model</div>
+        <div class="df-col-title">The context was correct but the output was wrong</div>
+        <p>These failures are rare in a well-designed retrieval layer. They are the only failures that fine-tuning or prompt engineering can actually address.</p>
+        <div class="df-items">
+          <div class="df-item">Correct context retrieved, answer draws wrong inference</div>
+          <div class="df-item">Correct context retrieved, answer ignores a constraint in it</div>
+          <div class="df-item">Correct context retrieved, domain terminology misinterpreted</div>
+          <div class="df-item">Correct context retrieved, numerical reasoning fails</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>QueryForge addresses this by putting a query classifier in front of the retrieval layer. The classifier reads structural signals in each query — entity pairs, temporal cues, document domain signals, query complexity — and routes it to the appropriate strategy: dense-only for simple factual lookups, hybrid for entity and exact-term queries, decomposition plus hybrid plus reranking for multi-hop questions. Each routing decision is logged with full signal provenance so the diagnostic audit is not a manual exercise — the system records why each query was routed the way it was.</p>
+
+  <p>The outcome is not a smarter model. It is a retrieval layer that systematically gives the model the right context for each query type. A model with correct context is a different system from a model with approximate context. The difference is not in the model. It is in what the model was given to work with.</p>
+
+  <div class="section-rule"></div>
+
+  <h2>The right time to reach for fine-tuning</h2>
+
+  <p>This is not an argument that fine-tuning is never the answer. It is an argument that fine-tuning is the answer to a specific and narrow set of retrieval system failures — the ones where the retrieval layer is working correctly and the model is still underperforming.</p>
+
+  <p>Those cases exist. A base model that has not been exposed to specialised domain terminology will misinterpret retrieved chunks that use that terminology correctly. A model without financial reasoning capabilities will receive correct numerical data and make arithmetic errors. A model without domain-specific instruction following will receive complete, accurate context and produce outputs that violate the format or structure the application requires.</p>
+
+  <p>In each of those cases, fine-tuning is the right response — because the input is correct and the model's processing of it is the failure point. But these cases are distinguishable from retrieval failures if you look at the context that was provided. Correct context, wrong output: model problem. Incomplete or incorrect context, wrong output: retrieval problem. The diagnostic distinction is not subtle. It is visible in the logs.</p>
+
+  <blockquote>
+    <p>Fix the retrieval layer first. When the model is receiving the right information and still producing wrong answers — that is when you reach for fine-tuning.</p>
+  </blockquote>
+
+  <p>The reason teams skip this sequence is not laziness. It is that fine-tuning feels like the kind of technical intervention that should fix a quality problem. It is sophisticated work. It produces measurable output. It has a clear narrative: we improved the model, and now the system performs better. The retrieval audit is less satisfying — it involves reading logs, finding the chunking strategy that was configured two months ago, and changing a YAML parameter. The fix is unglamorous. The impact is real.</p>
+
+  <p>Most RAG systems in production today are not limited by their models. They are limited by what their retrieval layers give those models to work with. That is where the leverage is, and that is where the work should start.</p>
+
+  <div class="footnotes">
+    <h4>References & Further Reading</h4>
+    <p>Thakur, N. et al. (2021). <em>BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models.</em> NeurIPS 2021. arXiv:2104.08663. — The 11.7 NDCG point gap between dense and BM25 on out-of-domain corpora. The benchmark result that makes hybrid retrieval architecturally necessary, not optional.</p>
+    <p>Yang, Z. et al. (2018). <em>HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering.</em> EMNLP 2018. arXiv:1809.09600. — The 44.3% single-vector retrieval success rate on multi-hop questions. The result that makes query decomposition necessary for a significant fraction of enterprise queries.</p>
+    <p>Cormack, G.V., Clarke, C.L.A., & Buettcher, S. (2009). <em>Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods.</em> SIGIR 2009. — The original RRF paper. The fusion method that makes multi-strategy retrieval practical without a labelled training set to tune fusion weights.</p>
+    <p>Gao, L., Ma, X., Lin, J., & Callan, J. (2022). <em>Precise Zero-Shot Dense Retrieval without Relevance Labels.</em> arXiv:2212.10496. — On HyDE and the conditions under which hypothetical document embedding improves retrieval. Also documents the failure mode where LLM hallucination in the hypothetical degrades recall — the case for running it in parallel with standard dense retrieval rather than as a replacement.</p>
+  </div>
+
+</div>
+
+<div class="author-bio">
+  <div class="bio-initial">S</div>
+  <div class="bio-text">
+    <div class="name">Siddharth Rao</div>
+    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes about applied ML, system design, and what happens when the two have to meet a real business problem.</p>
+  </div>
+</div>
+
+</body>
+</html>
