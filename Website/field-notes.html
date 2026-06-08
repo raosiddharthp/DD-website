@@ -10,9 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="datadomine.css">
   <style>
-    /* ─────────────────────────────────────────────────────────────────
-       CSS custom properties — mirrors datadomine.css tokens
-    ───────────────────────────────────────────────────────────────── */
     :root {
       --deep-ink:   #0D1117;
       --arch-white: #F8F6F1;
@@ -21,21 +18,8 @@
       --nav-height: 64px;
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Reset
-    ───────────────────────────────────────────────────────────────── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* ─────────────────────────────────────────────────────────────────
-       Base
-    ───────────────────────────────────────────────────────────────── */
-    html, body {
-      height: 100%;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -47,24 +31,19 @@
       min-height: 100vh;
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Navigation
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Navigation ── */
     .site-nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: var(--nav-height);
       background: var(--arch-white);
-      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 48px;
       z-index: 100;
     }
-
     .nav-wordmark {
       display: flex;
       align-items: baseline;
@@ -72,7 +51,6 @@
       text-decoration: none;
       line-height: 1;
     }
-
     .nav-wordmark .word-data {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 300;
@@ -80,7 +58,6 @@
       color: var(--deep-ink);
       letter-spacing: -0.01em;
     }
-
     .nav-wordmark .word-domine {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 700;
@@ -88,18 +65,13 @@
       color: var(--deep-ink);
       letter-spacing: -0.01em;
     }
-
-    .nav-wordmark .word-domine .initial-d {
-      color: var(--amber);
-    }
-
+    .nav-wordmark .word-domine .initial-d { color: var(--amber); }
     .nav-links {
       display: flex;
       align-items: center;
       gap: 36px;
       list-style: none;
     }
-
     .nav-links a {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
@@ -109,47 +81,30 @@
       letter-spacing: 0.01em;
       transition: color 0.15s ease;
     }
+    .nav-links a:hover { color: var(--deep-ink); }
+    .nav-links a.active { color: var(--deep-ink); font-weight: 500; }
 
-    .nav-links a:hover {
-      color: var(--deep-ink);
-    }
+    /* ── Main ── */
+    .site-main { flex: 1; padding-top: var(--nav-height); }
 
-    .nav-links a.active {
-      color: var(--deep-ink);
-      font-weight: 500;
-    }
-
-    /* ─────────────────────────────────────────────────────────────────
-       Main
-    ───────────────────────────────────────────────────────────────── */
-    .site-main {
-      flex: 1;
-      padding-top: var(--nav-height);
-    }
-
-    /* ─────────────────────────────────────────────────────────────────
-       Page Hero
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Page Hero ── */
     .page-hero {
       padding: 72px 48px 56px;
-      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
       max-width: 860px;
     }
-
     .page-hero__eyebrow {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 20px;
     }
-
     .page-hero__eyebrow-rule {
       width: 24px;
       height: 2px;
       background: var(--amber);
       flex-shrink: 0;
     }
-
     .page-hero__eyebrow-label {
       font-family: 'Inter', sans-serif;
       font-weight: 500;
@@ -158,7 +113,6 @@
       text-transform: uppercase;
       color: var(--slate);
     }
-
     .page-hero__title {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 700;
@@ -168,7 +122,6 @@
       color: var(--deep-ink);
       margin-bottom: 28px;
     }
-
     .page-hero__body {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 300;
@@ -178,25 +131,22 @@
       max-width: 640px;
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Filter Bar
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Filter Bar ── */
     .filter-bar {
       padding: 28px 48px;
-      border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
-
     .filter-btn {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       font-size: 13px;
       color: var(--slate);
       background: none;
-      border: 1px solid rgba(13, 17, 23, 0.15);
+      border: 1px solid rgba(13,17,23,0.15);
       border-radius: 2px;
       padding: 7px 16px;
       cursor: pointer;
@@ -204,53 +154,37 @@
       transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
       white-space: nowrap;
     }
-
     .filter-btn:hover {
       color: var(--deep-ink);
-      border-color: rgba(13, 17, 23, 0.35);
+      border-color: rgba(13,17,23,0.35);
     }
-
     .filter-btn.is-active {
       color: var(--arch-white);
       background: var(--deep-ink);
       border-color: var(--deep-ink);
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Article Grid
-    ───────────────────────────────────────────────────────────────── */
-    .article-grid-section {
-      padding: 56px 48px 72px;
-    }
-
+    /* ── Article Grid ── */
+    .article-grid-section { padding: 56px 48px 72px; }
     .article-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: rgba(13, 17, 23, 0.08);
-      border: 1px solid rgba(13, 17, 23, 0.08);
+      background: rgba(13,17,23,0.08);
+      border: 1px solid rgba(13,17,23,0.08);
     }
-
     .article-card {
       background: var(--arch-white);
       padding: 32px 28px 28px;
       display: flex;
       flex-direction: column;
-      gap: 0;
       text-decoration: none;
       color: inherit;
       transition: background 0.15s ease;
       position: relative;
     }
-
-    .article-card:hover {
-      background: #F0EDE6;
-    }
-
-    .article-card[data-hidden="true"] {
-      display: none;
-    }
-
+    .article-card:hover { background: #F0EDE6; }
+    .article-card[data-hidden="true"] { display: none; }
     .article-card__track {
       font-family: 'Inter', sans-serif;
       font-weight: 500;
@@ -260,7 +194,6 @@
       color: var(--amber);
       margin-bottom: 14px;
     }
-
     .article-card__title {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 700;
@@ -271,7 +204,14 @@
       margin-bottom: 12px;
       flex: 1;
     }
-
+    .article-card__date {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
     .article-card__desc {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
@@ -280,16 +220,14 @@
       color: var(--slate);
       margin-bottom: 20px;
     }
-
     .article-card__meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
       padding-top: 16px;
-      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      border-top: 1px solid rgba(13,17,23,0.08);
     }
-
     .article-card__read-time {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -297,22 +235,18 @@
       color: var(--slate);
       letter-spacing: 0.04em;
     }
-
     .article-card__arrow {
       font-size: 14px;
-      color: rgba(13, 17, 23, 0.25);
+      color: rgba(13,17,23,0.25);
       transition: color 0.15s ease, transform 0.15s ease;
       line-height: 1;
     }
-
     .article-card:hover .article-card__arrow {
       color: var(--deep-ink);
       transform: translateX(3px);
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Empty state (when filter has no results)
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Empty state ── */
     .grid-empty {
       display: none;
       padding: 64px 0;
@@ -320,11 +254,7 @@
       grid-column: 1 / -1;
       background: var(--arch-white);
     }
-
-    .grid-empty.is-visible {
-      display: block;
-    }
-
+    .grid-empty.is-visible { display: block; }
     .grid-empty p {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 300;
@@ -332,21 +262,15 @@
       color: var(--slate);
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Subscription Note
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Subscription Section ── */
     .subscription-section {
       padding: 56px 48px;
-      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      border-top: 1px solid rgba(13,17,23,0.08);
       display: flex;
       align-items: flex-start;
       gap: 80px;
     }
-
-    .subscription-section__left {
-      flex: 0 0 auto;
-    }
-
+    .subscription-section__left { flex: 0 0 auto; }
     .subscription-section__eyebrow {
       font-family: 'Inter', sans-serif;
       font-weight: 500;
@@ -356,7 +280,6 @@
       color: var(--slate);
       margin-bottom: 14px;
     }
-
     .subscription-section__heading {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 700;
@@ -365,12 +288,7 @@
       letter-spacing: -0.01em;
       line-height: 1.2;
     }
-
-    .subscription-section__right {
-      flex: 1;
-      padding-top: 4px;
-    }
-
+    .subscription-section__right { flex: 1; padding-top: 4px; }
     .subscription-section__body {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -379,36 +297,31 @@
       color: var(--deep-ink);
       margin-bottom: 20px;
     }
-
     .subscription-section__contact {
       display: inline-flex;
       align-items: baseline;
       gap: 10px;
     }
-
     .subscription-section__contact-label {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       font-size: 13px;
       color: var(--slate);
     }
-
     .subscription-section__contact-link {
       font-family: 'Inter', sans-serif;
       font-weight: 500;
       font-size: 13px;
       color: var(--deep-ink);
       text-decoration: none;
-      border-bottom: 1px solid rgba(13, 17, 23, 0.25);
+      border-bottom: 1px solid rgba(13,17,23,0.25);
       padding-bottom: 1px;
       transition: border-color 0.15s ease, color 0.15s ease;
     }
-
     .subscription-section__contact-link:hover {
       color: var(--amber);
       border-color: var(--amber);
     }
-
     .subscription-section__subject {
       display: block;
       font-family: 'Inter', sans-serif;
@@ -419,11 +332,9 @@
       letter-spacing: 0.02em;
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Footer
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Footer ── */
     .site-footer {
-      border-top: 1px solid rgba(13, 17, 23, 0.08);
+      border-top: 1px solid rgba(13,17,23,0.08);
       padding: 32px 48px;
       display: flex;
       align-items: center;
@@ -431,38 +342,21 @@
       flex-wrap: wrap;
       gap: 16px;
     }
-
-    .footer-left {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .footer-wordmark {
-      display: flex;
-      align-items: baseline;
-      text-decoration: none;
-      line-height: 1;
-    }
-
+    .footer-left { display: flex; flex-direction: column; gap: 4px; }
+    .footer-wordmark { display: flex; align-items: baseline; text-decoration: none; line-height: 1; }
     .footer-wordmark .word-data {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 300;
       font-size: 15px;
       color: var(--deep-ink);
     }
-
     .footer-wordmark .word-domine {
       font-family: 'IBM Plex Serif', Georgia, serif;
       font-weight: 700;
       font-size: 15px;
       color: var(--deep-ink);
     }
-
-    .footer-wordmark .word-domine .initial-d {
-      color: var(--amber);
-    }
-
+    .footer-wordmark .word-domine .initial-d { color: var(--amber); }
     .footer-tagline {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -470,20 +364,8 @@
       color: var(--slate);
       letter-spacing: 0.01em;
     }
-
-    .footer-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
+    .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
     .footer-links a {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -492,89 +374,43 @@
       text-decoration: none;
       transition: color 0.15s ease;
     }
-
-    .footer-links a:hover {
-      color: var(--deep-ink);
-    }
-
+    .footer-links a:hover { color: var(--deep-ink); }
     .footer-copy {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
       font-size: 12px;
-      color: rgba(100, 116, 139, 0.6);
+      color: rgba(100,116,139,0.6);
     }
 
-    /* ─────────────────────────────────────────────────────────────────
-       Responsive
-    ───────────────────────────────────────────────────────────────── */
+    /* ── Responsive ── */
     @media (max-width: 960px) {
-      .article-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .article-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 640px) {
-      .site-nav {
-        padding: 0 24px;
-      }
-
-      .nav-links {
-        gap: 20px;
-      }
-
-      .nav-links li:not(:last-child):not(:nth-last-child(2)) {
-        display: none;
-      }
-
-      .page-hero {
-        padding: 48px 24px 40px;
-      }
-
-      .page-hero__title {
-        font-size: 36px;
-      }
-
-      .page-hero__body {
-        font-size: 16px;
-      }
-
-      .filter-bar {
-        padding: 20px 24px;
-      }
-
-      .article-grid-section {
-        padding: 40px 24px 56px;
-      }
-
-      .article-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .subscription-section {
-        padding: 40px 24px;
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .site-footer {
-        padding: 24px;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .footer-right {
-        align-items: flex-start;
-      }
+      .site-nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      .page-hero { padding: 48px 24px 40px; }
+      .page-hero__title { font-size: 36px; }
+      .page-hero__body { font-size: 16px; }
+      .filter-bar { padding: 20px 24px; }
+      .article-grid-section { padding: 40px 24px 56px; }
+      .article-grid { grid-template-columns: 1fr; }
+      .subscription-section { padding: 40px 24px; flex-direction: column; gap: 24px; }
+      .site-footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+      .footer-right { align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       NAVIGATION
-  ════════════════════════════════════════════════════════════════ -->
+  <!-- ── Navigation ── -->
   <nav class="site-nav" aria-label="Site navigation">
     <a href="index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <svg width="14" height="36" viewBox="0 0 14 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:10px;">
+        <circle cx="7" cy="7" r="7" fill="#D97706"/>
+        <rect x="5.5" y="7" width="3" height="26" fill="#0D1117"/>
+      </svg>
       <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
     </a>
     <ul class="nav-links">
@@ -587,9 +423,6 @@
     </ul>
   </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       MAIN
-  ════════════════════════════════════════════════════════════════ -->
   <main class="site-main">
 
     <!-- ── Page Hero ── -->
@@ -599,7 +432,7 @@
         <span class="page-hero__eyebrow-label">Writing from practice</span>
       </div>
       <h1 class="page-hero__title" id="hero-title">Field Notes.</h1>
-      <p class="page-hero__body">These are observations from practice. The decisions that worked, the ones that didn't, and the data that should have been consulted in both cases. Written for practitioners who are serious about the craft.</p>
+      <p class="page-hero__body">Observations from practice. The decisions that worked, the ones that didn't, and what the data should have said in both cases. Written for practitioners who are serious about the craft.</p>
     </section>
 
     <!-- ── Filter Bar ── -->
@@ -608,177 +441,298 @@
       <button class="filter-btn" data-filter="architecture" aria-pressed="false">Architecture</button>
       <button class="filter-btn" data-filter="ml-engineering" aria-pressed="false">ML Engineering</button>
       <button class="filter-btn" data-filter="practice-enablement" aria-pressed="false">Practice Enablement</button>
-      <button class="filter-btn" data-filter="eu-ai-act" aria-pressed="false">EU AI Act &amp; Compliance</button>
     </div>
 
-    <!-- ── Article Grid ── -->
+    <!-- ── Article Grid — newest first ── -->
     <section class="article-grid-section" aria-label="Field Notes articles">
       <div class="article-grid" id="article-grid">
 
-        <!-- Architecture: Why Technical Training Fails -->
-        <a href="#"
+        <!-- Jun 2026 -->
+        <a href="Blog/article-how-to-measure-training.html"
            class="article-card"
-           data-track="architecture"
-           aria-label="Read: Why Technical Training Fails Before It Starts">
-          <div class="article-card__track">Architecture</div>
-          <div class="article-card__title">Why Technical Training Fails Before It Starts</div>
-          <div class="article-card__desc">The curriculum is rarely the problem. The gap between what a programme teaches and what a production environment actually demands is structural — and it is almost always invisible to the people who design the programme.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">7 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- Architecture: The Production Readiness Practicum -->
-        <a href="#"
-           class="article-card"
-           data-track="architecture"
-           aria-label="Read: The Production Readiness Practicum">
-          <div class="article-card__track">Architecture</div>
-          <div class="article-card__title">The Production Readiness Practicum</div>
-          <div class="article-card__desc">Production-ready is not a checklist state. It is a negotiated standard, agreed before a line of architecture is drawn, that the entire work is then held against. Most teams skip the negotiation and wonder why the review fails.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">9 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- EU AI Act: What It Actually Requires -->
-        <a href="#"
-           class="article-card"
-           data-track="eu-ai-act"
-           aria-label="Read: What The EU AI Act Actually Requires From Your Architecture">
-          <div class="article-card__track">EU AI Act &amp; Compliance</div>
-          <div class="article-card__title">What The EU AI Act Actually Requires From Your Architecture</div>
-          <div class="article-card__desc">Most compliance conversations start with the documentation. The EU AI Act starts earlier than that — with decisions about system classification, risk categorisation, and human oversight that are structural, not documentary.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">11 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- Architecture: ADRs -->
-        <a href="#"
-           class="article-card"
-           data-track="architecture"
-           aria-label="Read: ADRs: The Decision-Making Discipline Most Architects Skip">
-          <div class="article-card__track">Architecture</div>
-          <div class="article-card__title">ADRs: The Decision-Making Discipline Most Architects Skip</div>
-          <div class="article-card__desc">Architecture Decision Records are not bureaucratic overhead. They are the audit trail that separates a decision that can be defended from one that can only be explained after the fact — once the damage is visible.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">8 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- Architecture: HITL -->
-        <a href="#"
-           class="article-card"
-           data-track="architecture"
-           aria-label="Read: HITL as a Structural Constraint, Not a UI Feature">
-          <div class="article-card__track">Architecture</div>
-          <div class="article-card__title">HITL as a Structural Constraint, Not a UI Feature</div>
-          <div class="article-card__desc">Human-in-the-loop is not a screen. It is a set of decisions about where human judgement is required, what data it is given, and how that judgement is recorded — made before the system is designed, not retrofitted into it afterwards.</div>
+           data-track="practice-enablement"
+           aria-label="Read: How to measure training when nobody wants to measure training">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">How to measure training when nobody wants to measure training</div>
+          <div class="article-card__date">June 2026</div>
+          <div class="article-card__desc">The frameworks exist. The methodology is not the problem. The problem is that measuring outcomes requires being accountable to them — and that is a different conversation entirely.</div>
           <div class="article-card__meta">
             <span class="article-card__read-time">10 min read</span>
             <span class="article-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
 
-        <!-- Architecture: Four-Layer Contract -->
-        <a href="#"
+        <a href="Blog/article-forgetting-curve-not-your-enemy.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: The forgetting curve is not your enemy">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">The forgetting curve is not your enemy</div>
+          <div class="article-card__date">June 2026</div>
+          <div class="article-card__desc">Ebbinghaus showed us that retention decays predictably. What he did not show us is that the decay is front-loaded — and that the design decision that defeats it is not repetition. It is the quality of the first encoding.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">9 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- May 2026 -->
+        <a href="Blog/article-onprem-sovereignty.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: On-prem AI is not a cost decision. It's a sovereignty decision">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">On-prem AI is not a cost decision. It's a sovereignty decision.</div>
+          <div class="article-card__date">May 2026</div>
+          <div class="article-card__desc">Every cloud versus on-premises AI debate I have watched starts in the wrong place. It starts with cost. The actual forcing functions — the ones that make the architecture non-negotiable — are legal, jurisdictional, and contractual.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">13 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-07-40m-problem.html"
            class="article-card"
            data-track="architecture"
-           aria-label="Read: The Four-Layer Architecture Contract">
+           aria-label="Read: The €40M problem">
           <div class="article-card__track">Architecture</div>
-          <div class="article-card__title">The Four-Layer Architecture Contract</div>
-          <div class="article-card__desc">Every enterprise AI system operates across four distinct layers, each with its own ownership boundary, its own failure mode, and its own set of stakeholders who can block it. Designing across all four simultaneously is the work. Designing across one at a time is the problem.</div>
+          <div class="article-card__title">The €40M problem: why the most expensive engineering failures are invisible until they're not</div>
+          <div class="article-card__date">May 2026</div>
+          <div class="article-card__desc">12,000 deployed units, six disconnected telemetry systems, and a reserve that exists because nobody designed the intelligence layer. This is what an architectural gap looks like when you translate it into a number.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">15 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Apr 2026 -->
+        <a href="Blog/article-04-adr-design-artefact.html"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: The Architecture Decision Record as the most underrated design artefact">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">The Architecture Decision Record as the most underrated design artefact</div>
+          <div class="article-card__date">April 2026</div>
+          <div class="article-card__desc">A document that records what you decided is useful. A document that engages the strongest objection to that decision — and answers it — is evidence of how you actually think.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">14 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-merge-vs-finetune.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: When a model merge beats a fine-tune">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">When a model merge beats a fine-tune — and how to know which problem you have</div>
+          <div class="article-card__date">April 2026</div>
+          <div class="article-card__desc">Fine-tuning is the default answer when you need a model to do more things. It is not always the right answer. If the capabilities you need already exist in separate models, merging their weights is faster, cheaper, and more reversible.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">14 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Mar 2026 -->
+        <a href="Blog/article-02-hitl-write-path-lock.html"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: HITL is not a checkbox — it's a write-path lock">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">HITL is not a checkbox — it's a write-path lock</div>
+          <div class="article-card__date">March 2026</div>
+          <div class="article-card__desc">The difference between process compliance and structural compliance is the difference between a policy that says a human must review AI decisions, and a system that physically cannot proceed without one.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">15 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-06-zero-trust-architecture.html"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: Zero-trust is not a network configuration — it's an architectural philosophy">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">Zero-trust is not a network configuration — it's an architectural philosophy</div>
+          <div class="article-card__date">March 2026</div>
+          <div class="article-card__desc">BeyondCorp, VPC-SC, CMEK, Workload Identity, and an append-only audit ledger are not five security features. They are one idea, expressed at five different layers of a GCP architecture.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">15 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Feb 2026 -->
+        <a href="Blog/article-blooms-taxonomy-production-checklist.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: Bloom's Taxonomy is a production checklist, not an academic framework">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">Bloom's Taxonomy is a production checklist, not an academic framework</div>
+          <div class="article-card__date">February 2026</div>
+          <div class="article-card__desc">I thought I was applying it. A senior colleague sat in on a session and showed me I had imposed a ceiling on my participants — without knowing it. The distinction between the levels is not theoretical. It is the difference between a practitioner who knows and one who can act.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">14 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-motivation-not-your-job.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: Motivation is not your job. Removing demotivation is.">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">Motivation is not your job. Removing demotivation is.</div>
+          <div class="article-card__date">February 2026</div>
+          <div class="article-card__desc">Every trainer I know has tried to energise a disengaged room. Almost none of them asked what made the room disengaged in the first place. Those are not the same problem — and they do not have the same solution.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">11 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Jan 2026 -->
+        <a href="Blog/article-03-multi-agent-design.html"
+           class="article-card"
+           data-track="architecture"
+           aria-label="Read: Designing multi-agent systems that don't become multi-agent messes">
+          <div class="article-card__track">Architecture</div>
+          <div class="article-card__title">Designing multi-agent systems that don't become multi-agent messes</div>
+          <div class="article-card__date">January 2026</div>
+          <div class="article-card__desc">"Agent swarm" is an architectural smell if you haven't first defined what each agent owns, where its authority ends, and what the system does when it fails. Complexity is not a feature. It is a risk surface.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">17 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-05-memory-architecture-bottleneck.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: The token limit is not the bottleneck. Your memory architecture is.">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">The token limit is not the bottleneck. Your memory architecture is.</div>
+          <div class="article-card__date">January 2026</div>
+          <div class="article-card__desc">Bigger context windows are a distraction. The real problem in long-horizon agent deployments is not how much the model can hold — it is what gets evicted, what gets reinjected, and what the system does when it can no longer see its own history.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">16 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Dec 2025 -->
+        <a href="Blog/article-the-problem-with-learning-objectives.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: The problem with learning objectives nobody talks about">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">The problem with learning objectives nobody talks about</div>
+          <div class="article-card__date">December 2025</div>
+          <div class="article-card__desc">Everyone writes them. Nobody holds them accountable. The reason is hiding in plain sight — in the verbs. A learning objective written with the wrong verb is not a lower-ambition objective. It is a structurally different claim about what training is for.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">11 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-real-use-cases-are-the-point.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: Real use cases are not a nice-to-have. They are the entire point.">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">Real use cases are not a nice-to-have. They are the entire point.</div>
+          <div class="article-card__date">December 2025</div>
+          <div class="article-card__desc">Most training programmes treat use cases as illustration. The programmes that actually produce practitioners treat them as architecture. The difference is not stylistic — it determines whether the learning transfers to production.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">11 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Nov 2025 -->
+        <a href="Blog/article-rag-constraint-decision.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: RAG is not a feature. It's a constraint decision.">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">RAG is not a feature. It's a constraint decision.</div>
+          <div class="article-card__date">November 2025</div>
+          <div class="article-card__desc">Everyone talks about RAG as something you add to a system. Nobody talks about the four architectural trade-offs you lock in the moment you choose it — usually without realising that is what you are doing.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">13 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-finetuning-not-retrieval-fix.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: Fine-tuning is not the answer to a bad retrieval system">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">Fine-tuning is not the answer to a bad retrieval system</div>
+          <div class="article-card__date">November 2025</div>
+          <div class="article-card__desc">When a RAG system gives wrong answers, the instinct is to reach for the model. Almost every time, the problem is upstream — in how the documents were chunked, how the query was routed, or what the retrieval layer was actually returning.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">13 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Oct 2025 -->
+        <a href="Blog/article-why-technical-training-fails-before-it-starts.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: Why most technical training fails before it starts">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">Why most technical training fails before it starts</div>
+          <div class="article-card__date">October 2025</div>
+          <div class="article-card__desc">The room isn't where it goes wrong. The room is just where you find out. The structural failure is earlier — in a design process that asks what to cover, rather than what practitioners need to be able to do when they leave.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">10 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-what-happens-in-the-brain.html"
+           class="article-card"
+           data-track="practice-enablement"
+           aria-label="Read: What happens in the brain during technical training">
+          <div class="article-card__track">Practice Enablement</div>
+          <div class="article-card__title">What happens in the brain during technical training</div>
+          <div class="article-card__date">October 2025</div>
+          <div class="article-card__desc">The brain is not a hard drive. After training over a thousand participants, I can tell you exactly what it is doing instead — and why most training programmes design straight past it.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">10 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <!-- Sep 2025 -->
+        <a href="Blog/article-model-last.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: The model is the last thing you should worry about">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">The model is the last thing you should worry about</div>
+          <div class="article-card__date">September 2025</div>
+          <div class="article-card__desc">The AI conversation is obsessed with which model to use. In most applied ML projects, the model choice is one of the least consequential decisions you make — and it is almost always made too early.</div>
+          <div class="article-card__meta">
+            <span class="article-card__read-time">14 min read</span>
+            <span class="article-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="Blog/article-question-problem.html"
+           class="article-card"
+           data-track="ml-engineering"
+           aria-label="Read: You don't have a data problem. You have a question problem.">
+          <div class="article-card__track">ML Engineering</div>
+          <div class="article-card__title">You don't have a data problem. You have a question problem.</div>
+          <div class="article-card__date">September 2025</div>
+          <div class="article-card__desc">Most ML projects fail before a single model is trained. Not because the data was bad or the algorithm was wrong — because nobody stopped to check whether they were solving the right problem.</div>
           <div class="article-card__meta">
             <span class="article-card__read-time">12 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- ML: Fine-Tuning Is Not a Retrieval Fix -->
-        <a href="#"
-           class="article-card"
-           data-track="ml-engineering"
-           aria-label="Read: Fine-Tuning Is Not a Retrieval Fix">
-          <div class="article-card__track">ML Engineering</div>
-          <div class="article-card__title">Fine-Tuning Is Not a Retrieval Fix</div>
-          <div class="article-card__desc">The decision to fine-tune is an economic and architectural decision, not a performance one. Getting it wrong is expensive in ways that do not show up until the model is already in production and the retraining cycle has begun.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">8 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- ML: When ML Is Not The Answer -->
-        <a href="#"
-           class="article-card"
-           data-track="ml-engineering"
-           aria-label="Read: The Question Problem: When ML Is Not The Answer">
-          <div class="article-card__track">ML Engineering</div>
-          <div class="article-card__title">The Question Problem: When ML Is Not The Answer</div>
-          <div class="article-card__desc">The restraint layer is the most undervalued capability in a technical practitioner. Knowing when the problem does not require a model — and being able to make that case with the same rigour as the argument for building one — is a production discipline, not a philosophical position.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">7 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- ML: Model-Last -->
-        <a href="#"
-           class="article-card"
-           data-track="ml-engineering"
-           aria-label="Read: Model-Last: Why Architecture Comes Before Model Selection">
-          <div class="article-card__track">ML Engineering</div>
-          <div class="article-card__title">Model-Last: Why Architecture Comes Before Model Selection</div>
-          <div class="article-card__desc">Model selection is a constraint satisfaction problem. The constraints — data governance obligations, latency requirements, explainability standards, retraining economics — must be defined before the model is chosen, not renegotiated to accommodate the one that was chosen first.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">10 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- ML: RAG -->
-        <a href="#"
-           class="article-card"
-           data-track="ml-engineering"
-           aria-label="Read: RAG as a Constraint Decision">
-          <div class="article-card__track">ML Engineering</div>
-          <div class="article-card__title">RAG as a Constraint Decision</div>
-          <div class="article-card__desc">Retrieval-augmented generation is not a default pattern for knowledge-intensive systems. It is a constraint decision with a cost structure, a governance surface, and a set of failure modes that must be understood before the retrieval layer is designed.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">9 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- Practice Enablement: Wipro -->
-        <a href="#"
-           class="article-card"
-           data-track="practice-enablement"
-           aria-label="Read: What Wipro Taught Me About Partner Enablement">
-          <div class="article-card__track">Practice Enablement</div>
-          <div class="article-card__title">What Wipro Taught Me About Partner Enablement</div>
-          <div class="article-card__desc">Enabling a partner practice at scale is not the same as training individuals. The unit of change is the team, and the measure of success is not what practitioners can recall at the end of the programme — it is what the practice can sustain six months after the facilitator has left.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">11 min read</span>
-            <span class="article-card__arrow" aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <!-- Practice Enablement: Forgetting Curve -->
-        <a href="#"
-           class="article-card"
-           data-track="practice-enablement"
-           aria-label="Read: The Forgetting Curve Is Not Your Enemy">
-          <div class="article-card__track">Practice Enablement</div>
-          <div class="article-card__title">The Forgetting Curve Is Not Your Enemy</div>
-          <div class="article-card__desc">Ebbinghaus showed us that retention decays predictably. What he did not show us is that the decay is front-loaded — and that the design decision that defeats it is not repetition. It is the quality of the first encoding: what is discovered is owned, what is told is forgotten.</div>
-          <div class="article-card__meta">
-            <span class="article-card__read-time">6 min read</span>
             <span class="article-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
@@ -809,18 +763,14 @@
 
   </main>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       FOOTER
-  ════════════════════════════════════════════════════════════════ -->
+  <!-- ── Footer ── -->
   <footer class="site-footer">
-
     <div class="footer-left">
       <a href="index.html" class="footer-wordmark" aria-label="DataDomine — home">
         <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
       </a>
       <span class="footer-tagline">Production-Ready. By Design.</span>
     </div>
-
     <div class="footer-right">
       <ul class="footer-links" aria-label="Footer navigation">
         <li><a href="index.html">Home</a></li>
@@ -832,32 +782,20 @@
       </ul>
       <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
     </div>
-      <div class="footer-social">
-        <a href="https://www.linkedin.com/company/128583967" target="_blank" rel="noopener" aria-label="DataDomine on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="DataDomine on YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
-        <a href="https://substack.com/" target="_blank" rel="noopener" aria-label="DataDomine on Substack"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M12 9v12"/></svg></a>
-        <a href="https://x.com/datadomine" target="_blank" rel="noopener" aria-label="DataDomine on X"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
-        <a href="mailto:info.com" aria-label="Email DataDomine"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
-      </div>
-
   </footer>
 
   <script src="datadomine.js"></script>
   <script>
     (function () {
-
-      /* ── Footer year ── */
       var yearEl = document.getElementById('footer-year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      /* ── Filter logic ── */
       var filterBtns = document.querySelectorAll('.filter-btn');
       var cards      = document.querySelectorAll('.article-card');
       var gridEmpty  = document.getElementById('grid-empty');
 
       function applyFilter(filter) {
         var visibleCount = 0;
-
         cards.forEach(function (card) {
           var track = card.getAttribute('data-track');
           var show  = filter === 'all' || track === filter;
@@ -865,7 +803,6 @@
           card.style.display = show ? '' : 'none';
           if (show) visibleCount++;
         });
-
         if (gridEmpty) {
           gridEmpty.classList.toggle('is-visible', visibleCount === 0);
         }
@@ -874,19 +811,15 @@
       filterBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
           var filter = btn.getAttribute('data-filter');
-
           filterBtns.forEach(function (b) {
             b.classList.remove('is-active');
             b.setAttribute('aria-pressed', 'false');
           });
-
           btn.classList.add('is-active');
           btn.setAttribute('aria-pressed', 'true');
-
           applyFilter(filter);
         });
       });
-
     }());
   </script>
 

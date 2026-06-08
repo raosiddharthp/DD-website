@@ -1,490 +1,651 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The problem with learning objectives nobody talks about | Siddharth Potukuchi</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #1B3A5C;
-    --accent: #2E75B6;
-    --ink: #1a1a2e;
-    --mid: #5a6478;
-    --light: #f7f8fa;
-    --rule: #d8dde8;
-    --warm: #f9f6f1;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The problem with learning objectives nobody talks about — DataDomine Field Notes</title>
+  <meta name="description" content="Everyone writes them. Nobody holds them accountable. And the reason is hiding in plain sight — in the verbs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../datadomine.css">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+      --article-max: 720px;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-weight: 300;
-    background: var(--warm);
-    color: var(--ink);
-    line-height: 1.85;
-  }
+    html, body { height: 100%; }
 
-  /* ── NAV ── */
-  nav {
-    background: var(--navy);
-    padding: 18px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  nav .brand {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    color: white;
-    font-size: 1.1rem;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  nav .back {
-    color: rgba(255,255,255,0.65);
-    text-decoration: none;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    transition: color 0.2s;
-  }
-  nav .back:hover { color: white; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--navy);
-    padding: 80px 48px 72px;
-    text-align: center;
-  }
-  .hero .category {
-    display: inline-block;
-    color: var(--accent);
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    color: white;
-    line-height: 1.18;
-    max-width: 820px;
-    margin: 0 auto 24px;
-  }
-  .hero .deck {
-    font-family: 'Source Serif 4', serif;
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(255,255,255,0.7);
-    font-size: 1.15rem;
-    max-width: 640px;
-    margin: 0 auto 40px;
-    line-height: 1.65;
-  }
-  .hero .meta {
-    color: rgba(255,255,255,0.4);
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-    font-weight: 300;
-  }
+    /* ── Navigation ── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine .initial-d { color: var(--amber); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--deep-ink); }
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
 
-  /* ── ARTICLE BODY ── */
-  .article-wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 72px 24px 120px;
-  }
+    /* ── Main ── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
 
-  p {
-    font-size: 1.085rem;
-    margin-bottom: 1.65rem;
-    color: var(--ink);
-  }
+    /* ── Back bar ── */
+    .back-bar {
+      padding: 20px 48px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+    }
+    .back-bar a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .back-bar a:hover { color: var(--deep-ink); }
+    .back-bar a::before {
+      content: '←';
+      font-size: 14px;
+    }
 
-  p:first-of-type::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.8rem;
-    font-weight: 700;
-    float: left;
-    line-height: 0.82;
-    margin: 6px 12px 0 0;
-    color: var(--navy);
-  }
+    /* ── Article Hero ── */
+    .article-hero {
+      padding: 64px 48px 56px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      max-width: calc(var(--article-max) + 96px);
+    }
+    .article-hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .article-hero__eyebrow-rule {
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .article-hero__track-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-hero__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+      margin-bottom: 20px;
+    }
+    .article-hero__deck {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: var(--article-max);
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+    .article-hero__meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .article-hero__track {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .article-hero__date,
+    .article-hero__read-time {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+    }
+    .article-hero__date::before,
+    .article-hero__read-time::before {
+      content: '·';
+      margin-right: 20px;
+      color: rgba(13,17,23,0.2);
+    }
 
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.55rem;
-    color: var(--navy);
-    margin: 3rem 0 1.1rem;
-    line-height: 1.3;
-  }
+    /* ── Article Body ── */
+    .article-body {
+      padding: 56px 48px 80px;
+      max-width: calc(var(--article-max) + 96px);
+    }
 
-  h3 {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 600;
-    font-size: 0.82rem;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 2.5rem 0 0.6rem;
-  }
+    /* Typography */
+    .article-body p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+    }
+    .article-body h2 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--deep-ink);
+      margin-top: 52px;
+      margin-bottom: 20px;
+    }
+    .article-body h3 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+    .article-body em {
+      font-style: italic;
+    }
+    .article-body strong {
+      font-weight: 600;
+    }
+    .article-body a {
+      color: var(--deep-ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(13,17,23,0.3);
+      transition: text-decoration-color 0.15s ease;
+    }
+    .article-body a:hover {
+      text-decoration-color: var(--amber);
+    }
 
-  /* pull quote */
-  blockquote {
-    border-left: 4px solid var(--accent);
-    margin: 2.8rem 0;
-    padding: 4px 0 4px 32px;
-  }
-  blockquote p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--navy);
-    line-height: 1.55;
-    margin: 0;
-  }
-  blockquote p::first-letter { all: unset; }
-  blockquote cite {
-    display: block;
-    margin-top: 10px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.8rem;
-    color: var(--mid);
-    font-style: normal;
-    letter-spacing: 0.05em;
-  }
+    /* Lists */
+    .article-body ul,
+    .article-body ol {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    .article-body li {
+      margin-bottom: 8px;
+    }
 
-  /* callout box */
-  .callout {
-    background: white;
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--accent);
-    padding: 28px 32px;
-    margin: 2.8rem 0;
-    border-radius: 0 0 4px 4px;
-  }
-  .callout .label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-  .callout p {
-    font-size: 0.97rem;
-    color: var(--mid);
-    margin: 0;
-    line-height: 1.7;
-  }
-  .callout p::first-letter { all: unset; }
+    /* Blockquote */
+    .article-body blockquote,
+    .article-body .article-blockquote {
+      border-left: 3px solid var(--amber);
+      margin: 40px 0;
+      padding: 4px 0 4px 28px;
+    }
+    .article-body blockquote p,
+    .article-body .article-blockquote p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+      margin-bottom: 0;
+    }
 
-  /* verb table */
-  .verb-table {
-    margin: 2.8rem 0;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .verb-table .table-header {
-    background: var(--navy);
-    padding: 14px 24px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr;
-    gap: 16px;
-  }
-  .verb-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr;
-    gap: 16px;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--rule);
-    background: white;
-    align-items: start;
-  }
-  .verb-row:last-child { border-bottom: none; }
-  .verb-row.safe {
-    background: #fdf8f3;
-  }
-  .verb-row.honest {
-    background: #f0f5fb;
-    border-left: 3px solid var(--accent);
-  }
-  .verb-row .the-verb {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--navy);
-    font-style: italic;
-  }
-  .verb-row .why-safe {
-    font-size: 0.88rem;
-    color: var(--mid);
-    line-height: 1.6;
-  }
-  .verb-row .honest-version {
-    font-size: 0.88rem;
-    color: var(--ink);
-    line-height: 1.6;
-  }
-  .verb-row.honest .honest-version {
-    color: var(--accent);
-    font-weight: 600;
-  }
+    /* Horizontal rule */
+    .article-body hr,
+    .article-body .article-rule {
+      border: none;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      margin: 48px 0;
+    }
 
-  /* section rule */
-  .section-rule {
-    width: 48px;
-    height: 3px;
-    background: var(--accent);
-    margin: 3rem auto;
-  }
+    /* Callout / aside */
+    .article-body aside,
+    .article-body .article-callout {
+      background: rgba(13,17,23,0.04);
+      border-left: 3px solid rgba(13,17,23,0.15);
+      padding: 24px 28px;
+      margin: 40px 0;
+      border-radius: 0 2px 2px 0;
+    }
+    .article-body .callout-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .article-body aside p,
+    .article-body .article-callout p {
+      font-size: 15px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .article-body aside p:last-child,
+    .article-body .article-callout p:last-child {
+      margin-bottom: 0;
+    }
 
-  /* footnote area */
-  .footnotes {
-    border-top: 1px solid var(--rule);
-    margin-top: 4rem;
-    padding-top: 2rem;
-  }
-  .footnotes h4 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 1rem;
-  }
-  .footnotes p {
-    font-size: 0.83rem;
-    color: var(--mid);
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-  .footnotes p::first-letter { all: unset; }
+    /* Code */
+    .article-body code {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 13px;
+      background: rgba(13,17,23,0.06);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .article-body pre {
+      background: var(--deep-ink);
+      color: var(--arch-white);
+      padding: 24px 28px;
+      border-radius: 2px;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .article-body pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
 
-  /* author bio */
-  .author-bio {
-    background: var(--navy);
-    color: white;
-    padding: 48px;
-    margin-top: 80px;
-    display: flex;
-    gap: 28px;
-    align-items: flex-start;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0;
-  }
-  .author-bio .bio-initial {
-    width: 56px;
-    height: 56px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: white;
-    flex-shrink: 0;
-  }
-  .author-bio .bio-text .name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: white;
-    margin-bottom: 6px;
-  }
-  .author-bio .bio-text p {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.65;
-    margin: 0;
-  }
-  .author-bio .bio-text p::first-letter { all: unset; }
+    /* ── Closing CTA ── */
+    .article-cta {
+      margin: 64px 0 0;
+      padding-top: 48px;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .article-cta__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-cta__text {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: 480px;
+    }
+    .article-cta__links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+    .article-cta__link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(13,17,23,0.25);
+      padding-bottom: 2px;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .article-cta__link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
 
-  em { font-style: italic; }
-  strong { font-weight: 600; color: var(--navy); }
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--deep-ink);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: auto;
+    }
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine .initial-d { color: var(--amber); }
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.4);
+      letter-spacing: 0.04em;
+    }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      list-style: none;
+      justify-content: flex-end;
+    }
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248,246,241,0.55);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover { color: var(--arch-white); }
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.3);
+    }
 
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    .hero { padding: 52px 20px 48px; }
-    .article-wrap { padding: 48px 20px 80px; }
-    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
-    .verb-table .table-header,
-    .verb-row { grid-template-columns: 1fr; gap: 4px; }
-    .verb-table .table-header span:not(:first-child) { display: none; }
-  }
-</style>
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 0 24px; }
+      .back-bar { padding: 16px 24px; }
+      .article-hero { padding: 48px 24px 40px; }
+      .article-body { padding: 40px 24px 64px; }
+      .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      .footer-right { align-items: flex-start; }
+      .footer-links { justify-content: flex-start; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="brand">Siddharth Potukuchi</a>
-  <a href="writing.html" class="back">← All Writing</a>
-</nav>
+  <!-- ── Navigation ── -->
+  <nav class="site-nav" id="site-nav" aria-label="Site navigation">
+    <a href="../../index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <svg width="14" height="36" viewBox="0 0 14 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:10px;">
+        <circle cx="7" cy="7" r="7" fill="#D97706"/>
+        <rect x="5.5" y="7" width="3" height="26" fill="#0D1117"/>
+      </svg>
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../about.html">About</a></li>
+      <li><a href="../../framework.html">The Framework</a></li>
+      <li><a href="../../programmes.html">Programmes</a></li>
+      <li><a href="../../field-notes.html" class="active">Field Notes</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="hero">
-  <span class="category">Curriculum Design</span>
-  <h1>The problem with learning objectives nobody talks about</h1>
-  <p class="deck">Everyone writes them. Nobody holds them accountable. And the reason is hiding in plain sight — in the verbs.</p>
-  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; August 2024 &nbsp;·&nbsp; 11 min read</span>
+  <main class="site-main">
+
+    <!-- ── Back bar ── -->
+    <div class="back-bar">
+      <a href="../../field-notes.html">Field Notes</a>
+    </div>
+
+    <!-- ── Article Hero ── -->
+    <header class="article-hero">
+      <div class="article-hero__eyebrow">
+        <div class="article-hero__eyebrow-rule"></div>
+        <span class="article-hero__track-label">Field Notes</span>
+      </div>
+      <h1 class="article-hero__title">The problem with learning objectives nobody talks about</h1>
+        <p class="article-hero__deck">Everyone writes them. Nobody holds them accountable. And the reason is hiding in plain sight — in the verbs.</p>
+      <div class="article-hero__meta">
+        <span class="article-hero__track">Practice Enablement</span>
+          <span class="article-hero__date">December 2025</span>
+          <span class="article-hero__read-time">11 min read</span>
+      </div>
+    </header>
+
+    <!-- ── Article Body ── -->
+    <article class="article-body" aria-label="Article content">
+
+<p>Open any training program and you'll find them. Slide two, usually. Sometimes in the facilitator guide. Sometimes laminated on the wall. Learning objectives. Neat, numbered, professionally worded. By the end of this session, participants will be able to understand the core configuration framework. Appreciate the key principles of solution design. Be familiar with the end-to-end workflow.</p>
+<p>I have written hundreds of them. I spent years writing them without once asking the question that should have come first: <em>who is this actually for?</em></p>
+<p>Not the participant. That's what the phrasing implies — "participants will be able to." But look at who reads learning objectives in practice. The L&amp;D team reads them. The program manager reads them. The client sponsor reads them, sometimes, if they're thorough. The participant, in my experience, reads them at the start of day one and forgets them by the first coffee break. The learning objective is addressed to the participant and written for everyone else. That inversion is where the problem starts.</p>
+<hr class="article-rule">
+<h2>The audience problem</h2>
+<p>When you write for an audience that isn't the person doing the learning, the objective stops being a commitment and starts being a communication artifact. You're signalling to a stakeholder that the program has been designed thoughtfully. You're giving the program manager something to put in the deck. You're demonstrating due diligence.</p>
+<p>None of those things require the objective to be honest. They require it to look credible. And "look credible" is a much lower bar than "be true."</p>
+<p>This is why the same verbs appear in learning objectives across almost every technical training program ever written. <em>Understand. Appreciate. Be familiar with. Demonstrate awareness of.</em> These words were not chosen because they describe what the participant will actually be able to do. They were chosen because they cannot be falsified. If the participant underperforms in their first month back at work, you can always say they understood the content, they just didn't apply it optimally. The objective survives the failure because it was never designed to prevent it.</p>
+<blockquote class="article-blockquote">
+<p>A learning objective written to survive failure has already failed. It just hasn't been caught yet.</p>
+</blockquote>
+<p>The participant, if they read it at all, gets no useful information from "will be able to understand." Understand to what depth? Under what conditions? Enough to answer a quiz question or enough to configure a live system with a client watching? Those are not the same cognitive state, and the verb "understand" covers both equally — which is to say, it covers neither.</p>
+<hr class="article-rule">
+<h2>The verb problem</h2>
+<p>Robert Mager figured this out in 1962. His framework for writing instructional objectives was built on a simple principle: a useful objective describes observable behaviour, not internal states. You can observe someone configure a system. You can observe them diagnose a fault. You can observe them present a solution recommendation to a client. You cannot observe them "appreciate" or "understand" or "be familiar with" anything. Those words describe what might be happening inside someone's head. They are not outcomes. They are hopes.</p>
+<p>Mager called verbs like "understand" and "appreciate" <strong>covert behaviours</strong> — states that can only be inferred, never directly observed. He wasn't against them because they're vague. He was against them because they're untestable. And an untestable objective is not a design constraint. It's decoration.</p>
+<p>The honest version of most corporate learning objectives would look very different. Not longer. Not more elaborate. Just specific about the conditions and the standard. Not "participants will understand the configuration framework" but "participants will configure a multi-tier pricing structure in an unsupported environment, within 45 minutes, without reference materials." Same domain. Entirely different promise.</p>
+<div class="verb-table">
+<div class="table-header">
+<span>The verb</span>
+<span>Why it gets chosen</span>
+<span>The honest version</span>
+</div>
+<div class="verb-row safe">
+<div class="the-verb">Understand</div>
+<div class="why-safe">Covers everything from surface recall to deep application. Impossible to disprove.</div>
+<div class="honest-version">Configure / diagnose / explain without reference materials under timed conditions</div>
+</div>
+<div class="verb-row safe">
+<div class="the-verb">Appreciate</div>
+<div class="why-safe">Implies value has been communicated. Requires nothing of the participant beyond passive reception.</div>
+<div class="honest-version">Recommend an approach, with documented rationale, to a client with competing requirements</div>
+</div>
+<div class="verb-row safe">
+<div class="the-verb">Be familiar with</div>
+<div class="why-safe">The lowest bar in the vocabulary. Technically satisfied by a single mention in a slide.</div>
+<div class="honest-version">Locate, retrieve, and apply — without being directed to the right feature first</div>
+</div>
+<div class="verb-row safe">
+<div class="the-verb">Demonstrate awareness of</div>
+<div class="why-safe">Doesn't even require recall. Awareness can be claimed for anything the participant was present for.</div>
+<div class="honest-version">Identify — in a novel scenario — when this principle applies and when it doesn't</div>
+</div>
+<div class="verb-row honest">
+<div class="the-verb">Configure</div>
+<div class="why-safe">Observable. Testable. Either the system works or it doesn't.</div>
+<div class="honest-version">This is what production-ready looks like. Write this one.</div>
+</div>
+</div>
+<p>The table above isn't a rhetorical exercise. It's a design audit tool. Take any program's objectives, run them through it, and count how many land in the "safe verb" rows. In most programs, the ratio is roughly four to one. Four unverifiable objectives for every one that makes a real claim about what participants will be able to do. That ratio is not accidental. It reflects a system that rewards the appearance of accountability without requiring the substance of it.</p>
+<hr class="article-rule">
+<h2>The honesty gap</h2>
+<p>Here is the more uncomfortable version of the verb problem: sometimes the verb is chosen because the design can't deliver anything stronger.</p>
+<p>If your training consists of demonstrations, walkthroughs, and guided exercises where every answer is on the preceding slide, you cannot write "participants will configure independently." The design doesn't support that claim. So you write "participants will understand the configuration process" — which the design can support, because understanding is unverifiable and anything you did in the room technically counts.</p>
+<p>The verb is weak because the program is weak. But the verb hides the weakness. Nobody looking at the learning objectives on slide two sees the gap between what's promised and what's designed. They see a professionally assembled list of intentions and assume the program behind it delivers on them.</p>
+<p>This is the honesty gap. It lives between the objective and the exercise. Between what the learning objective says the participant will be able to do and what the hardest activity in the program actually demands of them. In most technical training programs, that gap is large. It is also invisible — because the objective was written to be reassuring, not to be tested.</p>
+<aside class="article-callout">
+<div class="label">The audit move</aside>
+<p>Before you finalise any set of learning objectives, run a single check: take the hardest exercise in the program — the thing participants do that is closest to independent, unguided performance — and ask what verb it actually earns. If the exercise involves following a documented walkthrough, the verb is "replicate." If participants configure a feature with reference slides available, the verb might reach "apply" with scaffolding. If they work through a novel scenario without guidance, you're approaching genuine application. Map your hardest exercise to a verb. Then check whether your objective matches it. If the objective claims more than the exercise delivers, you have a honesty gap. Name it or close it. Those are the only two options.</p>
+</div>
+<hr class="article-rule">
+<h2>Who the objective should actually serve</h2>
+<p>The argument for rewriting learning objectives is not aesthetic. It's structural. An objective written in falsifiable language — observable behaviour, specific conditions, defined standard — does something a covert-behaviour objective cannot do: it functions as a design constraint.</p>
+<p>If I write "participants will configure a multi-tier pricing structure in an unsupported environment, within 45 minutes, without reference materials," I have made a promise that the program must now keep. The assessment has to test that exact thing. The exercises have to build toward it. The scaffolding has to prepare participants for unsupported performance, not just guided replication. The objective has become a backwards-design anchor — everything in the program pulls toward it.</p>
+<p>That is what a learning objective is supposed to do. Not communicate to stakeholders that the program exists. Not demonstrate that the L&amp;D team has done its planning. It is supposed to define the target so precisely that every design decision can be evaluated against it: does this activity move participants toward the stated outcome, or not?</p>
+<p>When I rewrote the objectives for the advanced curriculum at Apttus — not just the language, but what we were actually claiming to produce — the redesign that followed was not optional. The objective said "evaluate and recommend." The existing program reached "apply with guidance." There was a two-level gap. The only way to close it was to redesign the exercises, the assessment, and the facilitator's role in the room. The honest objective forced the honest design. That, and not any particular activity or content choice, is why the IBM Americas results eventually looked the way they did.</p>
+<blockquote class="article-blockquote">
+<p>The objective is a claim. The program is the evidence. If you write the claim first — honestly — the program has to live up to it. Most programs write the claim last, after the content is already fixed. That is the wrong order.</p>
+</blockquote>
+<hr class="article-rule">
+<h2>The participant deserves to know</h2>
+<p>There is a final dimension to this that the technical literature addresses less directly, but which matters enormously in the room: the participant's relationship to the objective.</p>
+<p>If a learning objective is written in observable, specific language, the participant can use it. They can ask themselves, at any point in the program, whether they are on track to meet it. They can self-assess. They can ask the facilitator for the practice they need. They can recognise, on the last day, whether they've arrived at the stated destination or not.</p>
+<p>A participant who has been told they will "appreciate the key principles of solution design" has been given nothing useful. They cannot self-assess against it. They cannot know whether they've achieved it. They walk out of the room with whatever they absorbed, and no honest frame for understanding whether it's enough.</p>
+<p>An objective written for the participant — genuinely for them, not for the program manager — gives them the answer to the question they're always asking but rarely get to ask directly: <em>what does good look like, at the end of this, in conditions that resemble the job?</em></p>
+<p>That is not a complex question. It deserves a direct answer. Most learning objectives provide everything except that.</p>
+<p>Write the objective you'd be prepared to be held to. If you wouldn't put your name on it in front of the participant's manager six months after training ends, it isn't an objective. It's a cover story.</p>
+<div class="footnotes">
+<h4>References &amp; Further Reading</h4>
+<p>Mager, R.F. (1962). <em>Preparing Instructional Objectives.</em> Fearon Publishers. — The foundational text on observable, testable learning objectives. Still the clearest treatment of the covert/overt behaviour distinction.</p>
+<p>Mager, R.F. (1997). <em>Preparing Instructional Objectives: A Critical Tool in the Development of Effective Instruction.</em> 3rd Edition. CEP Press.</p>
+<p>Wiggins, G., &amp; McTighe, J. (2005). <em>Understanding by Design.</em> 2nd Edition. ASCD. — On backwards design: defining the desired outcomes first, then designing instruction to reach them.</p>
+<p>Anderson, L.W., &amp; Krathwohl, D.R. (Eds.) (2001). <em>A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives.</em> Longman. — The revised taxonomy distinguishes cognitive processes (the verbs) from knowledge types; relevant for writing objectives at the right level.</p>
+<p>Dick, W., Carey, L., &amp; Carey, J.O. (2014). <em>The Systematic Design of Instruction.</em> 8th Edition. Pearson. — Chapter 4 covers performance objectives and the conditions-behaviour-criterion structure in detail.</p>
 </div>
 
-<div class="article-wrap">
+      <!-- ── Closing CTA ── -->
+      <div class="article-cta">
+        <span class="article-cta__label">Continue reading</span>
+        <p class="article-cta__text">These notes are published when there is something worth saying. To receive new Field Notes directly, write to hello@datadomine.com with the subject line: Field Notes.</p>
+        <div class="article-cta__links">
+          <a href="../../field-notes.html" class="article-cta__link">All Field Notes</a>
+          <a href="../../programmes.html" class="article-cta__link">Programmes</a>
+          <a href="../../contact.html" class="article-cta__link">Get in touch</a>
+        </div>
+      </div>
 
-  <p>Open any training program and you'll find them. Slide two, usually. Sometimes in the facilitator guide. Sometimes laminated on the wall. Learning objectives. Neat, numbered, professionally worded. By the end of this session, participants will be able to understand the core configuration framework. Appreciate the key principles of solution design. Be familiar with the end-to-end workflow.</p>
+    </article>
 
-  <p>I have written hundreds of them. I spent years writing them without once asking the question that should have come first: <em>who is this actually for?</em></p>
+  </main>
 
-  <p>Not the participant. That's what the phrasing implies — "participants will be able to." But look at who reads learning objectives in practice. The L&D team reads them. The program manager reads them. The client sponsor reads them, sometimes, if they're thorough. The participant, in my experience, reads them at the start of day one and forgets them by the first coffee break. The learning objective is addressed to the participant and written for everyone else. That inversion is where the problem starts.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The audience problem</h2>
-
-  <p>When you write for an audience that isn't the person doing the learning, the objective stops being a commitment and starts being a communication artifact. You're signalling to a stakeholder that the program has been designed thoughtfully. You're giving the program manager something to put in the deck. You're demonstrating due diligence.</p>
-
-  <p>None of those things require the objective to be honest. They require it to look credible. And "look credible" is a much lower bar than "be true."</p>
-
-  <p>This is why the same verbs appear in learning objectives across almost every technical training program ever written. <em>Understand. Appreciate. Be familiar with. Demonstrate awareness of.</em> These words were not chosen because they describe what the participant will actually be able to do. They were chosen because they cannot be falsified. If the participant underperforms in their first month back at work, you can always say they understood the content, they just didn't apply it optimally. The objective survives the failure because it was never designed to prevent it.</p>
-
-  <blockquote>
-    <p>A learning objective written to survive failure has already failed. It just hasn't been caught yet.</p>
-  </blockquote>
-
-  <p>The participant, if they read it at all, gets no useful information from "will be able to understand." Understand to what depth? Under what conditions? Enough to answer a quiz question or enough to configure a live system with a client watching? Those are not the same cognitive state, and the verb "understand" covers both equally — which is to say, it covers neither.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The verb problem</h2>
-
-  <p>Robert Mager figured this out in 1962. His framework for writing instructional objectives was built on a simple principle: a useful objective describes observable behaviour, not internal states. You can observe someone configure a system. You can observe them diagnose a fault. You can observe them present a solution recommendation to a client. You cannot observe them "appreciate" or "understand" or "be familiar with" anything. Those words describe what might be happening inside someone's head. They are not outcomes. They are hopes.</p>
-
-  <p>Mager called verbs like "understand" and "appreciate" <strong>covert behaviours</strong> — states that can only be inferred, never directly observed. He wasn't against them because they're vague. He was against them because they're untestable. And an untestable objective is not a design constraint. It's decoration.</p>
-
-  <p>The honest version of most corporate learning objectives would look very different. Not longer. Not more elaborate. Just specific about the conditions and the standard. Not "participants will understand the configuration framework" but "participants will configure a multi-tier pricing structure in an unsupported environment, within 45 minutes, without reference materials." Same domain. Entirely different promise.</p>
-
-  <div class="verb-table">
-    <div class="table-header">
-      <span>The verb</span>
-      <span>Why it gets chosen</span>
-      <span>The honest version</span>
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <a href="../../index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
     </div>
-    <div class="verb-row safe">
-      <div class="the-verb">Understand</div>
-      <div class="why-safe">Covers everything from surface recall to deep application. Impossible to disprove.</div>
-      <div class="honest-version">Configure / diagnose / explain without reference materials under timed conditions</div>
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../framework.html">The Framework</a></li>
+        <li><a href="../../programmes.html">Programmes</a></li>
+        <li><a href="../../field-notes.html">Field Notes</a></li>
+        <li><a href="../../contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
     </div>
-    <div class="verb-row safe">
-      <div class="the-verb">Appreciate</div>
-      <div class="why-safe">Implies value has been communicated. Requires nothing of the participant beyond passive reception.</div>
-      <div class="honest-version">Recommend an approach, with documented rationale, to a client with competing requirements</div>
-    </div>
-    <div class="verb-row safe">
-      <div class="the-verb">Be familiar with</div>
-      <div class="why-safe">The lowest bar in the vocabulary. Technically satisfied by a single mention in a slide.</div>
-      <div class="honest-version">Locate, retrieve, and apply — without being directed to the right feature first</div>
-    </div>
-    <div class="verb-row safe">
-      <div class="the-verb">Demonstrate awareness of</div>
-      <div class="why-safe">Doesn't even require recall. Awareness can be claimed for anything the participant was present for.</div>
-      <div class="honest-version">Identify — in a novel scenario — when this principle applies and when it doesn't</div>
-    </div>
-    <div class="verb-row honest">
-      <div class="the-verb">Configure</div>
-      <div class="why-safe">Observable. Testable. Either the system works or it doesn't.</div>
-      <div class="honest-version">This is what production-ready looks like. Write this one.</div>
-    </div>
-  </div>
+  </footer>
 
-  <p>The table above isn't a rhetorical exercise. It's a design audit tool. Take any program's objectives, run them through it, and count how many land in the "safe verb" rows. In most programs, the ratio is roughly four to one. Four unverifiable objectives for every one that makes a real claim about what participants will be able to do. That ratio is not accidental. It reflects a system that rewards the appearance of accountability without requiring the substance of it.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The honesty gap</h2>
-
-  <p>Here is the more uncomfortable version of the verb problem: sometimes the verb is chosen because the design can't deliver anything stronger.</p>
-
-  <p>If your training consists of demonstrations, walkthroughs, and guided exercises where every answer is on the preceding slide, you cannot write "participants will configure independently." The design doesn't support that claim. So you write "participants will understand the configuration process" — which the design can support, because understanding is unverifiable and anything you did in the room technically counts.</p>
-
-  <p>The verb is weak because the program is weak. But the verb hides the weakness. Nobody looking at the learning objectives on slide two sees the gap between what's promised and what's designed. They see a professionally assembled list of intentions and assume the program behind it delivers on them.</p>
-
-  <p>This is the honesty gap. It lives between the objective and the exercise. Between what the learning objective says the participant will be able to do and what the hardest activity in the program actually demands of them. In most technical training programs, that gap is large. It is also invisible — because the objective was written to be reassuring, not to be tested.</p>
-
-  <div class="callout">
-    <div class="label">The audit move</div>
-    <p>Before you finalise any set of learning objectives, run a single check: take the hardest exercise in the program — the thing participants do that is closest to independent, unguided performance — and ask what verb it actually earns. If the exercise involves following a documented walkthrough, the verb is "replicate." If participants configure a feature with reference slides available, the verb might reach "apply" with scaffolding. If they work through a novel scenario without guidance, you're approaching genuine application. Map your hardest exercise to a verb. Then check whether your objective matches it. If the objective claims more than the exercise delivers, you have a honesty gap. Name it or close it. Those are the only two options.</p>
-  </div>
-
-  <div class="section-rule"></div>
-
-  <h2>Who the objective should actually serve</h2>
-
-  <p>The argument for rewriting learning objectives is not aesthetic. It's structural. An objective written in falsifiable language — observable behaviour, specific conditions, defined standard — does something a covert-behaviour objective cannot do: it functions as a design constraint.</p>
-
-  <p>If I write "participants will configure a multi-tier pricing structure in an unsupported environment, within 45 minutes, without reference materials," I have made a promise that the program must now keep. The assessment has to test that exact thing. The exercises have to build toward it. The scaffolding has to prepare participants for unsupported performance, not just guided replication. The objective has become a backwards-design anchor — everything in the program pulls toward it.</p>
-
-  <p>That is what a learning objective is supposed to do. Not communicate to stakeholders that the program exists. Not demonstrate that the L&D team has done its planning. It is supposed to define the target so precisely that every design decision can be evaluated against it: does this activity move participants toward the stated outcome, or not?</p>
-
-  <p>When I rewrote the objectives for the advanced curriculum at Apttus — not just the language, but what we were actually claiming to produce — the redesign that followed was not optional. The objective said "evaluate and recommend." The existing program reached "apply with guidance." There was a two-level gap. The only way to close it was to redesign the exercises, the assessment, and the facilitator's role in the room. The honest objective forced the honest design. That, and not any particular activity or content choice, is why the IBM Americas results eventually looked the way they did.</p>
-
-  <blockquote>
-    <p>The objective is a claim. The program is the evidence. If you write the claim first — honestly — the program has to live up to it. Most programs write the claim last, after the content is already fixed. That is the wrong order.</p>
-  </blockquote>
-
-  <div class="section-rule"></div>
-
-  <h2>The participant deserves to know</h2>
-
-  <p>There is a final dimension to this that the technical literature addresses less directly, but which matters enormously in the room: the participant's relationship to the objective.</p>
-
-  <p>If a learning objective is written in observable, specific language, the participant can use it. They can ask themselves, at any point in the program, whether they are on track to meet it. They can self-assess. They can ask the facilitator for the practice they need. They can recognise, on the last day, whether they've arrived at the stated destination or not.</p>
-
-  <p>A participant who has been told they will "appreciate the key principles of solution design" has been given nothing useful. They cannot self-assess against it. They cannot know whether they've achieved it. They walk out of the room with whatever they absorbed, and no honest frame for understanding whether it's enough.</p>
-
-  <p>An objective written for the participant — genuinely for them, not for the program manager — gives them the answer to the question they're always asking but rarely get to ask directly: <em>what does good look like, at the end of this, in conditions that resemble the job?</em></p>
-
-  <p>That is not a complex question. It deserves a direct answer. Most learning objectives provide everything except that.</p>
-
-  <p>Write the objective you'd be prepared to be held to. If you wouldn't put your name on it in front of the participant's manager six months after training ends, it isn't an objective. It's a cover story.</p>
-
-  <div class="footnotes">
-    <h4>References & Further Reading</h4>
-    <p>Mager, R.F. (1962). <em>Preparing Instructional Objectives.</em> Fearon Publishers. — The foundational text on observable, testable learning objectives. Still the clearest treatment of the covert/overt behaviour distinction.</p>
-    <p>Mager, R.F. (1997). <em>Preparing Instructional Objectives: A Critical Tool in the Development of Effective Instruction.</em> 3rd Edition. CEP Press.</p>
-    <p>Wiggins, G., & McTighe, J. (2005). <em>Understanding by Design.</em> 2nd Edition. ASCD. — On backwards design: defining the desired outcomes first, then designing instruction to reach them.</p>
-    <p>Anderson, L.W., & Krathwohl, D.R. (Eds.) (2001). <em>A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives.</em> Longman. — The revised taxonomy distinguishes cognitive processes (the verbs) from knowledge types; relevant for writing objectives at the right level.</p>
-    <p>Dick, W., Carey, L., & Carey, J.O. (2014). <em>The Systematic Design of Instruction.</em> 8th Edition. Pearson. — Chapter 4 covers performance objectives and the conditions-behaviour-criterion structure in detail.</p>
-  </div>
-
-</div>
-
-<div class="author-bio">
-  <div class="bio-initial">S</div>
-  <div class="bio-text">
-    <div class="name">Siddharth Potukuchi</div>
-    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
-  </div>
-</div>
+  <script src="../../datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
 
 </body>
 </html>

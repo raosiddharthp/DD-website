@@ -1,578 +1,683 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The model is the last thing you should worry about. | Siddharth Rao</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #1B3A5C;
-    --accent: #2E75B6;
-    --ink: #1a1a2e;
-    --mid: #5a6478;
-    --light: #f7f8fa;
-    --rule: #d8dde8;
-    --warm: #f9f6f1;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The model is the last thing you should worry about. — DataDomine Field Notes</title>
+  <meta name="description" content="The AI conversation is obsessed with which model to use. In most applied ML projects, the model choice is one of the least consequential decisions you make — an">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../datadomine.css">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+      --article-max: 720px;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-weight: 300;
-    background: var(--warm);
-    color: var(--ink);
-    line-height: 1.85;
-  }
+    html, body { height: 100%; }
 
-  /* ── NAV ── */
-  nav {
-    background: var(--navy);
-    padding: 18px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  nav .brand {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    color: white;
-    font-size: 1.1rem;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  nav .back {
-    color: rgba(255,255,255,0.65);
-    text-decoration: none;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    transition: color 0.2s;
-  }
-  nav .back:hover { color: white; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--navy);
-    padding: 80px 48px 72px;
-    text-align: center;
-  }
-  .hero .category {
-    display: inline-block;
-    color: var(--accent);
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    color: white;
-    line-height: 1.18;
-    max-width: 820px;
-    margin: 0 auto 24px;
-  }
-  .hero .deck {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 300;
-    font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: rgba(255,255,255,0.72);
-    max-width: 640px;
-    margin: 0 auto 32px;
-    line-height: 1.6;
-  }
-  .hero .meta {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.42);
-    letter-spacing: 0.06em;
-  }
+    /* ── Navigation ── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine .initial-d { color: var(--amber); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--deep-ink); }
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
 
-  /* ── ARTICLE BODY ── */
-  .article-wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 72px 24px 100px;
-  }
+    /* ── Main ── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
 
-  .article-wrap p {
-    font-size: 1.08rem;
-    margin-bottom: 1.6rem;
-    color: var(--ink);
-  }
+    /* ── Back bar ── */
+    .back-bar {
+      padding: 20px 48px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+    }
+    .back-bar a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .back-bar a:hover { color: var(--deep-ink); }
+    .back-bar a::before {
+      content: '←';
+      font-size: 14px;
+    }
 
-  .article-wrap p::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.4rem;
-    font-weight: 700;
-    float: left;
-    line-height: 0.82;
-    margin-right: 0.1em;
-    margin-top: 0.08em;
-    color: var(--navy);
-  }
+    /* ── Article Hero ── */
+    .article-hero {
+      padding: 64px 48px 56px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      max-width: calc(var(--article-max) + 96px);
+    }
+    .article-hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .article-hero__eyebrow-rule {
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .article-hero__track-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-hero__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+      margin-bottom: 20px;
+    }
+    .article-hero__deck {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: var(--article-max);
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+    .article-hero__meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .article-hero__track {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .article-hero__date,
+    .article-hero__read-time {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+    }
+    .article-hero__date::before,
+    .article-hero__read-time::before {
+      content: '·';
+      margin-right: 20px;
+      color: rgba(13,17,23,0.2);
+    }
 
-  .article-wrap p + p::first-letter { all: unset; }
+    /* ── Article Body ── */
+    .article-body {
+      padding: 56px 48px 80px;
+      max-width: calc(var(--article-max) + 96px);
+    }
 
-  .article-wrap h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.65rem;
-    color: var(--navy);
-    margin: 3.2rem 0 1.2rem;
-    line-height: 1.25;
-  }
+    /* Typography */
+    .article-body p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+    }
+    .article-body h2 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--deep-ink);
+      margin-top: 52px;
+      margin-bottom: 20px;
+    }
+    .article-body h3 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+    .article-body em {
+      font-style: italic;
+    }
+    .article-body strong {
+      font-weight: 600;
+    }
+    .article-body a {
+      color: var(--deep-ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(13,17,23,0.3);
+      transition: text-decoration-color 0.15s ease;
+    }
+    .article-body a:hover {
+      text-decoration-color: var(--amber);
+    }
 
-  blockquote {
-    border-left: 3px solid var(--accent);
-    margin: 2.4rem 0;
-    padding: 4px 0 4px 28px;
-  }
-  blockquote p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.22rem;
-    color: var(--navy);
-    line-height: 1.55;
-    margin: 0;
-  }
-  blockquote p::first-letter { all: unset; }
+    /* Lists */
+    .article-body ul,
+    .article-body ol {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    .article-body li {
+      margin-bottom: 8px;
+    }
 
-  .section-rule {
-    width: 48px;
-    height: 3px;
-    background: var(--accent);
-    margin: 3rem auto;
-  }
+    /* Blockquote */
+    .article-body blockquote,
+    .article-body .article-blockquote {
+      border-left: 3px solid var(--amber);
+      margin: 40px 0;
+      padding: 4px 0 4px 28px;
+    }
+    .article-body blockquote p,
+    .article-body .article-blockquote p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+      margin-bottom: 0;
+    }
 
-  /* ── CALLOUT ── */
-  .callout {
-    background: white;
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--accent);
-    padding: 28px 32px;
-    margin: 2.4rem 0;
-    border-radius: 0 4px 4px 0;
-  }
-  .callout .label {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-  .callout p {
-    font-size: 0.97rem;
-    color: var(--ink);
-    margin-bottom: 0.8rem;
-    line-height: 1.7;
-  }
-  .callout p:last-child { margin-bottom: 0; }
-  .callout p::first-letter { all: unset; }
+    /* Horizontal rule */
+    .article-body hr,
+    .article-body .article-rule {
+      border: none;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      margin: 48px 0;
+    }
 
-  /* ── SEQUENCE TABLE ── */
-  .sequence-list {
-    margin: 2.4rem 0;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .sl-header {
-    background: var(--navy);
-    padding: 16px 28px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-  }
-  .sl-row {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    border-bottom: 1px solid var(--rule);
-    background: white;
-  }
-  .sl-row:last-child { border-bottom: none; }
-  .sl-row:nth-child(even) { background: #fafafa; }
-  .sl-stage {
-    padding: 20px 28px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.93rem;
-    font-weight: 600;
-    color: var(--navy);
-    border-right: 1px solid var(--rule);
-    display: flex;
-    align-items: flex-start;
-    line-height: 1.5;
-  }
-  .sl-why {
-    padding: 20px 28px;
-    font-size: 0.88rem;
-    color: var(--mid);
-    line-height: 1.65;
-    font-style: italic;
-  }
+    /* Callout / aside */
+    .article-body aside,
+    .article-body .article-callout {
+      background: rgba(13,17,23,0.04);
+      border-left: 3px solid rgba(13,17,23,0.15);
+      padding: 24px 28px;
+      margin: 40px 0;
+      border-radius: 0 2px 2px 0;
+    }
+    .article-body .callout-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .article-body aside p,
+    .article-body .article-callout p {
+      font-size: 15px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .article-body aside p:last-child,
+    .article-body .article-callout p:last-child {
+      margin-bottom: 0;
+    }
 
-  /* ── TWO-COLUMN FRAME ── */
-  .compare-frame {
-    margin: 2.4rem 0;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .cmpf-header {
-    background: var(--navy);
-    padding: 16px 28px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-  }
-  .cmpf-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .cmpf-col {
-    padding: 28px;
-    background: white;
-  }
-  .cmpf-col:first-child {
-    border-right: 1px solid var(--rule);
-    background: #fafafa;
-  }
-  .cmpf-col-label {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .cmpf-col:first-child .cmpf-col-label { color: #c0392b; }
-  .cmpf-col:last-child .cmpf-col-label { color: #27ae60; }
-  .cmpf-col-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--navy);
-    margin-bottom: 10px;
-  }
-  .cmpf-col p {
-    font-size: 0.88rem;
-    color: var(--mid);
-    line-height: 1.65;
-    margin-bottom: 0;
-  }
-  .cmpf-col p::first-letter { all: unset; }
-  .cmpf-items {
-    margin-top: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .cmpf-item {
-    font-size: 0.85rem;
-    padding: 8px 12px;
-    border-radius: 3px;
-    line-height: 1.45;
-  }
-  .cmpf-col:first-child .cmpf-item { background: #fdecea; color: #c0392b; }
-  .cmpf-col:last-child .cmpf-item { background: #eafaf1; color: #27ae60; }
+    /* Code */
+    .article-body code {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 13px;
+      background: rgba(13,17,23,0.06);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .article-body pre {
+      background: var(--deep-ink);
+      color: var(--arch-white);
+      padding: 24px 28px;
+      border-radius: 2px;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .article-body pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
 
-  /* ── FOOTNOTES ── */
-  .footnotes {
-    border-top: 1px solid var(--rule);
-    margin-top: 4rem;
-    padding-top: 2rem;
-  }
-  .footnotes h4 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 1rem;
-  }
-  .footnotes p {
-    font-size: 0.83rem;
-    color: var(--mid);
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-  .footnotes p::first-letter { all: unset; }
+    /* ── Closing CTA ── */
+    .article-cta {
+      margin: 64px 0 0;
+      padding-top: 48px;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .article-cta__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-cta__text {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: 480px;
+    }
+    .article-cta__links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+    .article-cta__link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(13,17,23,0.25);
+      padding-bottom: 2px;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .article-cta__link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
 
-  /* ── AUTHOR BIO ── */
-  .author-bio {
-    background: var(--navy);
-    color: white;
-    padding: 48px;
-    margin-top: 80px;
-    display: flex;
-    gap: 28px;
-    align-items: flex-start;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0;
-  }
-  .author-bio .bio-initial {
-    width: 56px;
-    height: 56px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: white;
-    flex-shrink: 0;
-  }
-  .author-bio .bio-text .name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: white;
-    margin-bottom: 6px;
-  }
-  .author-bio .bio-text p {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.65;
-    margin: 0;
-  }
-  .author-bio .bio-text p::first-letter { all: unset; }
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--deep-ink);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: auto;
+    }
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine .initial-d { color: var(--amber); }
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.4);
+      letter-spacing: 0.04em;
+    }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      list-style: none;
+      justify-content: flex-end;
+    }
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248,246,241,0.55);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover { color: var(--arch-white); }
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.3);
+    }
 
-  em { font-style: italic; }
-  strong { font-weight: 600; color: var(--navy); }
-
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    .hero { padding: 52px 20px 48px; }
-    .article-wrap { padding: 48px 20px 80px; }
-    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
-    .sl-row { grid-template-columns: 1fr; }
-    .sl-why { border-top: 1px solid var(--rule); }
-    .cmpf-cols { grid-template-columns: 1fr; }
-    .cmpf-col:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
-  }
-</style>
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 0 24px; }
+      .back-bar { padding: 16px 24px; }
+      .article-hero { padding: 48px 24px 40px; }
+      .article-body { padding: 40px 24px 64px; }
+      .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      .footer-right { align-items: flex-start; }
+      .footer-links { justify-content: flex-start; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="brand">Siddharth Rao</a>
-  <a href="writing.html" class="back">← All Writing</a>
-</nav>
+  <!-- ── Navigation ── -->
+  <nav class="site-nav" id="site-nav" aria-label="Site navigation">
+    <a href="../../index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <svg width="14" height="36" viewBox="0 0 14 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:10px;">
+        <circle cx="7" cy="7" r="7" fill="#D97706"/>
+        <rect x="5.5" y="7" width="3" height="26" fill="#0D1117"/>
+      </svg>
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../about.html">About</a></li>
+      <li><a href="../../framework.html">The Framework</a></li>
+      <li><a href="../../programmes.html">Programmes</a></li>
+      <li><a href="../../field-notes.html" class="active">Field Notes</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="hero">
-  <span class="category">Applied Machine Learning</span>
-  <h1>The model is the last thing<br>you should worry about.</h1>
-  <p class="deck">The AI conversation is obsessed with which model to use. In most applied ML projects, the model choice is one of the least consequential decisions you make — and it is almost always made too early.</p>
-  <span class="meta">Siddharth Rao &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 14 min read</span>
+  <main class="site-main">
+
+    <!-- ── Back bar ── -->
+    <div class="back-bar">
+      <a href="../../field-notes.html">Field Notes</a>
+    </div>
+
+    <!-- ── Article Hero ── -->
+    <header class="article-hero">
+      <div class="article-hero__eyebrow">
+        <div class="article-hero__eyebrow-rule"></div>
+        <span class="article-hero__track-label">Field Notes</span>
+      </div>
+      <h1 class="article-hero__title">The model is the last thing<br/>you should worry about.</h1>
+        <p class="article-hero__deck">The AI conversation is obsessed with which model to use. In most applied ML projects, the model choice is one of the least consequential decisions you make — and it is almost always made too early.</p>
+      <div class="article-hero__meta">
+        <span class="article-hero__track">ML Engineering</span>
+          <span class="article-hero__date">September 2025</span>
+          <span class="article-hero__read-time">14 min read</span>
+      </div>
+    </header>
+
+    <!-- ── Article Body ── -->
+    <article class="article-body" aria-label="Article content">
+
+<p>There is a conversation I have had, in different forms, on almost every ML project I have been brought into. It usually starts with someone asking which model the team is planning to use. Sometimes it is GPT-4 versus an open-source alternative. Sometimes it is which embedding model, or which fine-tuning approach, or whether to use a 7-billion or 13-billion parameter variant. The question is always asked with genuine interest and technical seriousness. It is also almost always the wrong first question.</p>
+<p>Not because the model doesn't matter. It does, eventually. But by the time a model decision is actually consequential, there are usually five or six earlier decisions that have already determined whether the project can succeed at all — and none of them involve picking a model. They involve understanding the problem well enough to know what you are building, assembling data that is fit for purpose, defining what success looks like before you start, and thinking through how the system fails before it is in front of users.</p>
+<p>The model is the part of the project that gets the most attention and the least leverage. The parts that actually determine outcomes are quieter, less glamorous, and almost entirely invisible in the way the industry talks about this work.</p>
+<hr class="article-rule">
+<h2>Why the model gets all the attention</h2>
+<p>The model selection conversation is appealing for understandable reasons. Models are comparable. They have benchmarks. There is published research, leaderboards, community consensus. Choosing a model feels like making a decision you can defend — you can point to numbers, cite papers, reference deployment case studies from companies with engineering teams far larger than yours.</p>
+<p>The earlier work — problem framing, data quality, evaluation design, failure mode analysis — is murkier. There are no leaderboards for whether your problem statement is correct. Nobody publishes a benchmark for label quality. The decisions are harder to make and harder to justify because they are judgment calls rather than comparisons. They require sitting with uncertainty rather than resolving it by pointing at a chart.</p>
+<p>So the conversation gravitates toward the model, where the ground feels firmer, while the actual load-bearing decisions accumulate unexamined underneath it.</p>
+<blockquote class="article-blockquote">
+<p>The model is the most legible part of an ML project. Legibility and importance are not the same thing.</p>
+</blockquote>
+<p>This is not a criticism of teams that fall into this pattern. It is a structural feature of how the technology is marketed, discussed, and written about. The fix is not better judgment in individual projects — it is a different sequence. Start with the things that determine whether the project is viable. Get to the model when it is actually the thing that needs deciding.</p>
+<hr class="article-rule">
+<h2>What actually determines whether an ML project succeeds</h2>
+<p>Across the systems I have designed and built — a local-first RAG for manufacturing, a federated query engine for enterprise sales, a model merging architecture for financial analytics, an alignment pipeline for regulated output — the pattern that determines outcome is consistent. It is not the model. It is the work that happens before the model is selected, and the infrastructure that surrounds it once it is deployed.</p>
+<p>That work falls into five categories. Each one is upstream of model selection. Each one, if it fails, cannot be fixed by a better model.</p>
+<div class="sequence-list">
+<div class="sl-header">What determines ML project outcomes — in order of leverage</div>
+<div class="sl-row">
+<div class="sl-stage">1 — Problem framing</div>
+<div class="sl-why">The most consequential decision in any ML project is whether the problem being solved is the right one. A model trained perfectly on the wrong problem does not produce partial value — it produces confident, useless outputs that erode trust faster than a system that simply didn't exist. Problem framing is not a kickoff activity. It is an ongoing discipline that should be revisited every time the data tells you something unexpected about what is actually going on.</div>
+</div>
+<div class="sl-row">
+<div class="sl-stage">2 — Data quality and fitness</div>
+<div class="sl-why">Data quality is not a data engineering problem. It is an ML problem. The model you eventually train will learn from whatever signal is in the data — including noise, bias, and labelling inconsistency. A model trained on clean, well-labelled data that accurately represents the deployment distribution will outperform a model trained on a larger, noisier dataset almost every time. The time spent on data quality is not preparation for the real work. It is the real work.</div>
+</div>
+<div class="sl-row">
+<div class="sl-stage">3 — Baseline definition</div>
+<div class="sl-why">Before any model is trained, you need to know what you are trying to beat. Not a published benchmark — the baseline for your specific problem, in your specific environment, with your specific data. This is usually a simple rule, a lookup, a heuristic, or human performance on the task. Every claim of model improvement is a claim relative to this baseline. If the baseline is not defined and measured, the claim is not verifiable. In several projects I have seen, a well-designed baseline outperformed the first three model iterations. That is not a failure — it is the system working correctly.</div>
+</div>
+<div class="sl-row">
+<div class="sl-stage">4 — Evaluation design</div>
+<div class="sl-why">The evaluation metric you choose is the thing the model will optimise for. Choose the wrong metric and you will build a system that is excellent at something that does not matter. For every project I have built, the evaluation design came before any model was trained — not as a formality, but as a constraint. The metric had to be connected to the business outcome, measurable in production, and defined precisely enough that two people looking at the same output would agree on whether it passed. Where those conditions could not be met, the problem definition was not finished.</div>
+</div>
+<div class="sl-row">
+<div class="sl-stage">5 — Failure mode analysis</div>
+<div class="sl-why">Every ML system fails in specific ways. The question is whether those failure modes are understood before deployment or discovered after. For a factory floor system, a wrong answer delivered with confidence is not a retrieval miss — it is a safety incident waiting to happen. For a financial analytics system, a hallucinated figure in a client memo is not a quality issue — it is a regulatory exposure. Understanding the failure modes in advance shapes the guardrail design, the confidence thresholds, the human-in-the-loop decisions, and the deployment scope. None of that is possible if the failure modes are only discovered after the model is in production.</div>
+</div>
+</div>
+<p>The model sits below all five of these. It is not irrelevant — a model that cannot perform the task at all will fail regardless of how well everything else is designed. But within the range of models that are capable of the task, the difference between them is usually smaller than the difference between good and poor execution on any of the five stages above.</p>
+<hr class="article-rule">
+<h2>The AlignR lesson — the pipeline is the demonstration</h2>
+<p>One of the clearest examples of this in my own work is AlignR — an alignment pipeline for regulated enterprise AI. The system runs preference data collection, reward model training, a DPO loop, red-team evaluation, and compliance artefact generation. It is a seven-stage pipeline. The model it runs on in the MVP is a small distilled model that fits on a Kaggle T4 GPU for free.</p>
+<p>There is a line in the AlignR documentation that captures the point exactly: <em>the pipeline is the demonstration. The model is a parameter.</em></p>
+<p>What that means in practice is that every stage of the pipeline — the preference data collection methodology, the reward model training approach, the red-team suite, the compliance artefact bundle — was designed and built to production standards regardless of model size. The same scripts, the same configuration files, the same evaluation harness, and the same artefact schemas run unchanged when the model is upgraded from a small distilled variant to a production-grade 7B or 13B model on proper GPU infrastructure.</p>
+<p>The model is swappable. The pipeline is not. The pipeline is where the value lives.</p>
+<blockquote class="article-blockquote">
+<p>A well-designed pipeline with a small model will outperform a poorly-designed pipeline with a large one. The pipeline is the system. The model is a component.</p>
+</blockquote>
+<p>This is not a novel insight. It is what every experienced ML practitioner discovers after their first few production deployments. What is novel is how rarely it changes the conversation — which keeps starting at the model rather than at the pipeline.</p>
+<hr class="article-rule">
+<h2>The data quality problem that no model can fix</h2>
+<p>On one of the fine-tuning projects I built, the team arrived with a training dataset of approximately 2,000 question-answer pairs. The pairs had been generated synthetically by a large teacher model on a product knowledge base. The generation quality looked good on inspection — fluent, detailed, apparently accurate. The team wanted to jump to fine-tuning and model selection.</p>
+<p>The data quality pipeline told a different story.</p>
+<p>MinHash locality-sensitive hashing identified that roughly 18% of the training examples were near-duplicates — different phrasings of the same underlying question with the same answer. The effective training set was smaller than it appeared. More significantly, the teacher model had generated a number of answers that were factually incorrect on specific SKU-level product details — details where the correct answer required exact recall rather than plausible reasoning. The teacher model was reasoning to a confident, wrong conclusion.</p>
+<p>A model fine-tuned on that dataset would have learned to be confidently wrong about specific facts at a predictable rate. No model choice would have fixed that. The only fix was upstream — catching the teacher hallucinations in the quality filter before they entered the training set, running deduplication before the training split was created, and verifying fact-level accuracy on the subset of questions where exact recall mattered.</p>
+<div class="compare-frame">
+<div class="cmpf-header">Where project time is actually spent vs. where it should be spent</div>
+<div class="cmpf-cols">
+<div class="cmpf-col">
+<div class="cmpf-col-label">Where time gets spent</div>
+<div class="cmpf-col-title">Model selection and tuning</div>
+<p>The visible, comparable, benchmark-driven work. Easy to discuss in reviews. Hard to justify stopping.</p>
+<div class="cmpf-items">
+<div class="cmpf-item">Model comparison and benchmark evaluation</div>
+<div class="cmpf-item">Hyperparameter tuning and ablation runs</div>
+<div class="cmpf-item">Architecture decisions between similar-performing options</div>
+<div class="cmpf-item">Prompt engineering on top of a poorly-framed problem</div>
+</div>
+</div>
+<div class="cmpf-col">
+<div class="cmpf-col-label">Where leverage actually is</div>
+<div class="cmpf-col-title">Pipeline design and data quality</div>
+<p>The invisible, judgment-driven work. Hard to show in a demo. Determines whether the demo matters.</p>
+<div class="cmpf-items">
+<div class="cmpf-item">Data deduplication, coverage analysis, quality filtering</div>
+<div class="cmpf-item">Evaluation metric design tied to business outcome</div>
+<div class="cmpf-item">Failure mode taxonomy before deployment</div>
+<div class="cmpf-item">Baseline measurement before any model is trained</div>
+</div>
+</div>
+</div>
+</div>
+<p>The uncomfortable version of this observation is that most ML project timelines are inverted. The first half is spent on data wrangling that should have been planned upfront. The second half is spent on model iteration that is trying to compensate for problems that live in the data and the evaluation design. The model is being asked to solve problems that it cannot solve, because the problems are upstream of it.</p>
+<hr class="article-rule">
+<h2>Evaluation is not the last step</h2>
+<p>One of the most consistent mistakes in ML project design is treating evaluation as something that happens after the model is built. You train the model, you evaluate it, you iterate. The evaluation tells you how good the model is. That is the sequence, and it seems logical, and it almost guarantees that your evaluation metric will drift away from what actually matters.</p>
+<p>The reason is straightforward. When evaluation is designed after training, it tends to be designed around what the model produces — which means it ends up measuring what the model is good at rather than what the business needs. The metric gets optimised, the metric improves, and the business outcome stays flat. The team is confused. The model is not confused. It did exactly what it was told.</p>
+<p>The evaluation design for every project I have built comes before the first training run — not as a checkbox, but as a constraint on what the model is permitted to optimise for. For the fine-tuning system, this meant three independent metrics: exact match for factual recall, ROUGE-L for coverage, and a held-out judge model for hallucination detection. The judge model was explicitly a different model family from the teacher to prevent the evaluation from being gamed by a model that had learned to produce outputs that scored well on its own teacher's preferences.</p>
+<p>Each of those design decisions was made before any training data was generated. The evaluation was not measuring how good the model was. It was defining what good meant. That definition had to be in place before the model was trained, or the model would define it by default — in its own favour.</p>
+<hr class="article-rule">
+<h2>What the pre-model checklist looks like in practice</h2>
+<p>Across the projects in my portfolio, the sequence before any model is selected or trained follows a consistent pattern. It is not a methodology — it is a set of conditions that have to be true before a model choice is consequential. Until they are true, the model choice is a guess on top of unverified assumptions.</p>
+<aside class="article-callout">
+<div class="label">The pre-model checklist — conditions before model selection matters</aside>
+<p><strong>The problem is framed as an ML task with a specific input, output, and success criterion.</strong> Not a business goal — an ML task. "Improve customer retention" is not an ML task. "Predict, at 30-day lead time, which accounts in the mid-market segment have a greater than 60% probability of churning, using the features available in the CRM at the time of prediction" is an ML task. The specificity is the point. Vague task definitions produce models that solve something adjacent to the actual problem.</p>
+<p><strong>A baseline exists, has been measured, and is documented.</strong> What does the business do today without a model? What is the performance of the simplest possible rule on the task? That number is the floor. Every model claim is relative to it. A model that does not beat the baseline is not worth deploying, regardless of how impressive its absolute performance looks.</p>
+<p><strong>The training data has been audited for quality, coverage, and leakage.</strong> Quality: are the labels correct? Coverage: does the data represent the full distribution of inputs the model will see in production, including edge cases and low-frequency events? Leakage: is there any signal in the training data that would not be available at inference time? Each of these, left unexamined, is a silent failure waiting to surface after deployment.</p>
+<p><strong>The evaluation metric is tied to the business outcome and defined precisely enough to be unambiguous.</strong> Two people looking at the same model output should be able to agree, independently, on whether it passes. If that is not possible, the metric is underspecified. An underspecified metric will be interpreted differently by different people, which means the team is not actually optimising toward a shared goal.</p>
+<p><strong>The three most likely failure modes are documented, and a response to each is designed.</strong> Not an exhaustive failure analysis — the three most likely ones. What happens when the model is wrong and confident? What happens when it is asked a question outside its training distribution? What happens when the underlying data changes and the model's training becomes stale? Each of these needs a designed response before deployment, not a reactive patch after an incident.</p>
+</div>
+<p>When all five conditions are met, the model selection decision becomes relatively straightforward. You have a well-defined task, a baseline to beat, clean data with known coverage, an unambiguous evaluation metric, and a failure mode response designed. At that point you can compare models against each other meaningfully — because you know what you are comparing them on, and you know what the stakes are if they fail.</p>
+<p>Before those conditions are met, model comparison is noise. You are benchmarking candidates for a role whose requirements have not been written.</p>
+<hr class="article-rule">
+<h2>The model question, asked at the right time</h2>
+<p>None of this means the model is unimportant. There are genuine decisions to make — between open-weight and proprietary models when data sovereignty matters, between retrieval-augmented and fine-tuned approaches when knowledge freshness is the constraint, between a 3-billion and 7-billion parameter variant when the latency budget and hardware envelope are fixed. These are real decisions with real consequences.</p>
+<p>The point is that they are decisions about fitting a tool to a well-understood problem. When the problem is well-understood — when the task is precise, the baseline is measured, the data is clean, the evaluation is defined, and the failure modes are documented — the model decision is constrained enough to be made well. The space of viable options is smaller, the evaluation is credible, and the judgment call is actually a judgment call rather than a guess.</p>
+<p>The conversation about which model to use is not the wrong conversation. It is the right conversation, asked at the wrong time. Ask it first, and you are picking a tool before you know what you are building. Ask it after the five conditions are met, and you are making a decision that the project has actually earned.</p>
+<p>In my experience, most teams that are rigorous about the pre-model work find that the model decision is less exciting than they expected — because the problem is specific enough that only a few options are viable, the evaluation is tight enough that differences between them are measurable, and the baseline is clear enough that the bar for what counts as good is not ambiguous. The model gets selected efficiently and the team moves on to the harder work of making the system reliable in production.</p>
+<p>That is what it should feel like. The model is a parameter. The system is the work.</p>
+<div class="footnotes">
+<h4>References &amp; Further Reading</h4>
+<p>Sculley, D. et al. (2015). <em>Hidden Technical Debt in Machine Learning Systems.</em> NeurIPS 2015. — On the compound cost of undocumented assumptions in ML pipelines. The data quality and evaluation design problems described here are the earliest and most expensive form of this debt.</p>
+<p>Sambasivan, N. et al. (2021). <em>"Everyone wants to do the model work, not the data work": Data Cascades in High-Stakes AI.</em> ACM CHI 2021. — The most thorough empirical study of data quality failures in production ML systems. The pattern it describes is exactly the one this article is arguing against.</p>
+<p>Ribeiro, M. T., Wu, T., Guestrin, C., &amp; Singh, S. (2020). <em>Beyond Accuracy: Behavioral Testing of NLP Models with CheckList.</em> ACL 2020. — On the gap between benchmark accuracy and real-world robustness. Directly relevant to the evaluation design section.</p>
+<p>Huyen, C. (2022). <em>Designing Machine Learning Systems.</em> O'Reilly Media. — The most practically useful book on production ML systems currently available. Chapters 4 and 6, on training data and model evaluation respectively, are the clearest treatment of the pre-model work described here.</p>
 </div>
 
-<div class="article-wrap">
-
-  <p>There is a conversation I have had, in different forms, on almost every ML project I have been brought into. It usually starts with someone asking which model the team is planning to use. Sometimes it is GPT-4 versus an open-source alternative. Sometimes it is which embedding model, or which fine-tuning approach, or whether to use a 7-billion or 13-billion parameter variant. The question is always asked with genuine interest and technical seriousness. It is also almost always the wrong first question.</p>
-
-  <p>Not because the model doesn't matter. It does, eventually. But by the time a model decision is actually consequential, there are usually five or six earlier decisions that have already determined whether the project can succeed at all — and none of them involve picking a model. They involve understanding the problem well enough to know what you are building, assembling data that is fit for purpose, defining what success looks like before you start, and thinking through how the system fails before it is in front of users.</p>
-
-  <p>The model is the part of the project that gets the most attention and the least leverage. The parts that actually determine outcomes are quieter, less glamorous, and almost entirely invisible in the way the industry talks about this work.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>Why the model gets all the attention</h2>
-
-  <p>The model selection conversation is appealing for understandable reasons. Models are comparable. They have benchmarks. There is published research, leaderboards, community consensus. Choosing a model feels like making a decision you can defend — you can point to numbers, cite papers, reference deployment case studies from companies with engineering teams far larger than yours.</p>
-
-  <p>The earlier work — problem framing, data quality, evaluation design, failure mode analysis — is murkier. There are no leaderboards for whether your problem statement is correct. Nobody publishes a benchmark for label quality. The decisions are harder to make and harder to justify because they are judgment calls rather than comparisons. They require sitting with uncertainty rather than resolving it by pointing at a chart.</p>
-
-  <p>So the conversation gravitates toward the model, where the ground feels firmer, while the actual load-bearing decisions accumulate unexamined underneath it.</p>
-
-  <blockquote>
-    <p>The model is the most legible part of an ML project. Legibility and importance are not the same thing.</p>
-  </blockquote>
-
-  <p>This is not a criticism of teams that fall into this pattern. It is a structural feature of how the technology is marketed, discussed, and written about. The fix is not better judgment in individual projects — it is a different sequence. Start with the things that determine whether the project is viable. Get to the model when it is actually the thing that needs deciding.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>What actually determines whether an ML project succeeds</h2>
-
-  <p>Across the systems I have designed and built — a local-first RAG for manufacturing, a federated query engine for enterprise sales, a model merging architecture for financial analytics, an alignment pipeline for regulated output — the pattern that determines outcome is consistent. It is not the model. It is the work that happens before the model is selected, and the infrastructure that surrounds it once it is deployed.</p>
-
-  <p>That work falls into five categories. Each one is upstream of model selection. Each one, if it fails, cannot be fixed by a better model.</p>
-
-  <div class="sequence-list">
-    <div class="sl-header">What determines ML project outcomes — in order of leverage</div>
-
-    <div class="sl-row">
-      <div class="sl-stage">1 — Problem framing</div>
-      <div class="sl-why">The most consequential decision in any ML project is whether the problem being solved is the right one. A model trained perfectly on the wrong problem does not produce partial value — it produces confident, useless outputs that erode trust faster than a system that simply didn't exist. Problem framing is not a kickoff activity. It is an ongoing discipline that should be revisited every time the data tells you something unexpected about what is actually going on.</div>
-    </div>
-
-    <div class="sl-row">
-      <div class="sl-stage">2 — Data quality and fitness</div>
-      <div class="sl-why">Data quality is not a data engineering problem. It is an ML problem. The model you eventually train will learn from whatever signal is in the data — including noise, bias, and labelling inconsistency. A model trained on clean, well-labelled data that accurately represents the deployment distribution will outperform a model trained on a larger, noisier dataset almost every time. The time spent on data quality is not preparation for the real work. It is the real work.</div>
-    </div>
-
-    <div class="sl-row">
-      <div class="sl-stage">3 — Baseline definition</div>
-      <div class="sl-why">Before any model is trained, you need to know what you are trying to beat. Not a published benchmark — the baseline for your specific problem, in your specific environment, with your specific data. This is usually a simple rule, a lookup, a heuristic, or human performance on the task. Every claim of model improvement is a claim relative to this baseline. If the baseline is not defined and measured, the claim is not verifiable. In several projects I have seen, a well-designed baseline outperformed the first three model iterations. That is not a failure — it is the system working correctly.</div>
-    </div>
-
-    <div class="sl-row">
-      <div class="sl-stage">4 — Evaluation design</div>
-      <div class="sl-why">The evaluation metric you choose is the thing the model will optimise for. Choose the wrong metric and you will build a system that is excellent at something that does not matter. For every project I have built, the evaluation design came before any model was trained — not as a formality, but as a constraint. The metric had to be connected to the business outcome, measurable in production, and defined precisely enough that two people looking at the same output would agree on whether it passed. Where those conditions could not be met, the problem definition was not finished.</div>
-    </div>
-
-    <div class="sl-row">
-      <div class="sl-stage">5 — Failure mode analysis</div>
-      <div class="sl-why">Every ML system fails in specific ways. The question is whether those failure modes are understood before deployment or discovered after. For a factory floor system, a wrong answer delivered with confidence is not a retrieval miss — it is a safety incident waiting to happen. For a financial analytics system, a hallucinated figure in a client memo is not a quality issue — it is a regulatory exposure. Understanding the failure modes in advance shapes the guardrail design, the confidence thresholds, the human-in-the-loop decisions, and the deployment scope. None of that is possible if the failure modes are only discovered after the model is in production.</div>
-    </div>
-
-  </div>
-
-  <p>The model sits below all five of these. It is not irrelevant — a model that cannot perform the task at all will fail regardless of how well everything else is designed. But within the range of models that are capable of the task, the difference between them is usually smaller than the difference between good and poor execution on any of the five stages above.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The AlignR lesson — the pipeline is the demonstration</h2>
-
-  <p>One of the clearest examples of this in my own work is AlignR — an alignment pipeline for regulated enterprise AI. The system runs preference data collection, reward model training, a DPO loop, red-team evaluation, and compliance artefact generation. It is a seven-stage pipeline. The model it runs on in the MVP is a small distilled model that fits on a Kaggle T4 GPU for free.</p>
-
-  <p>There is a line in the AlignR documentation that captures the point exactly: <em>the pipeline is the demonstration. The model is a parameter.</em></p>
-
-  <p>What that means in practice is that every stage of the pipeline — the preference data collection methodology, the reward model training approach, the red-team suite, the compliance artefact bundle — was designed and built to production standards regardless of model size. The same scripts, the same configuration files, the same evaluation harness, and the same artefact schemas run unchanged when the model is upgraded from a small distilled variant to a production-grade 7B or 13B model on proper GPU infrastructure.</p>
-
-  <p>The model is swappable. The pipeline is not. The pipeline is where the value lives.</p>
-
-  <blockquote>
-    <p>A well-designed pipeline with a small model will outperform a poorly-designed pipeline with a large one. The pipeline is the system. The model is a component.</p>
-  </blockquote>
-
-  <p>This is not a novel insight. It is what every experienced ML practitioner discovers after their first few production deployments. What is novel is how rarely it changes the conversation — which keeps starting at the model rather than at the pipeline.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The data quality problem that no model can fix</h2>
-
-  <p>On one of the fine-tuning projects I built, the team arrived with a training dataset of approximately 2,000 question-answer pairs. The pairs had been generated synthetically by a large teacher model on a product knowledge base. The generation quality looked good on inspection — fluent, detailed, apparently accurate. The team wanted to jump to fine-tuning and model selection.</p>
-
-  <p>The data quality pipeline told a different story.</p>
-
-  <p>MinHash locality-sensitive hashing identified that roughly 18% of the training examples were near-duplicates — different phrasings of the same underlying question with the same answer. The effective training set was smaller than it appeared. More significantly, the teacher model had generated a number of answers that were factually incorrect on specific SKU-level product details — details where the correct answer required exact recall rather than plausible reasoning. The teacher model was reasoning to a confident, wrong conclusion.</p>
-
-  <p>A model fine-tuned on that dataset would have learned to be confidently wrong about specific facts at a predictable rate. No model choice would have fixed that. The only fix was upstream — catching the teacher hallucinations in the quality filter before they entered the training set, running deduplication before the training split was created, and verifying fact-level accuracy on the subset of questions where exact recall mattered.</p>
-
-  <div class="compare-frame">
-    <div class="cmpf-header">Where project time is actually spent vs. where it should be spent</div>
-    <div class="cmpf-cols">
-      <div class="cmpf-col">
-        <div class="cmpf-col-label">Where time gets spent</div>
-        <div class="cmpf-col-title">Model selection and tuning</div>
-        <p>The visible, comparable, benchmark-driven work. Easy to discuss in reviews. Hard to justify stopping.</p>
-        <div class="cmpf-items">
-          <div class="cmpf-item">Model comparison and benchmark evaluation</div>
-          <div class="cmpf-item">Hyperparameter tuning and ablation runs</div>
-          <div class="cmpf-item">Architecture decisions between similar-performing options</div>
-          <div class="cmpf-item">Prompt engineering on top of a poorly-framed problem</div>
+      <!-- ── Closing CTA ── -->
+      <div class="article-cta">
+        <span class="article-cta__label">Continue reading</span>
+        <p class="article-cta__text">These notes are published when there is something worth saying. To receive new Field Notes directly, write to hello@datadomine.com with the subject line: Field Notes.</p>
+        <div class="article-cta__links">
+          <a href="../../field-notes.html" class="article-cta__link">All Field Notes</a>
+          <a href="../../programmes.html" class="article-cta__link">Programmes</a>
+          <a href="../../contact.html" class="article-cta__link">Get in touch</a>
         </div>
       </div>
-      <div class="cmpf-col">
-        <div class="cmpf-col-label">Where leverage actually is</div>
-        <div class="cmpf-col-title">Pipeline design and data quality</div>
-        <p>The invisible, judgment-driven work. Hard to show in a demo. Determines whether the demo matters.</p>
-        <div class="cmpf-items">
-          <div class="cmpf-item">Data deduplication, coverage analysis, quality filtering</div>
-          <div class="cmpf-item">Evaluation metric design tied to business outcome</div>
-          <div class="cmpf-item">Failure mode taxonomy before deployment</div>
-          <div class="cmpf-item">Baseline measurement before any model is trained</div>
-        </div>
-      </div>
+
+    </article>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <a href="../../index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
     </div>
-  </div>
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../framework.html">The Framework</a></li>
+        <li><a href="../../programmes.html">Programmes</a></li>
+        <li><a href="../../field-notes.html">Field Notes</a></li>
+        <li><a href="../../contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+  </footer>
 
-  <p>The uncomfortable version of this observation is that most ML project timelines are inverted. The first half is spent on data wrangling that should have been planned upfront. The second half is spent on model iteration that is trying to compensate for problems that live in the data and the evaluation design. The model is being asked to solve problems that it cannot solve, because the problems are upstream of it.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>Evaluation is not the last step</h2>
-
-  <p>One of the most consistent mistakes in ML project design is treating evaluation as something that happens after the model is built. You train the model, you evaluate it, you iterate. The evaluation tells you how good the model is. That is the sequence, and it seems logical, and it almost guarantees that your evaluation metric will drift away from what actually matters.</p>
-
-  <p>The reason is straightforward. When evaluation is designed after training, it tends to be designed around what the model produces — which means it ends up measuring what the model is good at rather than what the business needs. The metric gets optimised, the metric improves, and the business outcome stays flat. The team is confused. The model is not confused. It did exactly what it was told.</p>
-
-  <p>The evaluation design for every project I have built comes before the first training run — not as a checkbox, but as a constraint on what the model is permitted to optimise for. For the fine-tuning system, this meant three independent metrics: exact match for factual recall, ROUGE-L for coverage, and a held-out judge model for hallucination detection. The judge model was explicitly a different model family from the teacher to prevent the evaluation from being gamed by a model that had learned to produce outputs that scored well on its own teacher's preferences.</p>
-
-  <p>Each of those design decisions was made before any training data was generated. The evaluation was not measuring how good the model was. It was defining what good meant. That definition had to be in place before the model was trained, or the model would define it by default — in its own favour.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>What the pre-model checklist looks like in practice</h2>
-
-  <p>Across the projects in my portfolio, the sequence before any model is selected or trained follows a consistent pattern. It is not a methodology — it is a set of conditions that have to be true before a model choice is consequential. Until they are true, the model choice is a guess on top of unverified assumptions.</p>
-
-  <div class="callout">
-    <div class="label">The pre-model checklist — conditions before model selection matters</div>
-    <p><strong>The problem is framed as an ML task with a specific input, output, and success criterion.</strong> Not a business goal — an ML task. "Improve customer retention" is not an ML task. "Predict, at 30-day lead time, which accounts in the mid-market segment have a greater than 60% probability of churning, using the features available in the CRM at the time of prediction" is an ML task. The specificity is the point. Vague task definitions produce models that solve something adjacent to the actual problem.</p>
-    <p><strong>A baseline exists, has been measured, and is documented.</strong> What does the business do today without a model? What is the performance of the simplest possible rule on the task? That number is the floor. Every model claim is relative to it. A model that does not beat the baseline is not worth deploying, regardless of how impressive its absolute performance looks.</p>
-    <p><strong>The training data has been audited for quality, coverage, and leakage.</strong> Quality: are the labels correct? Coverage: does the data represent the full distribution of inputs the model will see in production, including edge cases and low-frequency events? Leakage: is there any signal in the training data that would not be available at inference time? Each of these, left unexamined, is a silent failure waiting to surface after deployment.</p>
-    <p><strong>The evaluation metric is tied to the business outcome and defined precisely enough to be unambiguous.</strong> Two people looking at the same model output should be able to agree, independently, on whether it passes. If that is not possible, the metric is underspecified. An underspecified metric will be interpreted differently by different people, which means the team is not actually optimising toward a shared goal.</p>
-    <p><strong>The three most likely failure modes are documented, and a response to each is designed.</strong> Not an exhaustive failure analysis — the three most likely ones. What happens when the model is wrong and confident? What happens when it is asked a question outside its training distribution? What happens when the underlying data changes and the model's training becomes stale? Each of these needs a designed response before deployment, not a reactive patch after an incident.</p>
-  </div>
-
-  <p>When all five conditions are met, the model selection decision becomes relatively straightforward. You have a well-defined task, a baseline to beat, clean data with known coverage, an unambiguous evaluation metric, and a failure mode response designed. At that point you can compare models against each other meaningfully — because you know what you are comparing them on, and you know what the stakes are if they fail.</p>
-
-  <p>Before those conditions are met, model comparison is noise. You are benchmarking candidates for a role whose requirements have not been written.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>The model question, asked at the right time</h2>
-
-  <p>None of this means the model is unimportant. There are genuine decisions to make — between open-weight and proprietary models when data sovereignty matters, between retrieval-augmented and fine-tuned approaches when knowledge freshness is the constraint, between a 3-billion and 7-billion parameter variant when the latency budget and hardware envelope are fixed. These are real decisions with real consequences.</p>
-
-  <p>The point is that they are decisions about fitting a tool to a well-understood problem. When the problem is well-understood — when the task is precise, the baseline is measured, the data is clean, the evaluation is defined, and the failure modes are documented — the model decision is constrained enough to be made well. The space of viable options is smaller, the evaluation is credible, and the judgment call is actually a judgment call rather than a guess.</p>
-
-  <p>The conversation about which model to use is not the wrong conversation. It is the right conversation, asked at the wrong time. Ask it first, and you are picking a tool before you know what you are building. Ask it after the five conditions are met, and you are making a decision that the project has actually earned.</p>
-
-  <p>In my experience, most teams that are rigorous about the pre-model work find that the model decision is less exciting than they expected — because the problem is specific enough that only a few options are viable, the evaluation is tight enough that differences between them are measurable, and the baseline is clear enough that the bar for what counts as good is not ambiguous. The model gets selected efficiently and the team moves on to the harder work of making the system reliable in production.</p>
-
-  <p>That is what it should feel like. The model is a parameter. The system is the work.</p>
-
-  <div class="footnotes">
-    <h4>References & Further Reading</h4>
-    <p>Sculley, D. et al. (2015). <em>Hidden Technical Debt in Machine Learning Systems.</em> NeurIPS 2015. — On the compound cost of undocumented assumptions in ML pipelines. The data quality and evaluation design problems described here are the earliest and most expensive form of this debt.</p>
-    <p>Sambasivan, N. et al. (2021). <em>"Everyone wants to do the model work, not the data work": Data Cascades in High-Stakes AI.</em> ACM CHI 2021. — The most thorough empirical study of data quality failures in production ML systems. The pattern it describes is exactly the one this article is arguing against.</p>
-    <p>Ribeiro, M. T., Wu, T., Guestrin, C., & Singh, S. (2020). <em>Beyond Accuracy: Behavioral Testing of NLP Models with CheckList.</em> ACL 2020. — On the gap between benchmark accuracy and real-world robustness. Directly relevant to the evaluation design section.</p>
-    <p>Huyen, C. (2022). <em>Designing Machine Learning Systems.</em> O'Reilly Media. — The most practically useful book on production ML systems currently available. Chapters 4 and 6, on training data and model evaluation respectively, are the clearest treatment of the pre-model work described here.</p>
-  </div>
-
-</div>
-
-<div class="author-bio">
-  <div class="bio-initial">S</div>
-  <div class="bio-text">
-    <div class="name">Siddharth Rao</div>
-    <p>Machine Learning Engineer and Enterprise Architect with experience designing and deploying AI systems across manufacturing, finance, and enterprise sales. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes about applied ML, system design, and what happens when the two have to meet a real business problem.</p>
-  </div>
-</div>
+  <script src="../../datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
 
 </body>
 </html>

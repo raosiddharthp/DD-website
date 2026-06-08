@@ -1,395 +1,619 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real use cases are not a nice-to-have. They are the entire point. | Siddharth Potukuchi</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #1B3A5C;
-    --accent: #2E75B6;
-    --ink: #1a1a2e;
-    --mid: #5a6478;
-    --light: #f7f8fa;
-    --rule: #d8dde8;
-    --warm: #f9f6f1;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real use cases are not a nice-to-have. They are the entire point. — DataDomine Field Notes</title>
+  <meta name="description" content="Most training programs treat use cases as illustration. The programs that actually work treat them as architecture.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../datadomine.css">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --deep-ink:   #0D1117;
+      --arch-white: #F8F6F1;
+      --slate:      #64748B;
+      --amber:      #D97706;
+      --nav-height: 64px;
+      --article-max: 720px;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-weight: 300;
-    background: var(--warm);
-    color: var(--ink);
-    line-height: 1.85;
-  }
+    html, body { height: 100%; }
 
-  /* ── NAV ── */
-  nav {
-    background: var(--navy);
-    padding: 18px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  nav .brand {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    color: white;
-    font-size: 1.1rem;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  nav .back {
-    color: rgba(255,255,255,0.65);
-    text-decoration: none;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    transition: color 0.2s;
-  }
-  nav .back:hover { color: white; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--arch-white);
+      color: var(--deep-ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--navy);
-    padding: 80px 48px 72px;
-    text-align: center;
-  }
-  .hero .category {
-    display: inline-block;
-    color: var(--accent);
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    color: white;
-    line-height: 1.18;
-    max-width: 820px;
-    margin: 0 auto 24px;
-  }
-  .hero .deck {
-    font-family: 'Source Serif 4', serif;
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(255,255,255,0.7);
-    font-size: 1.15rem;
-    max-width: 640px;
-    margin: 0 auto 40px;
-    line-height: 1.65;
-  }
-  .hero .meta {
-    color: rgba(255,255,255,0.4);
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-    font-weight: 300;
-  }
+    /* ── Navigation ── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--arch-white);
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 100;
+    }
+    .nav-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .nav-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--deep-ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-wordmark .word-domine .initial-d { color: var(--amber); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--deep-ink); }
+    .nav-links a.active {
+      color: var(--deep-ink);
+      font-weight: 500;
+    }
 
-  /* ── ARTICLE BODY ── */
-  .article-wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 72px 24px 120px;
-  }
+    /* ── Main ── */
+    .site-main {
+      flex: 1;
+      padding-top: var(--nav-height);
+    }
 
-  p {
-    font-size: 1.085rem;
-    margin-bottom: 1.65rem;
-    color: var(--ink);
-  }
+    /* ── Back bar ── */
+    .back-bar {
+      padding: 20px 48px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+    }
+    .back-bar a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--slate);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+    .back-bar a:hover { color: var(--deep-ink); }
+    .back-bar a::before {
+      content: '←';
+      font-size: 14px;
+    }
 
-  p:first-of-type::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.8rem;
-    font-weight: 700;
-    float: left;
-    line-height: 0.82;
-    margin: 6px 12px 0 0;
-    color: var(--navy);
-  }
+    /* ── Article Hero ── */
+    .article-hero {
+      padding: 64px 48px 56px;
+      border-bottom: 1px solid rgba(13,17,23,0.08);
+      max-width: calc(var(--article-max) + 96px);
+    }
+    .article-hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .article-hero__eyebrow-rule {
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .article-hero__track-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-hero__title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--deep-ink);
+      margin-bottom: 20px;
+    }
+    .article-hero__deck {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: var(--article-max);
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+    .article-hero__meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+    .article-hero__track {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .article-hero__date,
+    .article-hero__read-time {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--slate);
+    }
+    .article-hero__date::before,
+    .article-hero__read-time::before {
+      content: '·';
+      margin-right: 20px;
+      color: rgba(13,17,23,0.2);
+    }
 
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.55rem;
-    color: var(--navy);
-    margin: 3rem 0 1.1rem;
-    line-height: 1.3;
-  }
+    /* ── Article Body ── */
+    .article-body {
+      padding: 56px 48px 80px;
+      max-width: calc(var(--article-max) + 96px);
+    }
 
-  h3 {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 600;
-    font-size: 0.82rem;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 2.5rem 0 0.6rem;
-  }
+    /* Typography */
+    .article-body p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+    }
+    .article-body h2 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--deep-ink);
+      margin-top: 52px;
+      margin-bottom: 20px;
+    }
+    .article-body h3 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.3;
+      color: var(--deep-ink);
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+    .article-body em {
+      font-style: italic;
+    }
+    .article-body strong {
+      font-weight: 600;
+    }
+    .article-body a {
+      color: var(--deep-ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(13,17,23,0.3);
+      transition: text-decoration-color 0.15s ease;
+    }
+    .article-body a:hover {
+      text-decoration-color: var(--amber);
+    }
 
-  /* pull quote */
-  blockquote {
-    border-left: 4px solid var(--accent);
-    margin: 2.8rem 0;
-    padding: 4px 0 4px 32px;
-  }
-  blockquote p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--navy);
-    line-height: 1.55;
-    margin: 0;
-  }
-  blockquote p::first-letter { all: unset; }
-  blockquote cite {
-    display: block;
-    margin-top: 10px;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.8rem;
-    color: var(--mid);
-    font-style: normal;
-    letter-spacing: 0.05em;
-  }
+    /* Lists */
+    .article-body ul,
+    .article-body ol {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--deep-ink);
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    .article-body li {
+      margin-bottom: 8px;
+    }
 
-  /* callout box */
-  .callout {
-    background: white;
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--accent);
-    padding: 28px 32px;
-    margin: 2.8rem 0;
-    border-radius: 0 0 4px 4px;
-  }
-  .callout .label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-  .callout p {
-    font-size: 0.97rem;
-    color: var(--mid);
-    margin: 0;
-    line-height: 1.7;
-  }
-  .callout p::first-letter { all: unset; }
+    /* Blockquote */
+    .article-body blockquote,
+    .article-body .article-blockquote {
+      border-left: 3px solid var(--amber);
+      margin: 40px 0;
+      padding: 4px 0 4px 28px;
+    }
+    .article-body blockquote p,
+    .article-body .article-blockquote p {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--deep-ink);
+      margin-bottom: 0;
+    }
 
-  /* section rule */
-  .section-rule {
-    width: 48px;
-    height: 3px;
-    background: var(--accent);
-    margin: 3rem auto;
-  }
+    /* Horizontal rule */
+    .article-body hr,
+    .article-body .article-rule {
+      border: none;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      margin: 48px 0;
+    }
 
-  /* footnote area */
-  .footnotes {
-    border-top: 1px solid var(--rule);
-    margin-top: 4rem;
-    padding-top: 2rem;
-  }
-  .footnotes h4 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 1rem;
-  }
-  .footnotes p {
-    font-size: 0.83rem;
-    color: var(--mid);
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-  .footnotes p::first-letter { all: unset; }
+    /* Callout / aside */
+    .article-body aside,
+    .article-body .article-callout {
+      background: rgba(13,17,23,0.04);
+      border-left: 3px solid rgba(13,17,23,0.15);
+      padding: 24px 28px;
+      margin: 40px 0;
+      border-radius: 0 2px 2px 0;
+    }
+    .article-body .callout-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .article-body aside p,
+    .article-body .article-callout p {
+      font-size: 15px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .article-body aside p:last-child,
+    .article-body .article-callout p:last-child {
+      margin-bottom: 0;
+    }
 
-  /* author bio */
-  .author-bio {
-    background: var(--navy);
-    color: white;
-    padding: 48px;
-    margin-top: 80px;
-    display: flex;
-    gap: 28px;
-    align-items: flex-start;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0;
-  }
-  .author-bio .bio-initial {
-    width: 56px;
-    height: 56px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: white;
-    flex-shrink: 0;
-  }
-  .author-bio .bio-text .name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: white;
-    margin-bottom: 6px;
-  }
-  .author-bio .bio-text p {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.65;
-    margin: 0;
-  }
-  .author-bio .bio-text p::first-letter { all: unset; }
+    /* Code */
+    .article-body code {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 13px;
+      background: rgba(13,17,23,0.06);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .article-body pre {
+      background: var(--deep-ink);
+      color: var(--arch-white);
+      padding: 24px 28px;
+      border-radius: 2px;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .article-body pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
 
-  em { font-style: italic; }
-  strong { font-weight: 600; color: var(--navy); }
+    /* ── Closing CTA ── */
+    .article-cta {
+      margin: 64px 0 0;
+      padding-top: 48px;
+      border-top: 1px solid rgba(13,17,23,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .article-cta__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .article-cta__text {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--deep-ink);
+      max-width: 480px;
+    }
+    .article-cta__links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+    .article-cta__link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--deep-ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(13,17,23,0.25);
+      padding-bottom: 2px;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .article-cta__link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
 
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    .hero { padding: 52px 20px 48px; }
-    .article-wrap { padding: 48px 20px 80px; }
-    .author-bio { flex-direction: column; padding: 32px 20px; margin: 40px 20px 0; }
-  }
-</style>
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--deep-ink);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: auto;
+    }
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .footer-wordmark {
+      display: flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .footer-wordmark .word-data {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--arch-white);
+      letter-spacing: -0.01em;
+    }
+    .footer-wordmark .word-domine .initial-d { color: var(--amber); }
+    .footer-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.4);
+      letter-spacing: 0.04em;
+    }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      list-style: none;
+      justify-content: flex-end;
+    }
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(248,246,241,0.55);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover { color: var(--arch-white); }
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(248,246,241,0.3);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 0 24px; }
+      .back-bar { padding: 16px 24px; }
+      .article-hero { padding: 48px 24px 40px; }
+      .article-body { padding: 40px 24px 64px; }
+      .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      .footer-right { align-items: flex-start; }
+      .footer-links { justify-content: flex-start; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="brand">Siddharth Potukuchi</a>
-  <a href="writing.html" class="back">← All Writing</a>
-</nav>
+  <!-- ── Navigation ── -->
+  <nav class="site-nav" id="site-nav" aria-label="Site navigation">
+    <a href="../../index.html" class="nav-wordmark" aria-label="DataDomine — home">
+      <svg width="14" height="36" viewBox="0 0 14 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:10px;">
+        <circle cx="7" cy="7" r="7" fill="#D97706"/>
+        <rect x="5.5" y="7" width="3" height="26" fill="#0D1117"/>
+      </svg>
+      <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../about.html">About</a></li>
+      <li><a href="../../framework.html">The Framework</a></li>
+      <li><a href="../../programmes.html">Programmes</a></li>
+      <li><a href="../../field-notes.html" class="active">Field Notes</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="hero">
-  <span class="category">Curriculum Design</span>
-  <h1>Real use cases are not a nice-to-have. They are the entire point.</h1>
-  <p class="deck">Most training programs treat use cases as illustration. The programs that actually work treat them as architecture.</p>
-  <span class="meta">Siddharth Potukuchi &nbsp;·&nbsp; August 2024 &nbsp;·&nbsp; 11 min read</span>
+  <main class="site-main">
+
+    <!-- ── Back bar ── -->
+    <div class="back-bar">
+      <a href="../../field-notes.html">Field Notes</a>
+    </div>
+
+    <!-- ── Article Hero ── -->
+    <header class="article-hero">
+      <div class="article-hero__eyebrow">
+        <div class="article-hero__eyebrow-rule"></div>
+        <span class="article-hero__track-label">Field Notes</span>
+      </div>
+      <h1 class="article-hero__title">Real use cases are not a nice-to-have. They are the entire point.</h1>
+        <p class="article-hero__deck">Most training programs treat use cases as illustration. The programs that actually work treat them as architecture.</p>
+      <div class="article-hero__meta">
+        <span class="article-hero__track">Practice Enablement</span>
+          <span class="article-hero__date">December 2025</span>
+          <span class="article-hero__read-time">11 min read</span>
+      </div>
+    </header>
+
+    <!-- ── Article Body ── -->
+    <article class="article-body" aria-label="Article content">
+
+<p>There is a distinction that almost nobody in curriculum design talks about clearly, and it is the distinction that separates programs that produce capability from programs that produce completion metrics. It is the difference between a use case as illustration and a use case as architecture.</p>
+<p>Illustration is what most programs do. You teach a concept. You walk through an example. The example confirms what you just said. The participant nods. You move on. The use case in this model is decoration — something you reach for after the real work is done, to make the real work feel applicable. It has the shape of relevance without the function of it.</p>
+<p>Architecture is different. When a use case is architecture, it is not appended to the concept — it precedes it, frames it, and gives it a destination. The learner doesn't encounter the feature and then see a scenario where it applies. They encounter the scenario first, feel the weight of the problem it represents, and then receive the concept as the answer to something they already understand they need. That sequence is not cosmetic. It is the difference between information and capability. And almost no program is designed to deliver it.</p>
+<hr class="article-rule">
+<h2>Why the concept doesn't transfer on its own</h2>
+<p>Cognitive science has a precise explanation for why well-taught content fails to show up in production. It is called the <strong>transfer problem</strong> — the gap between knowing something in the context where it was learned and being able to apply it in a context that looks different.</p>
+<p>The mechanism is straightforward. When a learner encounters a real-world problem, their brain is not searching a library of concepts. It is pattern-matching against situations it has already processed. If the training scenario was structurally similar to the production scenario — same type of ambiguity, same class of constraint, same shape of decision — the mental model activates. The learner recognises the situation and knows what to do. If the training scenario was generic, abstract, or artificially simplified, the match fails. The learner has the knowledge. They simply cannot locate it in time to use it.</p>
+<p>This is why a participant can score well on an assessment at the end of a training program and struggle visibly three weeks later when the first real client problem arrives. The assessment tested recall in the context of training. The job demands application in the context of work. Those are not the same cognitive task, and no amount of good content design closes the gap between them. Only the use case does — because the use case is the context. It is the thing that makes the mental model findable when it matters.</p>
+<blockquote class="article-blockquote">
+<p>The concept is the answer. The use case is the question. You cannot produce transfer by teaching answers to questions the learner has never been asked to sit with.</p>
+</blockquote>
+<hr class="article-rule">
+<h2>Why real use cases are so hard to get</h2>
+<p>If the logic above is sound — and I believe it is — then the obvious question is why most programs are still built around synthetic scenarios, sanitised examples, and feature demonstrations that bear only passing resemblance to the situations participants will actually face. The answer is not ignorance. Most curriculum designers understand, at some level, that real use cases are better. The answer is that real use cases are genuinely difficult to obtain, and the difficulty is not accidental.</p>
+<p>In a knowledge economy, knowledge is currency. What a subject matter expert knows — really knows, from having been in the room when something broke, from having diagnosed the configuration that nobody else could read, from having built the workaround that became standard practice — is what makes them valuable. It is not merely what they do. It is what they <em>are</em>, professionally. Sharing it freely, into a training program that will distribute it to a room of twenty people, is not generosity. From where they sit, it is dilution.</p>
+<p>This is not cynicism about SMEs. It is an accurate description of the incentive structure they are operating in. Most organisations have built careers and hierarchies on the principle that expertise is scarce and scarcity is power. The curriculum designer asking for real use cases is, functionally, asking the SME to reduce their own scarcity. The resistance that follows is not obstruction. It is rational self-preservation inside a system that rewards it.</p>
+<p>The result is that real implementation knowledge lives in the cafeteria, not the classroom. You hear it in the complaint about the client who configured the product wrong and blamed the vendor. You hear it in the post-mortem that never made it into documentation. You hear it in the hallway conversation between two engineers who both know exactly why that particular integration fails and have never been asked to write it down. The knowledge is present, ambient, and completely inaccessible to any formal curriculum — until someone decides the extraction cost is worth paying.</p>
+<hr class="article-rule">
+<h2>What a use case bank actually is</h2>
+<p>A use case bank is not a folder of scenarios. That distinction matters more than it sounds.</p>
+<p>A folder of scenarios is a collection of exercises assembled by whoever was available to write them, drawing on whatever examples came to mind, organised loosely by topic and reviewed for factual accuracy. Most training programs have one. It is not nothing — but it is also not what I mean.</p>
+<p>A use case bank is a <strong>structured, living, deliberately curated collection</strong> of real implementation situations, extracted from actual production environments, vetted for instructional value, and organised for deployment against specific learner profiles and capability gaps. Every case in it has provenance — it came from somewhere real. Every case has been assessed for complexity — it sits at a specific point on the difficulty curve. Every case has been tagged against the failure modes it exercises, so that for any given batch of participants, you can select the cases that map to the situations they are most likely to encounter and least likely to handle without preparation.</p>
+<p>Building one requires three things that most curriculum functions either lack or underinvest in: access to real implementations, a framework for assessing case complexity, and the discipline to treat the bank as a living asset rather than a one-time deliverable.</p>
+<p>Access is the hardest part, for the reasons described above. It requires either organisational authority — someone senior enough to direct SMEs to participate — or accumulated trust, built slowly enough that practitioners begin to see the value of contributing. In practice, it usually requires both, at different stages. The first cases come through authority. The later ones come through proof.</p>
+<p>Complexity assessment is a curriculum design skill that rarely gets named explicitly. A good use case is not simply a hard one. It is one where the difficulty is located at exactly the right cognitive level for the learner who will encounter it — challenging enough to require genuine thinking, not so opaque that it produces confusion rather than stretch. Building a bank without this calibration produces a collection that is usable in aggregate but unreliable in deployment.</p>
+<p>And the living asset discipline is what separates a use case bank from a use case archive. Implementations change. Products evolve. The failure modes of two years ago are not the failure modes of today. A bank that is not actively maintained drifts from the reality it is supposed to represent — and a use case that no longer maps to production is, in the precise sense, no longer real.</p>
+<aside class="article-callout">
+<div class="label">What belongs in a use case bank</aside>
+<p>Not every implementation story is a use case. What earns a place in the bank: situations where the standard approach failed and a judgment call was required; configurations that worked in one context and broke in another; client requirements that could not be mapped directly to a feature without architectural interpretation; edge cases that support tickets reveal are more common than anyone anticipated. What does not earn a place: worked examples that demonstrate how a feature functions when used correctly. That is documentation. A use case is the situation before you know which feature applies — or whether the feature applies at all.</p>
+</div>
+<hr class="article-rule">
+<h2>How you know it is working</h2>
+<p>The proof of a use case bank is not visible in the training room. It is visible three weeks later, when a participant walks into a situation they have not been shown — a client requirement that was not in the syllabus, a configuration that breaks in a way the sandbox never surfaced — and handles it. Not because they remembered a step. Because they recognised the shape of the problem.</p>
+<p>That recognition is transfer. It is what you are designing for every time you build a program. And it is almost impossible to produce reliably without a use case bank, because recognition requires prior exposure to structurally similar situations — not concepts about situations, but situations themselves, with the ambiguity intact and the right answer not supplied in advance.</p>
+<p>The signal, when the bank is working, arrives from managers rather than participants. Participants don't always know what they know until they use it. Managers see the difference between a new hire who needs to be told what to do and one who proposes an approach before being asked. That difference — between a team member who applies known solutions and one who thinks toward novel ones — is what a well-designed use case bank produces. It is also, notably, the difference between a training function that justifies its budget and one that defends it every cycle.</p>
+<blockquote class="article-blockquote">
+<p>Assessment scores tell you what participants remembered on the last day of training. Manager reports tell you what they can do on the first day back at work. Build for the second metric, not the first.</p>
+</blockquote>
+<hr class="article-rule">
+<h2>The organisational asset hiding in the training function</h2>
+<p>Here is the argument I want to make clearly, because it is the one most L&amp;D functions fail to make for themselves: a use case bank is not a training asset. It is an <strong>organisational knowledge asset</strong> that happens to be housed in the training function.</p>
+<p>It represents the distilled, structured, institutionalised version of everything the organisation's best practitioners have learned from real implementations — the failures as much as the successes, the edge cases as much as the standard ones. That knowledge exists in every organisation. In most, it lives exclusively in the heads of the people who accumulated it, which means it leaves when they leave, stays siloed when they stay, and never compounds across the teams that need it most.</p>
+<p>A use case bank changes that. It makes tacit knowledge explicit, transferable, and scalable in a way that no amount of documentation or knowledge management infrastructure typically achieves — because it doesn't ask practitioners to write down what they know in the abstract. It asks them to describe situations they have been in. That is a fundamentally different cognitive task, and a much easier one. People who resist writing knowledge base articles will describe a difficult client implementation in ten minutes if you ask the right questions.</p>
+<p>The organisations that understand this treat the use case bank accordingly — as infrastructure, not inventory. They resource it, maintain it, and protect it the way they protect other knowledge assets. The ones that don't treat it as a training deliverable, which means it gets built once, ages quietly, and eventually stops reflecting the reality it was designed to capture.</p>
+<p>The programs built on the first kind consistently outperform the programs built on the second. Not because the trainers are better, or the content is more current, or the delivery is more engaging. Because the learners are encountering real problems before they face real problems. And that, precisely, is the entire point.</p>
+<div class="footnotes">
+<h4>References &amp; Further Reading</h4>
+<p>Bransford, J.D., Brown, A.L., &amp; Cocking, R.R. (Eds.) (2000). <em>How People Learn: Brain, Mind, Experience, and School.</em> National Academy Press. — On transfer-appropriate processing and the conditions that produce it.</p>
+<p>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. — On the role of worked examples vs. problem-solving in early skill acquisition.</p>
+<p>Nonaka, I., &amp; Takeuchi, H. (1995). <em>The Knowledge-Creating Company.</em> Oxford University Press. — On the conversion of tacit to explicit knowledge in organisational settings.</p>
+<p>Ericsson, K.A., Krampe, R.T., &amp; Tesch-Römer, C. (1993). The role of deliberate practice in the acquisition of expert performance. <em>Psychological Review, 100</em>(3), 363–406.</p>
+<p>Clark, R.C., &amp; Mayer, R.E. (2016). <em>e-Learning and the Science of Instruction.</em> 4th Edition. Wiley. — On worked examples, practice design, and instructional efficiency.</p>
 </div>
 
-<div class="article-wrap">
+      <!-- ── Closing CTA ── -->
+      <div class="article-cta">
+        <span class="article-cta__label">Continue reading</span>
+        <p class="article-cta__text">These notes are published when there is something worth saying. To receive new Field Notes directly, write to hello@datadomine.com with the subject line: Field Notes.</p>
+        <div class="article-cta__links">
+          <a href="../../field-notes.html" class="article-cta__link">All Field Notes</a>
+          <a href="../../programmes.html" class="article-cta__link">Programmes</a>
+          <a href="../../contact.html" class="article-cta__link">Get in touch</a>
+        </div>
+      </div>
 
-  <p>There is a distinction that almost nobody in curriculum design talks about clearly, and it is the distinction that separates programs that produce capability from programs that produce completion metrics. It is the difference between a use case as illustration and a use case as architecture.</p>
+    </article>
 
-  <p>Illustration is what most programs do. You teach a concept. You walk through an example. The example confirms what you just said. The participant nods. You move on. The use case in this model is decoration — something you reach for after the real work is done, to make the real work feel applicable. It has the shape of relevance without the function of it.</p>
+  </main>
 
-  <p>Architecture is different. When a use case is architecture, it is not appended to the concept — it precedes it, frames it, and gives it a destination. The learner doesn't encounter the feature and then see a scenario where it applies. They encounter the scenario first, feel the weight of the problem it represents, and then receive the concept as the answer to something they already understand they need. That sequence is not cosmetic. It is the difference between information and capability. And almost no program is designed to deliver it.</p>
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <a href="../../index.html" class="footer-wordmark" aria-label="DataDomine — home">
+        <span class="word-data">Data</span><span class="word-domine"><span class="initial-d">D</span>omine</span>
+      </a>
+      <span class="footer-tagline">Production-Ready. By Design.</span>
+    </div>
+    <div class="footer-right">
+      <ul class="footer-links" aria-label="Footer navigation">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../framework.html">The Framework</a></li>
+        <li><a href="../../programmes.html">Programmes</a></li>
+        <li><a href="../../field-notes.html">Field Notes</a></li>
+        <li><a href="../../contact.html">Contact</a></li>
+      </ul>
+      <span class="footer-copy">&copy; <span id="footer-year"></span> DataDomine. All rights reserved.</span>
+    </div>
+  </footer>
 
-  <div class="section-rule"></div>
-
-  <h2>Why the concept doesn't transfer on its own</h2>
-
-  <p>Cognitive science has a precise explanation for why well-taught content fails to show up in production. It is called the <strong>transfer problem</strong> — the gap between knowing something in the context where it was learned and being able to apply it in a context that looks different.</p>
-
-  <p>The mechanism is straightforward. When a learner encounters a real-world problem, their brain is not searching a library of concepts. It is pattern-matching against situations it has already processed. If the training scenario was structurally similar to the production scenario — same type of ambiguity, same class of constraint, same shape of decision — the mental model activates. The learner recognises the situation and knows what to do. If the training scenario was generic, abstract, or artificially simplified, the match fails. The learner has the knowledge. They simply cannot locate it in time to use it.</p>
-
-  <p>This is why a participant can score well on an assessment at the end of a training program and struggle visibly three weeks later when the first real client problem arrives. The assessment tested recall in the context of training. The job demands application in the context of work. Those are not the same cognitive task, and no amount of good content design closes the gap between them. Only the use case does — because the use case is the context. It is the thing that makes the mental model findable when it matters.</p>
-
-  <blockquote>
-    <p>The concept is the answer. The use case is the question. You cannot produce transfer by teaching answers to questions the learner has never been asked to sit with.</p>
-  </blockquote>
-
-  <div class="section-rule"></div>
-
-  <h2>Why real use cases are so hard to get</h2>
-
-  <p>If the logic above is sound — and I believe it is — then the obvious question is why most programs are still built around synthetic scenarios, sanitised examples, and feature demonstrations that bear only passing resemblance to the situations participants will actually face. The answer is not ignorance. Most curriculum designers understand, at some level, that real use cases are better. The answer is that real use cases are genuinely difficult to obtain, and the difficulty is not accidental.</p>
-
-  <p>In a knowledge economy, knowledge is currency. What a subject matter expert knows — really knows, from having been in the room when something broke, from having diagnosed the configuration that nobody else could read, from having built the workaround that became standard practice — is what makes them valuable. It is not merely what they do. It is what they <em>are</em>, professionally. Sharing it freely, into a training program that will distribute it to a room of twenty people, is not generosity. From where they sit, it is dilution.</p>
-
-  <p>This is not cynicism about SMEs. It is an accurate description of the incentive structure they are operating in. Most organisations have built careers and hierarchies on the principle that expertise is scarce and scarcity is power. The curriculum designer asking for real use cases is, functionally, asking the SME to reduce their own scarcity. The resistance that follows is not obstruction. It is rational self-preservation inside a system that rewards it.</p>
-
-  <p>The result is that real implementation knowledge lives in the cafeteria, not the classroom. You hear it in the complaint about the client who configured the product wrong and blamed the vendor. You hear it in the post-mortem that never made it into documentation. You hear it in the hallway conversation between two engineers who both know exactly why that particular integration fails and have never been asked to write it down. The knowledge is present, ambient, and completely inaccessible to any formal curriculum — until someone decides the extraction cost is worth paying.</p>
-
-  <div class="section-rule"></div>
-
-  <h2>What a use case bank actually is</h2>
-
-  <p>A use case bank is not a folder of scenarios. That distinction matters more than it sounds.</p>
-
-  <p>A folder of scenarios is a collection of exercises assembled by whoever was available to write them, drawing on whatever examples came to mind, organised loosely by topic and reviewed for factual accuracy. Most training programs have one. It is not nothing — but it is also not what I mean.</p>
-
-  <p>A use case bank is a <strong>structured, living, deliberately curated collection</strong> of real implementation situations, extracted from actual production environments, vetted for instructional value, and organised for deployment against specific learner profiles and capability gaps. Every case in it has provenance — it came from somewhere real. Every case has been assessed for complexity — it sits at a specific point on the difficulty curve. Every case has been tagged against the failure modes it exercises, so that for any given batch of participants, you can select the cases that map to the situations they are most likely to encounter and least likely to handle without preparation.</p>
-
-  <p>Building one requires three things that most curriculum functions either lack or underinvest in: access to real implementations, a framework for assessing case complexity, and the discipline to treat the bank as a living asset rather than a one-time deliverable.</p>
-
-  <p>Access is the hardest part, for the reasons described above. It requires either organisational authority — someone senior enough to direct SMEs to participate — or accumulated trust, built slowly enough that practitioners begin to see the value of contributing. In practice, it usually requires both, at different stages. The first cases come through authority. The later ones come through proof.</p>
-
-  <p>Complexity assessment is a curriculum design skill that rarely gets named explicitly. A good use case is not simply a hard one. It is one where the difficulty is located at exactly the right cognitive level for the learner who will encounter it — challenging enough to require genuine thinking, not so opaque that it produces confusion rather than stretch. Building a bank without this calibration produces a collection that is usable in aggregate but unreliable in deployment.</p>
-
-  <p>And the living asset discipline is what separates a use case bank from a use case archive. Implementations change. Products evolve. The failure modes of two years ago are not the failure modes of today. A bank that is not actively maintained drifts from the reality it is supposed to represent — and a use case that no longer maps to production is, in the precise sense, no longer real.</p>
-
-  <div class="callout">
-    <div class="label">What belongs in a use case bank</div>
-    <p>Not every implementation story is a use case. What earns a place in the bank: situations where the standard approach failed and a judgment call was required; configurations that worked in one context and broke in another; client requirements that could not be mapped directly to a feature without architectural interpretation; edge cases that support tickets reveal are more common than anyone anticipated. What does not earn a place: worked examples that demonstrate how a feature functions when used correctly. That is documentation. A use case is the situation before you know which feature applies — or whether the feature applies at all.</p>
-  </div>
-
-  <div class="section-rule"></div>
-
-  <h2>How you know it is working</h2>
-
-  <p>The proof of a use case bank is not visible in the training room. It is visible three weeks later, when a participant walks into a situation they have not been shown — a client requirement that was not in the syllabus, a configuration that breaks in a way the sandbox never surfaced — and handles it. Not because they remembered a step. Because they recognised the shape of the problem.</p>
-
-  <p>That recognition is transfer. It is what you are designing for every time you build a program. And it is almost impossible to produce reliably without a use case bank, because recognition requires prior exposure to structurally similar situations — not concepts about situations, but situations themselves, with the ambiguity intact and the right answer not supplied in advance.</p>
-
-  <p>The signal, when the bank is working, arrives from managers rather than participants. Participants don't always know what they know until they use it. Managers see the difference between a new hire who needs to be told what to do and one who proposes an approach before being asked. That difference — between a team member who applies known solutions and one who thinks toward novel ones — is what a well-designed use case bank produces. It is also, notably, the difference between a training function that justifies its budget and one that defends it every cycle.</p>
-
-  <blockquote>
-    <p>Assessment scores tell you what participants remembered on the last day of training. Manager reports tell you what they can do on the first day back at work. Build for the second metric, not the first.</p>
-  </blockquote>
-
-  <div class="section-rule"></div>
-
-  <h2>The organisational asset hiding in the training function</h2>
-
-  <p>Here is the argument I want to make clearly, because it is the one most L&D functions fail to make for themselves: a use case bank is not a training asset. It is an <strong>organisational knowledge asset</strong> that happens to be housed in the training function.</p>
-
-  <p>It represents the distilled, structured, institutionalised version of everything the organisation's best practitioners have learned from real implementations — the failures as much as the successes, the edge cases as much as the standard ones. That knowledge exists in every organisation. In most, it lives exclusively in the heads of the people who accumulated it, which means it leaves when they leave, stays siloed when they stay, and never compounds across the teams that need it most.</p>
-
-  <p>A use case bank changes that. It makes tacit knowledge explicit, transferable, and scalable in a way that no amount of documentation or knowledge management infrastructure typically achieves — because it doesn't ask practitioners to write down what they know in the abstract. It asks them to describe situations they have been in. That is a fundamentally different cognitive task, and a much easier one. People who resist writing knowledge base articles will describe a difficult client implementation in ten minutes if you ask the right questions.</p>
-
-  <p>The organisations that understand this treat the use case bank accordingly — as infrastructure, not inventory. They resource it, maintain it, and protect it the way they protect other knowledge assets. The ones that don't treat it as a training deliverable, which means it gets built once, ages quietly, and eventually stops reflecting the reality it was designed to capture.</p>
-
-  <p>The programs built on the first kind consistently outperform the programs built on the second. Not because the trainers are better, or the content is more current, or the delivery is more engaging. Because the learners are encountering real problems before they face real problems. And that, precisely, is the entire point.</p>
-
-  <div class="footnotes">
-    <h4>References & Further Reading</h4>
-    <p>Bransford, J.D., Brown, A.L., & Cocking, R.R. (Eds.) (2000). <em>How People Learn: Brain, Mind, Experience, and School.</em> National Academy Press. — On transfer-appropriate processing and the conditions that produce it.</p>
-    <p>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. — On the role of worked examples vs. problem-solving in early skill acquisition.</p>
-    <p>Nonaka, I., & Takeuchi, H. (1995). <em>The Knowledge-Creating Company.</em> Oxford University Press. — On the conversion of tacit to explicit knowledge in organisational settings.</p>
-    <p>Ericsson, K.A., Krampe, R.T., & Tesch-Römer, C. (1993). The role of deliberate practice in the acquisition of expert performance. <em>Psychological Review, 100</em>(3), 363–406.</p>
-    <p>Clark, R.C., & Mayer, R.E. (2016). <em>e-Learning and the Science of Instruction.</em> 4th Edition. Wiley. — On worked examples, practice design, and instructional efficiency.</p>
-  </div>
-
-</div>
-
-<div class="author-bio">
-  <div class="bio-initial">S</div>
-  <div class="bio-text">
-    <div class="name">Siddharth Potukuchi</div>
-    <p>Senior Talent Development leader with 18+ years designing and delivering technical training across five countries. Founder of Ekada and Data Domine. TOGAF EA, Google Certified Cloud Architect & ML Engineer. Writes occasionally about learning, technology, and what happens when they meet.</p>
-  </div>
-</div>
+  <script src="../../datadomine.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('footer-year');
+      if (el) el.textContent = new Date().getFullYear();
+    }());
+  </script>
 
 </body>
 </html>
